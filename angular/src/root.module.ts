@@ -17,8 +17,8 @@ import { AppConsts } from '@shared/AppConsts';
 import { API_BASE_URL } from '@shared/service-proxies/service-proxies';
 
 import { RootComponent } from './root.component';
-import { AppInitializer } from './app-initializer';
 
+import { AppInitializer } from './app-initializer';
 import { PrimeNgModule } from '@shared/PrimeNg/PrimeNg.module';
 
 export function getCurrentLanguage(): string {
