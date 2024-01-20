@@ -25,5 +25,6 @@
     <ProjectReference Include="..\..\..\..\..\Projects\ManageHome\aspnet-core\src\PrimeNG.TableFilter\PrimeNG.TableFilter.csproj" />
     <ProjectReference Include="..\ManageApartments.Core\ManageApartments.Core.csproj" />
     <ProjectReference Include="..\ManageApartments.EntityFrameworkCore\ManageApartments.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\PrimeNG.TableFilter\PrimeNG.TableFilter\PrimeNG.TableFilter.csproj" />
   </ItemGroup>
 </Project>

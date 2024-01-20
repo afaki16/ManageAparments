@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Helper for use the PrimeNG table load lazy filter in backend use LINQ to Entity</Description>
+    <Authors>Weerayut Hongsa</Authors>
+    <Company>Kusumoto Lab</Company>
+    <PackageProjectUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Kusumoto/PrimeNG.TableFilter</RepositoryUrl>
+    <Version>2.1.2</Version>
+    <PackageVersion>2.1.2</PackageVersion>
+    <TargetFrameworks>netstandard2.1;net6.0;net5.0;net7.0</TargetFrameworks>
+	<CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <AssemblyVersion>2.1.2</AssemblyVersion>
+    <FileVersion>2.1.2</FileVersion>
+    <Copyright>2021 Copyright by Weerayut Hongsa</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.25" />
+  </ItemGroup>
+</Project>
