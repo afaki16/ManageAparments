@@ -46,15 +46,27 @@ import { TableModule } from 'primeng/table';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DataGridComponent } from "@shared/components/data-grid/data-grid.component";
 //building
-import {BuildingComponent} from '@app/defination/building/building.component'
+import {BuildingComponent} from '@app/defination/building/building.component';
+import { CreateBuildingComponent } from './defination/building/create-building/create-building.component';
+import { EditBuildingComponent } from './defination/building/edit-building/edit-building.component';
 //apartment
-import {ApartmentComponent} from '@app/defination/apartment/apartment.component'
+import {ApartmentComponent} from '@app/defination/apartment/apartment.component';
+import { CreateApartmentComponent } from './defination/apartment/create-apartment/create-apartment.component';
+import { EditApartmentComponent } from './defination/apartment/edit-apartment/edit-apartment.component';
 //hirer
-import {HirerComponent} from '@app/defination/hirer/hirer.component'
+import {HirerComponent} from '@app/defination/hirer/hirer.component';
+import { CreateHirerComponent } from './defination/hirer/create-hirer/create-hirer.component';
+import { EditHirerComponent } from './defination/hirer/edit-hirer/edit-hirer.component';
  //invoice
-import {InvoiceComponent} from '@app/defination/invoice/invoice.component'
+import {InvoiceComponent} from '@app/defination/invoice/invoice.component';
+import { CreateInvoiceComponent } from './defination/invoice/create-Invoice/create-Invoice.component';
+import { EditInvoiceComponent } from './defination/invoice/edit-Invoice/edit-Invoice.component';
  //invoiceDetail
-import {InvoiceDetailComponent} from '@app/defination/invoiceDetail/invoiceDetail.component'
+import {InvoiceDetailComponent} from '@app/defination/invoiceDetail/invoiceDetail.component';
+import { CreateInvoiceDetailComponent } from './defination/invoiceDetail/create-InvoiceDetail/create-InvoiceDetail.component';
+import { EditInvoiceDetailComponent } from './defination/invoiceDetail/edit-InvoiceDetail/edit-InvoiceDetail.component';
+
+
 
 @NgModule({
     declarations: [
@@ -88,14 +100,24 @@ import {InvoiceDetailComponent} from '@app/defination/invoiceDetail/invoiceDetai
         DataGridComponent,
          // building
          BuildingComponent,
+         CreateBuildingComponent,
+         EditBuildingComponent,
          //apartment
          ApartmentComponent,
+         CreateApartmentComponent,
+         EditApartmentComponent,
          //hirer
          HirerComponent,
+         CreateHirerComponent,
+         EditHirerComponent,
          //invoice
          InvoiceComponent,
+        CreateInvoiceComponent,
+        EditInvoiceComponent,
          //invoiceDetail
          InvoiceDetailComponent,
+         CreateInvoiceDetailComponent,
+         EditInvoiceDetailComponent,
     ],
     imports: [
         CommonModule,

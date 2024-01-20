@@ -37,7 +37,7 @@ export class BuildingComponent extends PagedListingComponentBase<BuildingFullOut
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Buildings');
+    this.dataGridOptions.title = this.l('Apartmanlar');
     this.dataGridOptions.permissionNameCreate  = 'Building.Create';
     this.dataGridOptions.permissionNameUpdate  = 'Building.Update';
     this.dataGridOptions.permissionNameDelete  = 'Building.Delete';
