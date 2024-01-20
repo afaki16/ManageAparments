@@ -9,8 +9,8 @@ import { DataGridColumnType } from '@shared/components/data-grid/dtos/data-grid-
 import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-grid/filters/table-filter';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import { ApartmentFullOutput, ApartmentServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateBuildingComponent } from '../building/create-building/create-building.component';
-import { EditBuildingComponent } from '../building/edit-building/edit-building.component';
+import { CreateApartmentComponent } from './create-apartment/create-apartment.component';
+import { EditApartmentComponent } from './edit-apartment/edit-apartment.component';
 
 
 
@@ -65,6 +65,12 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     let x = new DataGridColumn();
     x.dataTitle = 'Id';
     x.dataField = 'id';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Apartmanlar');
+    x.dataField = 'building.name';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
@@ -172,14 +178,14 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     let createOrEditUserDialog: BsModalRef;
     if (!id) {
       createOrEditUserDialog = this._modalService.show(
-        CreateBuildingComponent,
+        CreateApartmentComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
       createOrEditUserDialog = this._modalService.show(
-        EditBuildingComponent,
+       EditApartmentComponent,
         {
           class: 'modal-lg',
           initialState: {

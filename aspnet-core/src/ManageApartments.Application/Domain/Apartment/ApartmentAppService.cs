@@ -10,6 +10,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
+using Abp.UI;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManageApartments.Domain.Apartment;
 
@@ -32,6 +34,7 @@ public class ApartmentAppService :
     public async Task<PagedResultDto<ApartmentFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload)
     {
         var query = this._apartmentRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
+        query = query.Include(x => x.Building);
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<ApartmentFullOutput>(
             totalRecord,
@@ -39,11 +42,22 @@ public class ApartmentAppService :
         );
     }
 
+
     [HttpPost]
-    public override Task<ApartmentFullOutput> CreateAsync(CreateApartmentInput input)
+    public override async Task<ApartmentFullOutput> CreateAsync(CreateApartmentInput input)
     {
 
-        return base.CreateAsync(input);
+        var apartments = this._apartmentRepository.GetAllList(x => x.BuildingId == input.BuildingId && x.Name == input.Name).ToList();
+        if (apartments.Count == 0)
+        {
+            var returnVal = await base.CreateAsync(input);
+
+            return returnVal;
+        }
+        else
+        {
+            throw new UserFriendlyException(L("Warning"), L("SameNameAndBuildingRecord"));
+        }
     }
 
 
