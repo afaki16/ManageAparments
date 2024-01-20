@@ -9,8 +9,8 @@ import { DataGridColumnType } from '@shared/components/data-grid/dtos/data-grid-
 import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-grid/filters/table-filter';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import { InvoiceDetailFullOutput, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateInvoiceDetailComponent } from './create-InvoiceDetail/create-InvoiceDetail.component';
-import { EditInvoiceDetailComponent } from './edit-InvoiceDetail/edit-InvoiceDetail.component';
+import { CreateApartmentComponent } from '../apartment/create-apartment/create-apartment.component';
+
 
 @Component({
   selector: 'app-invoiceDetail',
@@ -170,14 +170,14 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     let createOrEditUserDialog: BsModalRef;
     if (!id) {
       createOrEditUserDialog = this._modalService.show(
-        CreateInvoiceDetailComponent,
+        CreateApartmentComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
       createOrEditUserDialog = this._modalService.show(
-        EditInvoiceDetailComponent,
+        CreateApartmentComponent,
         {
           class: 'modal-lg',
           initialState: {

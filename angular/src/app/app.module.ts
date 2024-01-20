@@ -59,12 +59,10 @@ import { CreateHirerComponent } from './defination/hirer/create-hirer/create-hir
 import { EditHirerComponent } from './defination/hirer/edit-hirer/edit-hirer.component';
  //invoice
 import {InvoiceComponent} from '@app/defination/invoice/invoice.component';
-import { CreateInvoiceComponent } from './defination/invoice/create-Invoice/create-Invoice.component';
-import { EditInvoiceComponent } from './defination/invoice/edit-Invoice/edit-Invoice.component';
+
  //invoiceDetail
 import {InvoiceDetailComponent} from '@app/defination/invoiceDetail/invoiceDetail.component';
-import { CreateInvoiceDetailComponent } from './defination/invoiceDetail/create-InvoiceDetail/create-InvoiceDetail.component';
-import { EditInvoiceDetailComponent } from './defination/invoiceDetail/edit-InvoiceDetail/edit-InvoiceDetail.component';
+
 
 
 
@@ -112,12 +110,10 @@ import { EditInvoiceDetailComponent } from './defination/invoiceDetail/edit-Invo
          EditHirerComponent,
          //invoice
          InvoiceComponent,
-        CreateInvoiceComponent,
-        EditInvoiceComponent,
+
          //invoiceDetail
          InvoiceDetailComponent,
-         CreateInvoiceDetailComponent,
-         EditInvoiceDetailComponent,
+
     ],
     imports: [
         CommonModule,
