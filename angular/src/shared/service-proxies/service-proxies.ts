@@ -373,6 +373,64 @@ export class ApartmentServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getApartmentPartOutputs(): Observable<ApartmentPartOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/Apartment/GetApartmentPartOutputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetApartmentPartOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetApartmentPartOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ApartmentPartOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ApartmentPartOutput[]>;
+        }));
+    }
+
+    protected processGetApartmentPartOutputs(response: HttpResponseBase): Observable<ApartmentPartOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(ApartmentPartOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -707,6 +765,64 @@ export class BuildingServiceProxy {
         if (status === 200) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getBuildingPartOutputs(): Observable<BuildingPartOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/Building/GetBuildingPartOutputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBuildingPartOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBuildingPartOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<BuildingPartOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<BuildingPartOutput[]>;
+        }));
+    }
+
+    protected processGetBuildingPartOutputs(response: HttpResponseBase): Observable<BuildingPartOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(BuildingPartOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -3452,6 +3568,7 @@ export class ApartmentFullOutput implements IApartmentFullOutput {
     buildingId: number | undefined;
     building: BuildingPartOutput;
     invoices: InvoiceFullOutput[] | undefined;
+    hirers: HirerFullOutput[] | undefined;
 
     constructor(data?: IApartmentFullOutput) {
         if (data) {
@@ -3474,6 +3591,11 @@ export class ApartmentFullOutput implements IApartmentFullOutput {
                 this.invoices = [] as any;
                 for (let item of _data["invoices"])
                     this.invoices.push(InvoiceFullOutput.fromJS(item));
+            }
+            if (Array.isArray(_data["hirers"])) {
+                this.hirers = [] as any;
+                for (let item of _data["hirers"])
+                    this.hirers.push(HirerFullOutput.fromJS(item));
             }
         }
     }
@@ -3498,6 +3620,11 @@ export class ApartmentFullOutput implements IApartmentFullOutput {
             for (let item of this.invoices)
                 data["invoices"].push(item.toJSON());
         }
+        if (Array.isArray(this.hirers)) {
+            data["hirers"] = [];
+            for (let item of this.hirers)
+                data["hirers"].push(item.toJSON());
+        }
         return data;
     }
 
@@ -3517,6 +3644,7 @@ export interface IApartmentFullOutput {
     buildingId: number | undefined;
     building: BuildingPartOutput;
     invoices: InvoiceFullOutput[] | undefined;
+    hirers: HirerFullOutput[] | undefined;
 }
 
 export class ApartmentFullOutputPagedResultDto implements IApartmentFullOutputPagedResultDto {
@@ -4226,6 +4354,7 @@ export class CreateHirerInput implements ICreateHirerInput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
 
     constructor(data?: ICreateHirerInput) {
@@ -4242,6 +4371,7 @@ export class CreateHirerInput implements ICreateHirerInput {
             this.ssn = _data["ssn"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            this.isActive = _data["isActive"];
             this.apartmentId = _data["apartmentId"];
         }
     }
@@ -4258,6 +4388,7 @@ export class CreateHirerInput implements ICreateHirerInput {
         data["ssn"] = this.ssn;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["isActive"] = this.isActive;
         data["apartmentId"] = this.apartmentId;
         return data;
     }
@@ -4274,6 +4405,7 @@ export interface ICreateHirerInput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
 }
 
@@ -4778,6 +4910,7 @@ export class HirerFullOutput implements IHirerFullOutput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
     invoiceDetails: InvoiceDetailFullOutput[] | undefined;
@@ -4797,6 +4930,7 @@ export class HirerFullOutput implements IHirerFullOutput {
             this.ssn = _data["ssn"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            this.isActive = _data["isActive"];
             this.apartmentId = _data["apartmentId"];
             this.apartment = _data["apartment"] ? ApartmentPartOutput.fromJS(_data["apartment"]) : <any>undefined;
             if (Array.isArray(_data["invoiceDetails"])) {
@@ -4820,6 +4954,7 @@ export class HirerFullOutput implements IHirerFullOutput {
         data["ssn"] = this.ssn;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["isActive"] = this.isActive;
         data["apartmentId"] = this.apartmentId;
         data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
         if (Array.isArray(this.invoiceDetails)) {
@@ -4843,6 +4978,7 @@ export interface IHirerFullOutput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
     invoiceDetails: InvoiceDetailFullOutput[] | undefined;
@@ -4908,6 +5044,7 @@ export class HirerPartOutput implements IHirerPartOutput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
 
@@ -4926,6 +5063,7 @@ export class HirerPartOutput implements IHirerPartOutput {
             this.ssn = _data["ssn"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            this.isActive = _data["isActive"];
             this.apartmentId = _data["apartmentId"];
             this.apartment = _data["apartment"] ? ApartmentPartOutput.fromJS(_data["apartment"]) : <any>undefined;
         }
@@ -4944,6 +5082,7 @@ export class HirerPartOutput implements IHirerPartOutput {
         data["ssn"] = this.ssn;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["isActive"] = this.isActive;
         data["apartmentId"] = this.apartmentId;
         data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
         return data;
@@ -4962,6 +5101,7 @@ export interface IHirerPartOutput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
 }
@@ -6474,6 +6614,7 @@ export class UpdateHirerInput implements IUpdateHirerInput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
 
     constructor(data?: IUpdateHirerInput) {
@@ -6491,6 +6632,7 @@ export class UpdateHirerInput implements IUpdateHirerInput {
             this.ssn = _data["ssn"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            this.isActive = _data["isActive"];
             this.apartmentId = _data["apartmentId"];
         }
     }
@@ -6508,6 +6650,7 @@ export class UpdateHirerInput implements IUpdateHirerInput {
         data["ssn"] = this.ssn;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["isActive"] = this.isActive;
         data["apartmentId"] = this.apartmentId;
         return data;
     }
@@ -6525,6 +6668,7 @@ export interface IUpdateHirerInput {
     ssn: number;
     firstName: string | undefined;
     lastName: string | undefined;
+    isActive: boolean;
     apartmentId: number | undefined;
 }
 

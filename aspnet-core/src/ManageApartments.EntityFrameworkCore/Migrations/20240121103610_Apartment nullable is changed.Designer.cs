@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManageApartments.Migrations
 {
     [DbContext(typeof(ManageApartmentsDbContext))]
-    [Migration("20240115182342_Create Entities")]
-    partial class CreateEntities
+    [Migration("20240121103610_Apartment nullable is changed")]
+    partial class Apartmentnullableischanged
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1609,7 +1609,6 @@ namespace ManageApartments.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -1690,7 +1689,10 @@ namespace ManageApartments.Migrations
             modelBuilder.Entity("ManageApartments.Domain.Entities.Hirer", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("ApartmentId")
                         .HasColumnType("int");
@@ -1710,6 +1712,9 @@ namespace ManageApartments.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1733,6 +1738,8 @@ namespace ManageApartments.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
 
                     b.ToTable("Hirers", (string)null);
                 });
@@ -2151,10 +2158,8 @@ namespace ManageApartments.Migrations
             modelBuilder.Entity("ManageApartments.Domain.Entities.Hirer", b =>
                 {
                     b.HasOne("ManageApartments.Domain.Entities.Apartment", "Apartment")
-                        .WithOne("Hirer")
-                        .HasForeignKey("ManageApartments.Domain.Entities.Hirer", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Hirers")
+                        .HasForeignKey("ApartmentId");
 
                     b.Navigation("Apartment");
                 });
@@ -2283,7 +2288,7 @@ namespace ManageApartments.Migrations
 
             modelBuilder.Entity("ManageApartments.Domain.Entities.Apartment", b =>
                 {
-                    b.Navigation("Hirer");
+                    b.Navigation("Hirers");
 
                     b.Navigation("Invoices");
                 });

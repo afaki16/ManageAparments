@@ -8,8 +8,9 @@ namespace ManageApartments.Domain.Entities
         public int SSN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public bool? IsActive{ get; set; }
         public int? ApartmentId { get; set; }
-        public Apartment? Apartment { get; set; }
+        public virtual Apartment Apartment { get; set; }
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public byte[] RowVersion { get; set; }
 

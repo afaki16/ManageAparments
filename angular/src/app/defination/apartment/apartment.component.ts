@@ -39,7 +39,7 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Apartments');
+    this.dataGridOptions.title = this.l('Daireler');
     this.dataGridOptions.permissionNameCreate  = 'Apartment.Create';
     this.dataGridOptions.permissionNameUpdate  = 'Apartment.Update';
     this.dataGridOptions.permissionNameDelete  = 'Apartment.Delete';
@@ -81,16 +81,18 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
+    x.dataTitle = this.l('Blok Numarası');
+    x.dataField = 'blokNo';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
     x.dataTitle = this.l('Açıklama');
     x.dataField = 'description';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Blok Numarası');
-    x.dataField = 'blokNo';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
+
 
     this.dataGridOptions.parentComponent = this;
   }

@@ -92,10 +92,12 @@ namespace ManageApartments.Migrations
                 name: "Hirers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     SSN = table.Column<int>(type: "int", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     ApartmentId = table.Column<int>(type: "int", nullable: true),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -110,11 +112,10 @@ namespace ManageApartments.Migrations
                 {
                     table.PrimaryKey("PK_Hirers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Hirers_Apartments_Id",
-                        column: x => x.Id,
+                        name: "FK_Hirers_Apartments_ApartmentId",
+                        column: x => x.ApartmentId,
                         principalTable: "Apartments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -188,6 +189,11 @@ namespace ManageApartments.Migrations
                 name: "IX_Apartments_BuildingId",
                 table: "Apartments",
                 column: "BuildingId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Hirers_ApartmentId",
+                table: "Hirers",
+                column: "ApartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InvoiceDetails_HirerId",

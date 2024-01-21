@@ -10,6 +10,8 @@ import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-g
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import { HirerFullOutput, HirerServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateBuildingComponent } from '../building/create-building/create-building.component';
+import { CreateHirerComponent } from './create-hirer/create-hirer.component';
+import { EditHirerComponent } from './edit-hirer/edit-hirer.component';
 
 
 @Component({
@@ -37,7 +39,7 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Hirers');
+    this.dataGridOptions.title = this.l('Kiracılar');
     this.dataGridOptions.permissionNameCreate  = 'Hirer.Create';
     this.dataGridOptions.permissionNameUpdate  = 'Hirer.Update';
     this.dataGridOptions.permissionNameDelete  = 'Hirer.Delete';
@@ -63,24 +65,36 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
     let x = new DataGridColumn();
     x.dataTitle = 'Id';
     x.dataField = 'id';
+    x.dataType = DataGridColumnType.number;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l("Kimlik No");
+    x.dataField = "ssn";
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l("İsim");
-    x.dataField = "name";
+    x.dataTitle = this.l("Ad");
+    x.dataField = "firstName";
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Adres');
-    x.dataField = 'address';
+    x.dataTitle = this.l('Soyad');
+    x.dataField = 'lastName';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Bina Numarası');
-    x.dataField = 'HirerNo';
+    x.dataTitle = this.l('Aktif Kiracı');
+    x.dataField = 'isActive';
+    x.dataType = DataGridColumnType.boolean;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Daireler');
+    x.dataField = 'apartment.name';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
@@ -170,14 +184,14 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
     let createOrEditUserDialog: BsModalRef;
     if (!id) {
       createOrEditUserDialog = this._modalService.show(
-        CreateBuildingComponent,
+        CreateHirerComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
       createOrEditUserDialog = this._modalService.show(
-        CreateBuildingComponent,
+        EditHirerComponent,
         {
           class: 'modal-lg',
           initialState: {

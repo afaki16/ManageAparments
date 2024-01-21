@@ -66,5 +66,10 @@ public class BuildingAppService :
 
     }
 
+    [HttpGet]
+    public async Task<List<BuildingPartOutput>> GetBuildingPartOutputs()
+    {
+        return this.ObjectMapper.Map<List<BuildingPartOutput>>(await this.Repository.GetAllListAsync());
+    }
 
 }

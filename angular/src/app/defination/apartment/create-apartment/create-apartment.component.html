@@ -38,18 +38,6 @@
     </div>
 
     <div class="field grid">
-      <label
-      for="address"
-      class="col-4 mb-4 md:col-4 md:mb-0"
-      >{{ "Açıklama" | localize }}</label
-    >
-    <div class="col-8 md:col-8">
-      <textarea [(ngModel)]="createInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
-       ></textarea>
-    </div>
-    </div>
-
-    <div class="field grid">
         <label
         for="blokNo"
         class="col-4 mb-4 md:col-4 md:mb-0"
@@ -73,6 +61,46 @@
       ></abp-validation-summary>
       </div>
     </div>
+
+    <div class="field grid">
+      <label for="building" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Apartman" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="buildings"
+          required
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [(ngModel)]="createInput.buildingId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Apartman Seçiniz' | localize"
+          #factoryBuildingModel="ngModel"
+          #factoryBuildingError
+        >
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryBuildingModel"
+        [controlEl]="factoryBuildingError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label
+      for="address"
+      class="col-4 mb-4 md:col-4 md:mb-0"
+      >{{ "Açıklama" | localize }}</label
+    >
+    <div class="col-8 md:col-8">
+      <textarea [(ngModel)]="createInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
+       ></textarea>
+    </div>
+    </div>
+
   </div>
   <abp-modal-footer
     [cancelDisabled]="saving"

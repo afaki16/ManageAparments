@@ -11,6 +11,7 @@ namespace ManageApartments.Domain.Hirer.Dtos
         public int SSN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public bool IsActive { get; set; }
         public int? ApartmentId { get; set; }
         public ApartmentPartOutput? Apartment { get; set; }
        

@@ -3,7 +3,7 @@ import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core
 import { AppComponentBase } from '@shared/app-component-base';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ApartmentServiceProxy,CreateApartmentInput } from '@shared/service-proxies/service-proxies';
+import { ApartmentServiceProxy,BuildingPartOutput,BuildingServiceProxy,CreateApartmentInput } from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-create-apartment',
@@ -15,11 +15,11 @@ export class CreateApartmentComponent extends AppComponentBase implements OnInit
 
   saving : boolean = false;
   createInput : CreateApartmentInput = new CreateApartmentInput();
-
+  buildings: BuildingPartOutput[];
   constructor(
     injector: Injector,
     private _apartmentService: ApartmentServiceProxy,
-    private _confirmationService : ConfirmationService,
+    private _buildingService: BuildingServiceProxy,
     private _messageService: MessageService,
     public bsModalRef: BsModalRef
   ) {
@@ -27,7 +27,19 @@ export class CreateApartmentComponent extends AppComponentBase implements OnInit
   }
 
   ngOnInit() {
+    this.getBuildings();
   }
+
+  getBuildings() {
+    this._buildingService.getBuildingPartOutputs().subscribe((response) => {
+        if (response) {
+            this.buildings = response;
+            this.saving = false;
+        } else {
+            this.saving = false;
+        }
+    });
+}
 
 
 

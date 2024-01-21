@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
 using Abp.UI;
 using Microsoft.EntityFrameworkCore;
+using ManageApartments.Domain.Building.Dtos;
+using System.Collections.Generic;
 
 namespace ManageApartments.Domain.Apartment;
 
@@ -75,6 +77,13 @@ public class ApartmentAppService :
 
         return Repository.DeleteAsync(input.Id);
 
+    }
+
+    [HttpGet]
+    public async Task<List<ApartmentPartOutput>> GetApartmentPartOutputs()
+    {
+        var query = this._apartmentRepository.GetAll().Include(x => x.Building).ToListAsync();
+        return this.ObjectMapper.Map<List<ApartmentPartOutput>>(await query);
     }
 
 
