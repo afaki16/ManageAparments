@@ -191,7 +191,7 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
         {
           class: 'modal-lg',
           initialState: {
-            // id: id,
+             id: id,
           },
         }
       );

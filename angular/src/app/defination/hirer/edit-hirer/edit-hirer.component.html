@@ -1,3 +1,148 @@
-<p>
-  edit-hirer works!
-</p>
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #formModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Kiracı Düzenle' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+
+  <div class="modal-body">
+    <div class="field grid">
+      <label
+        for="ssn"
+        class="col-4 mb-4 md:col-4 md:mb-0"
+        >{{ "Kimlik No" | localize }}</label
+      >
+      <div class="col-8 md:col-8">
+        <input
+          type="number"
+          id="ssn"
+          name="ssn"
+          minlength="13"
+          maxlength="13"
+          required
+          [placeholder]="'Kimlik No' | localize"
+          [(ngModel)]="updateInput.ssn"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          #factorySSNModel="ngModel"
+          #factorySSNError
+        />
+        <abp-validation-summary
+        [control]="factorySSNModel"
+        [controlEl]="factorySSNError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="field grid">
+        <label
+        for="firstName"
+        class="col-4 mb-4 md:col-4 md:mb-0"
+        >{{ "Ad" | localize }}</label
+      >
+    <div class="col-8 md:col-8">
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          required
+          maxlength="60"
+          [placeholder]="'Ad' | localize"
+          [(ngModel)]="updateInput.firstName"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          #factoryFirstNameModel="ngModel"
+          #factoryFirstNameError
+        />
+        <abp-validation-summary
+        [control]="factoryFirstNameModel"
+        [controlEl]="factoryFirstNameError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label
+      for="lastName"
+      class="col-4 mb-4 md:col-4 md:mb-0"
+      >{{ "Soyad" | localize }}</label
+    >
+  <div class="col-8 md:col-8">
+      <input
+        type="text"
+        id="lastName"
+        name="lastName"
+        required
+        maxlength="60"
+        [placeholder]="'Soyad' | localize"
+        [(ngModel)]="updateInput.lastName"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        #factoryLastNameModel="ngModel"
+        #factoryLastNameError
+      />
+      <abp-validation-summary
+      [control]="factoryLastNameModel"
+      [controlEl]="factoryLastNameError"
+    ></abp-validation-summary>
+    </div>
+  </div>
+
+  <div class="field grid">
+    <label class="col-4 mb-4 md:col-4 md:mb-0" >
+      {{ "Daireye Yerleştir" | localize }}
+    </label>
+    <div class="col-8 md:col-8">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          name="isActive"
+          id="isActive"
+          [(ngModel)]="updateInput.isActive"
+        />
+        <label class="custom-control-label mt-2" for="isActive"></label>
+      </div>
+    </div>
+    </div>
+
+    <div class="field grid" >
+      <label for="apartment" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Daire" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="apartments"
+          [disabled]="!updateInput.isActive"
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="building.name"
+          [(ngModel)]="updateInput.apartmentId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Daire Seçiniz' | localize"
+          #factoryApartmentModel="ngModel"
+          #factoryApartmentError
+          >
+          <ng-template let-item pTemplate="item">
+            {{item.building.name}} - {{item.name}}
+        </ng-template>
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryApartmentModel"
+        [controlEl]="factoryApartmentError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLoading]="saving"
+    [saveDisabled]="!formModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

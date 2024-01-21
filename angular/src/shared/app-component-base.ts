@@ -11,7 +11,7 @@ import {
 } from 'abp-ng2-module';
 
 import { AppSessionService } from '@shared/session/app-session.service';
-import { InvoiceType } from './service-proxies/service-proxies';
+import { InvoiceType } from '@app/service/enum/InvoiceType';
 
 export abstract class AppComponentBase {
 

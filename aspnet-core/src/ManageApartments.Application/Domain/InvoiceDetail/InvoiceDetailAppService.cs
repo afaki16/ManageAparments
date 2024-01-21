@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.InvoiceDetail;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManageApartments.Domain.InvoiceDetail;
 
@@ -35,6 +36,9 @@ public class InvoiceDetailAppService :
     public async Task<PagedResultDto<InvoiceDetailFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload)
     {
         var query = this._invoiceDetailRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
+        query = query.Include(x => x.Hirer);
+        query = query.Include(x => x.Invoice);
+           
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<InvoiceDetailFullOutput>(
             totalRecord,

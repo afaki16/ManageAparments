@@ -9,7 +9,8 @@ import { DataGridColumnType } from '@shared/components/data-grid/dtos/data-grid-
 import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-grid/filters/table-filter';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import { InvoiceDetailFullOutput, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateApartmentComponent } from '../apartment/create-apartment/create-apartment.component';
+import { CreateInvoiceDetailComponent } from './create-invoiceDetail/create-invoiceDetail.component';
+import { EditInvoiceDetailComponent } from './edit-invoiceDetail/edit-invoiceDetail.component';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('InvoiceDetails');
+    this.dataGridOptions.title = this.l('Fatura Detay');
     this.dataGridOptions.permissionNameCreate  = 'InvoiceDetail.Create';
     this.dataGridOptions.permissionNameUpdate  = 'InvoiceDetail.Update';
     this.dataGridOptions.permissionNameDelete  = 'InvoiceDetail.Delete';
@@ -67,22 +68,41 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l("İsim");
-    x.dataField = "name";
+    x.dataTitle = this.l("Ücret");
+    x.dataField = "price";
+    x.dataType = DataGridColumnType.number;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Fatura Tarihi');
+    x.dataField = 'invoiceDate';
+    x.dataType = DataGridColumnType.date;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Son Ödeme Tarihi');
+    x.dataField = 'lastPaymentDate';
+    x.dataType = DataGridColumnType.date;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Ödendi mi?');
+    x.dataField = 'isPaid';
+    x.dataType = DataGridColumnType.boolean;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Kiracı Adı');
+    x.dataField = 'hirer.firstName';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Adres');
-    x.dataField = 'address';
+    x.dataTitle = this.l('Kiracı Soyadı');
+    x.dataField = 'hirer.lastName';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Bina Numarası');
-    x.dataField = 'InvoiceDetailNo';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
 
     this.dataGridOptions.parentComponent = this;
   }
@@ -170,14 +190,14 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     let createOrEditUserDialog: BsModalRef;
     if (!id) {
       createOrEditUserDialog = this._modalService.show(
-        CreateApartmentComponent,
+        CreateInvoiceDetailComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
       createOrEditUserDialog = this._modalService.show(
-        CreateApartmentComponent,
+        EditInvoiceDetailComponent,
         {
           class: 'modal-lg',
           initialState: {

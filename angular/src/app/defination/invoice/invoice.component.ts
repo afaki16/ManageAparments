@@ -10,8 +10,9 @@ import { DataGridColumnType } from '@shared/components/data-grid/dtos/data-grid-
 import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-grid/filters/table-filter';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import { InvoiceFullOutput, InvoiceServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateApartmentComponent } from '../apartment/create-apartment/create-apartment.component';
-import { InvoiceTypeEnum } from '@app/services/enum/InvoiceType';
+import { InvoiceTypeEnum } from '@app/service/enum/InvoiceType';
+import { CreateInvoiceComponent } from './create-invoice/create-invoice.component';
+import { EditInvoiceComponent } from './edit-invoice/edit-invoice.component';
 
 @Component({
   selector: 'app-invoice',
@@ -39,7 +40,7 @@ export class InvoiceComponent extends PagedListingComponentBase<InvoiceFullOutpu
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Invoices');
+    this.dataGridOptions.title = this.l('Fatura');
     this.dataGridOptions.permissionNameCreate  = 'Invoice.Create';
     this.dataGridOptions.permissionNameUpdate  = 'Invoice.Update';
     this.dataGridOptions.permissionNameDelete  = 'Invoice.Delete';
@@ -65,6 +66,18 @@ export class InvoiceComponent extends PagedListingComponentBase<InvoiceFullOutpu
     let x = new DataGridColumn();
     x.dataTitle = 'Id';
     x.dataField = 'id';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Apartman');
+    x.dataField = 'apartment.building.name';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Daire');
+    x.dataField = 'apartment.name';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
@@ -102,17 +115,7 @@ export class InvoiceComponent extends PagedListingComponentBase<InvoiceFullOutpu
     x.dataType = DataGridColumnType.boolean;
     this.dataGridOptions.columns.push(x);
 
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Apartman');
-    x.dataField = 'apartment.building.name';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
 
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Daire');
-    x.dataField = 'apartment.name';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
 
     this.dataGridOptions.parentComponent = this;
   }
@@ -202,18 +205,18 @@ export class InvoiceComponent extends PagedListingComponentBase<InvoiceFullOutpu
     let createOrEditUserDialog: BsModalRef;
     if (!id) {
       createOrEditUserDialog = this._modalService.show(
-        CreateApartmentComponent,
+        CreateInvoiceComponent,
         {
           class: 'modal-lg',
         }
       );
     } else {
       createOrEditUserDialog = this._modalService.show(
-        CreateApartmentComponent,
+        EditInvoiceComponent,
         {
           class: 'modal-lg',
           initialState: {
-            // id: id,
+             id: id,
           },
         }
       );

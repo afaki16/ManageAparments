@@ -201,7 +201,7 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
         {
           class: 'modal-lg',
           initialState: {
-            // id: id,
+             id: id,
           },
         }
       );

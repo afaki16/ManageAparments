@@ -1,10 +1,11 @@
+import { BaseEnum } from "@shared/components/data-grid/enums/base-enum";
 
 export enum InvoiceType {
 
-    Dues = 0,
-    Water = 1,
-    Electric = 2,
-    Heat = 3,
+    Aidat = 0,
+    Su = 1,
+    Elektrik = 2,
+    DoğalGaz = 3,
 }
 
 export const InvoiceTypeEnum: Array<BaseEnum> = [

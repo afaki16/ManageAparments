@@ -1,0 +1,162 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #formModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Fature Düzenle' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+
+  <div class="modal-body">
+
+    <div class="field grid" >
+      <label for="apartment" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Daire" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="apartments"
+          required
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="building.name"
+          [(ngModel)]="updateInput.apartmentId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Daire Seçiniz' | localize"
+          #factoryApartmentModel="ngModel"
+          #factoryApartmentError
+          >
+          <ng-template let-item pTemplate="item">
+            {{item.building.name}} - {{item.name}}
+        </ng-template>
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryApartmentModel"
+        [controlEl]="factoryApartmentError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+
+    <div class="row" style="margin-bottom: 10px">
+      <div class="col-4">
+        <span style="font-weight: bold">{{ "Fatura Tipi" | localize }}</span>
+      </div>
+      <div class="col">
+        <p-dropdown
+          [options]="invoiceTypes"
+          [style]="{ width: '100%' }"
+          [filter]="true"
+          filterBy="name"
+          optionLabel="name"
+          optionValue="id"
+          [placeholder]="'Fatura Tipi' | localize"
+          [(ngModel)]="updateInput.type"
+          [ngModelOptions]="{ standalone: true }"
+          #factoryNameModel2="ngModel"
+          #factoryNameError2
+        ></p-dropdown>
+        <abp-validation-summary
+          [control]="factoryNameModel2"
+          [controlEl]="factoryNameError2"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <div class="field grid">
+      <label
+      for="subscribeNo"
+      class="col-4 mb-4 md:col-4 md:mb-0"
+      >{{ "Abone Numarası" | localize }}</label
+    >
+  <div class="col-8 md:col-8">
+      <input
+        type="text"
+        id="subscribeNo"
+        name="subscribeNo"
+        maxlength="60"
+        [placeholder]="'Abone Numarası' | localize"
+        [(ngModel)]="updateInput.subscribeNo"
+        class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+        #factorySubscribeNoModel="ngModel"
+        #factorySubscribeNoError
+      />
+      <abp-validation-summary
+      [control]="factorySubscribeNoModel"
+      [controlEl]="factorySubscribeNoError"
+    ></abp-validation-summary>
+    </div>
+  </div>
+
+  <div class="field grid">
+    <label
+    for="contractNo"
+    class="col-4 mb-4 md:col-4 md:mb-0"
+    >{{ "Sözleşme Numarası" | localize }}</label
+  >
+<div class="col-8 md:col-8">
+    <input
+      type="text"
+      id="contractNo"
+      name="contractNo"
+      maxlength="60"
+      [placeholder]="'Sözleşme Numarası' | localize"
+      [(ngModel)]="updateInput.contractNo"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+      #factoryContractNoModel="ngModel"
+      #factoryContractNoError
+    />
+    <abp-validation-summary
+    [control]="factoryContractNoModel"
+    [controlEl]="factoryContractNoError"
+  ></abp-validation-summary>
+  </div>
+</div>
+
+<div class="field grid">
+  <label
+  for="address"
+  class="col-4 mb-4 md:col-4 md:mb-0"
+  >{{ "Açıklama" | localize }}</label
+>
+<div class="col-8 md:col-8">
+  <textarea [(ngModel)]="updateInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
+   ></textarea>
+</div>
+</div>
+
+<div class="field grid">
+  <label class="col-4 mb-4 md:col-4 md:mb-0" >
+    {{ "Aktif" | localize }}
+  </label>
+  <div class="col-8 md:col-8">
+    <div class="custom-control custom-checkbox">
+      <input
+        type="checkbox"
+        class="custom-control-input"
+        name="Active"
+        id="Active"
+        [(ngModel)]="updateInput.active"
+      />
+      <label class="custom-control-label mt-2" for="Active"></label>
+    </div>
+  </div>
+  </div>
+
+
+
+
+
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLoading]="saving"
+    [saveDisabled]="!formModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

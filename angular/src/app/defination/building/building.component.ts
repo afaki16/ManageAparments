@@ -181,7 +181,7 @@ export class BuildingComponent extends PagedListingComponentBase<BuildingFullOut
         {
           class: 'modal-lg',
           initialState: {
-            // id: id,
+             id: id,
           },
         }
       );
