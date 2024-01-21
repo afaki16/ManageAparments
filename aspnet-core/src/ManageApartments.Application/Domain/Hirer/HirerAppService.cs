@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Hirer;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManageApartments.Domain.Hirer;
 
@@ -32,6 +33,9 @@ public class HirerAppService :
     public async Task<PagedResultDto<HirerFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload)
     {
         var query = this._hirerRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
+        query = query.Include(x => x.Apartment);
+        query = query.Include(x => x.Apartment)
+           .ThenInclude(x => x.Building);
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<HirerFullOutput>(
             totalRecord,

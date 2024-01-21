@@ -11,6 +11,7 @@ import {
 } from 'abp-ng2-module';
 
 import { AppSessionService } from '@shared/session/app-session.service';
+import { InvoiceType } from './service-proxies/service-proxies';
 
 export abstract class AppComponentBase {
 
@@ -55,5 +56,16 @@ export abstract class AppComponentBase {
 
     isGranted(permissionName: string): boolean {
         return this.permission.isGranted(permissionName);
+    }
+
+    getInvoiceTypeEnumsAndValues() {
+        const invoiceType = [];
+        for (const [propertyKey, propertyValue] of Object.entries(InvoiceType)) {
+            if (!Number.isNaN(Number(propertyKey))) {
+                continue;
+            }
+            invoiceType.push({id: propertyValue, name: this.l(propertyKey)});
+        }
+        return invoiceType;
     }
 }

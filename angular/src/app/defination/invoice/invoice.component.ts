@@ -1,3 +1,4 @@
+
 import { AfterContentChecked, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
 import { Observable, finalize } from 'rxjs';
@@ -10,6 +11,7 @@ import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-g
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
 import { InvoiceFullOutput, InvoiceServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateApartmentComponent } from '../apartment/create-apartment/create-apartment.component';
+import { InvoiceTypeEnum } from '@app/services/enum/InvoiceType';
 
 @Component({
   selector: 'app-invoice',
@@ -21,6 +23,7 @@ export class InvoiceComponent extends PagedListingComponentBase<InvoiceFullOutpu
   entities: InvoiceFullOutput[];
   selectedEntities : InvoiceFullOutput[];
   dataGridOptions : DataGridOptions;
+  invoiceTypeEnum = InvoiceTypeEnum;
   filteredDataRequest : TableFilterModel = new TableFilterModel();
   selectAll: boolean = false;
   totalCount: number ;
@@ -66,25 +69,55 @@ export class InvoiceComponent extends PagedListingComponentBase<InvoiceFullOutpu
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l("İsim");
-    x.dataField = "name";
+    x.dataTitle = this.l("Fatura Tipi");
+    x.dataField = "type";
+    x.dataType = DataGridColumnType.enum;
+    x.dataEnum = this.invoiceTypeEnum;
+    x.sortingEnabled = false;
+    x.filteringEnabled = true;
+    x.dataFieldLocalize = true;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Abone Numarası');
+    x.dataField = 'subscribeNo';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Adres');
-    x.dataField = 'address';
+    x.dataTitle = this.l('Sözleşme Numarası');
+    x.dataField = 'contractNo';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Bina Numarası');
-    x.dataField = 'InvoiceNo';
+    x.dataTitle = this.l('Açıklama');
+    x.dataField = 'description';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Aktif');
+    x.dataField = 'active';
+    x.dataType = DataGridColumnType.boolean;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Apartman');
+    x.dataField = 'apartment.building.name';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Daire');
+    x.dataField = 'apartment.name';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     this.dataGridOptions.parentComponent = this;
   }
+
+
 
   ngOnInit(): void {
   }

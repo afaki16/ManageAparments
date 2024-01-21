@@ -93,7 +93,13 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Daireler');
+    x.dataTitle = this.l('Apartman');
+    x.dataField = 'apartment.building.name';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Daire');
     x.dataField = 'apartment.name';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
