@@ -19,7 +19,7 @@ namespace ManageApartments.Domain.Building;
 [AbpAuthorize(PermissionNames.Building)]
 
 public class BuildingAppService :
-    AsyncCrudAppService<Entities.Building, BuildingFullOutput, int, GetBuildingListInput, CreateExpenseInput, UpdateBuildingInput,
+    AsyncCrudAppService<Entities.Building, BuildingFullOutput, int, GetBuildingListInput, CreateBuildingInput, UpdateBuildingInput,
         GetBuildingInput, DeleteBuildingInput>, IBuildingAppService
 {
     private readonly IBuildingRepository _buildingRepository;
@@ -43,7 +43,7 @@ public class BuildingAppService :
     }
 
     [HttpPost]
-    public override Task<BuildingFullOutput> CreateAsync(CreateExpenseInput input)
+    public override Task<BuildingFullOutput> CreateAsync(CreateBuildingInput input)
     {
 
         return base.CreateAsync(input);

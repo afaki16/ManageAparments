@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using ManageApartments.Domain.Apartment.Dtos;
 using ManageApartments.Domain.Building.Dtos;
+using ManageApartments.Domain.Entites;
 using ManageApartments.Domain.Entities;
+using ManageApartments.Domain.Expense.Dtos;
+using ManageApartments.Domain.ExpenseType.Dtos;
 using ManageApartments.Domain.Hirer.Dtos;
 using ManageApartments.Domain.Invoice.Dtos;
 using ManageApartments.Domain.InvoiceDetail.Dtos;
@@ -12,7 +15,7 @@ namespace ManageApartments.Manager
     {
         public static void DtosToDomain(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Building, CreateExpenseInput>();
+            cfg.CreateMap<Building, CreateBuildingInput>();
             cfg.CreateMap<Building, DeleteBuildingInput>();
             cfg.CreateMap<Building, BuildingFullOutput>();
             cfg.CreateMap<Building, BuildingPartOutput>();
@@ -52,12 +55,28 @@ namespace ManageApartments.Manager
             cfg.CreateMap<InvoiceDetail, GetInvoiceDetailListInput>();
             cfg.CreateMap<InvoiceDetail, UpdateInvoiceDetailInput>();
 
+            cfg.CreateMap<Expense, CreateExpenseInput>();
+            cfg.CreateMap<Expense, DeleteExpenseInput>();
+            cfg.CreateMap<Expense, ExpenseFullOutput>();
+            cfg.CreateMap<Expense, ExpensePartOutput>();
+            cfg.CreateMap<Expense, GetExpenseInput>();
+            cfg.CreateMap<Expense, GetExpenseListInput>();
+            cfg.CreateMap<Expense, UpdateExpenseInput>();
+
+            cfg.CreateMap<ExpenseType, CreateExpenseTypeInput>();
+            cfg.CreateMap<ExpenseType, DeleteExpenseTypeInput>();
+            cfg.CreateMap<ExpenseType, ExpenseTypeFullOutput>();
+            cfg.CreateMap<ExpenseType, ExpenseTypePartOutput>();
+            cfg.CreateMap<ExpenseType, GetExpenseTypeInput>();
+            cfg.CreateMap<ExpenseType, GetExpenseTypeListInput>();
+            cfg.CreateMap<ExpenseType, UpdateExpenseTypeInput>();
+
 
         }
         public static void DomainToDtos(IMapperConfigurationExpression cfg)
         {
 
-            cfg.CreateMap<CreateExpenseInput, Building>();
+            cfg.CreateMap<CreateBuildingInput, Building>();
             cfg.CreateMap<DeleteBuildingInput, Building>();
             cfg.CreateMap<BuildingFullOutput, Building>();
             cfg.CreateMap<BuildingPartOutput, Building>();
@@ -96,6 +115,22 @@ namespace ManageApartments.Manager
             cfg.CreateMap<GetInvoiceDetailInput, InvoiceDetail>();
             cfg.CreateMap<GetInvoiceDetailListInput, InvoiceDetail>();
             cfg.CreateMap<UpdateInvoiceDetailInput, InvoiceDetail>();
+
+            cfg.CreateMap<CreateExpenseInput, Expense>();
+            cfg.CreateMap<DeleteExpenseInput, Expense>();
+            cfg.CreateMap<ExpenseFullOutput, Expense>();
+            cfg.CreateMap<ExpensePartOutput, Expense>();
+            cfg.CreateMap<GetExpenseInput, Expense>();
+            cfg.CreateMap<GetExpenseListInput, Expense>();
+            cfg.CreateMap<UpdateExpenseInput, Expense>();
+
+            cfg.CreateMap<CreateExpenseTypeInput, ExpenseType>();
+            cfg.CreateMap<DeleteExpenseTypeInput, ExpenseType>();
+            cfg.CreateMap<ExpenseTypeFullOutput, ExpenseType>();
+            cfg.CreateMap<ExpenseTypePartOutput, ExpenseType>();
+            cfg.CreateMap<GetExpenseTypeInput, ExpenseType>();
+            cfg.CreateMap<GetExpenseTypeListInput, ExpenseType>();
+            cfg.CreateMap<UpdateExpenseTypeInput, ExpenseType>();
 
         }
     }

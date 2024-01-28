@@ -8,7 +8,7 @@ using ManageApartments.Domain.Building.Dtos;
 namespace ManageApartments.Domain.Building
 {
 
-    public interface IBuildingAppService : IAsyncCrudAppService<BuildingFullOutput, int, GetBuildingListInput, CreateExpenseInput,
+    public interface IBuildingAppService : IAsyncCrudAppService<BuildingFullOutput, int, GetBuildingListInput, CreateBuildingInput,
     UpdateBuildingInput, GetBuildingInput, DeleteBuildingInput>
     {
         Task<PagedResultDto<BuildingFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload);
