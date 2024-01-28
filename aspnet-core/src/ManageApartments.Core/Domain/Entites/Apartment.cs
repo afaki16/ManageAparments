@@ -7,7 +7,7 @@ namespace ManageApartments.Domain.Entities
     {
         public string Name { get; set; }
         public string? Description { get; set; }
-        public string? BlokNo { get; set; }
+        public string? RoofNo { get; set; }
         public int? BuildingId { get; set; }
         public virtual Building Building { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }

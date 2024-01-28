@@ -16,6 +16,7 @@ namespace ManageApartments.Domain.Configurations
             builder.Property(x => x.RowVersion).IsRowVersion();
 
             builder.HasMany(x => x.Apartments).WithOne(x => x.Building).HasForeignKey(x => x.BuildingId);
+            builder.HasMany(x => x.Expenses).WithOne(x => x.Building).HasForeignKey(x => x.BuildingId);
 
 
         }

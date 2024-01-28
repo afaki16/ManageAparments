@@ -1,4 +1,5 @@
 ﻿using Abp.Domain.Entities.Auditing;
+using ManageApartments.Domain.Entites;
 using System.Collections.Generic;
 
 namespace ManageApartments.Domain.Entities
@@ -12,6 +13,7 @@ namespace ManageApartments.Domain.Entities
         //public string State { get; set; }
         //public string City{ get; set; }
         public virtual ICollection<Apartment> Apartments { get; set; }
+        public virtual ICollection<Expense> Expenses { get; set; }
         public byte[] RowVersion { get; set; }
 
     }
