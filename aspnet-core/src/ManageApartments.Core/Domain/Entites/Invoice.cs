@@ -7,8 +7,9 @@ namespace ManageApartments.Domain.Entities
     public class Invoice : FullAuditedEntity<int>
     {
         public InvoiceType Type { get; set; }
-        public string? SubscribeNo { get; set; }
+        public string? NumeratorNo { get; set; }
         public string? ContractNo { get; set; }
+
         public string? Description { get; set; }
         public bool Active { get; set; }
         public int? ApartmentId { get; set; }

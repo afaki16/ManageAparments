@@ -44,5 +44,19 @@
         public const string InvoiceDetail_Update = "InvoiceDetail.Update";
         public const string InvoiceDetail_Delete = "InvoiceDetail.Delete";
 
+        public const string Expense = "Expense";
+        public const string Expense_Get = "Expense.Get";
+        public const string Expense_GetList = "Expense.GetList";
+        public const string Expense_Create = "Expense.Create";
+        public const string Expense_Update = "Expense.Update";
+        public const string Expense_Delete = "Expense.Delete";
+
+        public const string ExpenseType = "ExpenseType";
+        public const string ExpenseType_Get = "ExpenseType.Get";
+        public const string ExpenseType_GetList = "ExpenseType.GetList";
+        public const string ExpenseType_Create = "ExpenseType.Create";
+        public const string ExpenseType_Update = "ExpenseType.Update";
+        public const string ExpenseType_Delete = "ExpenseType.Delete";
+
     }
 }

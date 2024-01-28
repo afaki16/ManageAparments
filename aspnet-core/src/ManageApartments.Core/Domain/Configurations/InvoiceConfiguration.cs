@@ -12,7 +12,7 @@ namespace ManageApartments.Domain.Configurations
 
             builder.ToTable("Invoices");
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.SubscribeNo);
+            builder.Property(x => x.NumeratorNo);
             builder.Property(x => x.ContractNo);
             builder.Property(x => x.Description);
             builder.Property(x => x.Active).IsRequired();

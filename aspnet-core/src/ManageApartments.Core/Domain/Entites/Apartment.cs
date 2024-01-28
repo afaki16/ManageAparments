@@ -1,4 +1,4 @@
-﻿using Abp.Domain.Entities.Auditing;
+﻿ using Abp.Domain.Entities.Auditing;
 using System.Collections.Generic;
 
 namespace ManageApartments.Domain.Entities

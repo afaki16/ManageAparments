@@ -5,6 +5,7 @@ using ManageApartments.Authorization.Users;
 using ManageApartments.MultiTenancy;
 using ManageApartments.Domain.Entities;
 using ManageApartments.Domain.Configurations;
+using ManageApartments.Domain.Entites;
 
 namespace ManageApartments.EntityFrameworkCore
 {
@@ -16,6 +17,8 @@ namespace ManageApartments.EntityFrameworkCore
         public DbSet<Hirer> Hirers { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceDetail> InvoiceDetails { get; set; }
+        public DbSet<Expense> Expenses { get; set; }
+        public DbSet<ExpenseType> ExpenseTypes { get; set; }
 
         public ManageApartmentsDbContext(DbContextOptions<ManageApartmentsDbContext> options)
             : base(options)
@@ -28,7 +31,9 @@ namespace ManageApartments.EntityFrameworkCore
                 .ApplyConfiguration(new ApartmentConfiguration())
                 .ApplyConfiguration(new HirerConfiguration())
                 .ApplyConfiguration(new InvoiceConfiguration())
-                .ApplyConfiguration(new InvoiceDetailConfiguration());
+                .ApplyConfiguration(new InvoiceDetailConfiguration())
+                .ApplyConfiguration(new ExpenseConfiguration())
+                .ApplyConfiguration(new ExpenseTypeConfiguration());
 
         }
     }

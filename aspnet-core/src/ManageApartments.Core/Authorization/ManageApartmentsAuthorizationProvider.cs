@@ -112,8 +112,56 @@ namespace ManageApartments.Authorization
             var invoiceDetailDeletePermission =
                 invoiceDetailParentPermission.CreateChildPermission(PermissionNames.InvoiceDetail_Delete,
                     L(PermissionNames.InvoiceDetail_Delete));
-        }
+      
 
+            //Expense
+            var expenseParentPermission =
+             context.CreatePermission(PermissionNames.Expense, L(PermissionNames.Expense));
+
+            var expenseCreatePermission =
+                expenseParentPermission.CreateChildPermission(PermissionNames.Expense_Create,
+                    L(PermissionNames.Expense_Create));
+            var expenseGetPermission =
+                expenseParentPermission.CreateChildPermission(PermissionNames.Expense_Get,
+                    L(PermissionNames.Expense_Get));
+            var expenseGetListPermission =
+                expenseParentPermission.CreateChildPermission(PermissionNames.Expense_GetList,
+                    L(PermissionNames.Expense_GetList));
+            var expenseUpdatePermission =
+                expenseParentPermission.CreateChildPermission(PermissionNames.Expense_Update,
+                    L(PermissionNames.Expense_Update));
+            var expenseDeletePermission =
+                expenseParentPermission.CreateChildPermission(PermissionNames.Expense_Delete,
+                    L(PermissionNames.Expense_Delete));
+
+            //ExpenseType
+            var expenseTypeParentPermission =
+             context.CreatePermission(PermissionNames.ExpenseType, L(PermissionNames.ExpenseType));
+
+            var expenseTypeCreatePermission =
+                expenseTypeParentPermission.CreateChildPermission(PermissionNames.ExpenseType_Create,
+                    L(PermissionNames.ExpenseType_Create));
+            var expenseTypeGetPermission =
+                expenseTypeParentPermission.CreateChildPermission(PermissionNames.ExpenseType_Get,
+                    L(PermissionNames.ExpenseType_Get));
+            var expenseTypeGetListPermission =
+                expenseTypeParentPermission.CreateChildPermission(PermissionNames.ExpenseType_GetList,
+                    L(PermissionNames.ExpenseType_GetList));
+            var expenseTypeUpdatePermission =
+                expenseTypeParentPermission.CreateChildPermission(PermissionNames.ExpenseType_Update,
+                    L(PermissionNames.ExpenseType_Update));
+            var expenseTypeDeletePermission =
+                expenseTypeParentPermission.CreateChildPermission(PermissionNames.ExpenseType_Delete,
+                    L(PermissionNames.ExpenseType_Delete));
+
+
+
+
+
+
+
+
+        }
         private static ILocalizableString L(string name)
         {
             return new LocalizableString(name, ManageApartmentsConsts.LocalizationSourceName);

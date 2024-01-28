@@ -8,7 +8,7 @@ namespace ManageApartments.Domain.Invoice.Dtos
     public class InvoicePartOutput : EntityDto<int>
     {
         public InvoiceType Type { get; set; }
-        public string? SubscribeNo { get; set; }
+        public string? NumeratorNo { get; set; }
         public string? ContractNo { get; set; }
         public string? Description { get; set; }
         public bool Active { get; set; }

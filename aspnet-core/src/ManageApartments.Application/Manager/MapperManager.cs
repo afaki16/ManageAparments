@@ -12,7 +12,7 @@ namespace ManageApartments.Manager
     {
         public static void DtosToDomain(IMapperConfigurationExpression cfg)
         {
-            cfg.CreateMap<Building, CreateBuildingInput>();
+            cfg.CreateMap<Building, CreateExpenseInput>();
             cfg.CreateMap<Building, DeleteBuildingInput>();
             cfg.CreateMap<Building, BuildingFullOutput>();
             cfg.CreateMap<Building, BuildingPartOutput>();
@@ -57,7 +57,7 @@ namespace ManageApartments.Manager
         public static void DomainToDtos(IMapperConfigurationExpression cfg)
         {
 
-            cfg.CreateMap<CreateBuildingInput, Building>();
+            cfg.CreateMap<CreateExpenseInput, Building>();
             cfg.CreateMap<DeleteBuildingInput, Building>();
             cfg.CreateMap<BuildingFullOutput, Building>();
             cfg.CreateMap<BuildingPartOutput, Building>();
