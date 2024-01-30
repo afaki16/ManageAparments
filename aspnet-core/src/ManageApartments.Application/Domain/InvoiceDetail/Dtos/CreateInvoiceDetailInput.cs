@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace ManageApartments.Domain.InvoiceDetail.Dtos
 { 
@@ -10,7 +9,7 @@ namespace ManageApartments.Domain.InvoiceDetail.Dtos
         public DateTime? LastPaymentDate { get; set; }
         public bool IsPaid { get; set; }
         public int? HirerId { get; set; }
-        public int? InvoiceId { get; set; }
+       
     }
 
 }

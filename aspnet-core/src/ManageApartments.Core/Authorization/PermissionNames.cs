@@ -30,13 +30,6 @@
         public const string Hirer_Update = "Hirer.Update";
         public const string Hirer_Delete = "Hirer.Delete";
 
-        public const string Invoice = "Invoice";
-        public const string Invoice_Get = "Invoice.Get";
-        public const string Invoice_GetList = "Invoice.GetList";
-        public const string Invoice_Create = "Invoice.Create";
-        public const string Invoice_Update = "Invoice.Update";
-        public const string Invoice_Delete = "Invoice.Delete";
-
         public const string InvoiceDetail = "InvoiceDetail";
         public const string InvoiceDetail_Get = "InvoiceDetail.Get";
         public const string InvoiceDetail_GetList = "InvoiceDetail.GetList";
@@ -57,6 +50,27 @@
         public const string ExpenseType_Create = "ExpenseType.Create";
         public const string ExpenseType_Update = "ExpenseType.Update";
         public const string ExpenseType_Delete = "ExpenseType.Delete";
+
+        public const string Electric = "Electric";
+        public const string Electric_Get = "Electric.Get";
+        public const string Electric_GetList = "Electric.GetList";
+        public const string Electric_Create = "Electric.Create";
+        public const string Electric_Update = "Electric.Update";
+        public const string Electric_Delete = "Electric.Delete";
+
+        public const string Fee = "Fee";
+        public const string Fee_Get = "Fee.Get";
+        public const string Fee_GetList = "Fee.GetList";
+        public const string Fee_Create = "Fee.Create";
+        public const string Fee_Update = "Fee.Update";
+        public const string Fee_Delete = "Fee.Delete";
+
+        public const string Rent = "Rent";
+        public const string Rent_Get = "Rent.Get";
+        public const string Rent_GetList = "Rent.GetList";
+        public const string Rent_Create = "Rent.Create";
+        public const string Rent_Update = "Rent.Update";
+        public const string Rent_Delete = "Rent.Delete";
 
     }
 }

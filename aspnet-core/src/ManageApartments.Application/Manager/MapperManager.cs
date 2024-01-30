@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using ManageApartments.Domain.Apartment.Dtos;
 using ManageApartments.Domain.Building.Dtos;
+using ManageApartments.Domain.Electric.Dtos;
 using ManageApartments.Domain.Entities;
 using ManageApartments.Domain.Expense.Dtos;
 using ManageApartments.Domain.ExpenseType.Dtos;
+using ManageApartments.Domain.Fee.Dtos;
 using ManageApartments.Domain.Hirer.Dtos;
-using ManageApartments.Domain.Invoice.Dtos;
 using ManageApartments.Domain.InvoiceDetail.Dtos;
+using ManageApartments.Domain.Rent.Dtos;
 
 namespace ManageApartments.Manager
 {
@@ -38,14 +40,6 @@ namespace ManageApartments.Manager
             cfg.CreateMap<Hirer, GetHirerListInput>();
             cfg.CreateMap<Hirer, UpdateHirerInput>();
 
-            cfg.CreateMap<Invoice, CreateInvoiceInput>();
-            cfg.CreateMap<Invoice, DeleteInvoiceInput>();
-            cfg.CreateMap<Invoice, InvoiceFullOutput>();
-            cfg.CreateMap<Invoice, InvoicePartOutput>();
-            cfg.CreateMap<Invoice, GetInvoiceInput>();
-            cfg.CreateMap<Invoice, GetInvoiceListInput>();
-            cfg.CreateMap<Invoice, UpdateInvoiceInput>();
-
             cfg.CreateMap<InvoiceDetail, CreateInvoiceDetailInput>();
             cfg.CreateMap<InvoiceDetail, DeleteInvoiceDetailInput>();
             cfg.CreateMap<InvoiceDetail, InvoiceDetailFullOutput>();
@@ -69,6 +63,30 @@ namespace ManageApartments.Manager
             cfg.CreateMap<ExpenseType, GetExpenseTypeInput>();
             cfg.CreateMap<ExpenseType, GetExpenseTypeListInput>();
             cfg.CreateMap<ExpenseType, UpdateExpenseTypeInput>();
+
+            cfg.CreateMap<Electric, CreateElectricInput>();
+            cfg.CreateMap<Electric, DeleteElectricInput>();
+            cfg.CreateMap<Electric, ElectricFullOutput>();
+            cfg.CreateMap<Electric, ElectricPartOutput>();
+            cfg.CreateMap<Electric, GetElectricInput>();
+            cfg.CreateMap<Electric, GetElectricListInput>();
+            cfg.CreateMap<Electric, UpdateElectricInput>();
+
+            cfg.CreateMap<Fee, CreateFeeInput>();
+            cfg.CreateMap<Fee, DeleteFeeInput>();
+            cfg.CreateMap<Fee, FeeFullOutput>();
+            cfg.CreateMap<Fee, FeePartOutput>();
+            cfg.CreateMap<Fee, GetFeeInput>();
+            cfg.CreateMap<Fee, GetFeeListInput>();
+            cfg.CreateMap<Fee, UpdateFeeInput>();
+
+            cfg.CreateMap<Rent, CreateRentInput>();
+            cfg.CreateMap<Rent, DeleteRentInput>();
+            cfg.CreateMap<Rent, RentFullOutput>();
+            cfg.CreateMap<Rent, RentPartOutput>();
+            cfg.CreateMap<Rent, GetRentInput>();
+            cfg.CreateMap<Rent, GetRentListInput>();
+            cfg.CreateMap<Rent, UpdateRentInput>();
 
 
         }
@@ -99,14 +117,6 @@ namespace ManageApartments.Manager
             cfg.CreateMap<GetHirerListInput, Hirer>();
             cfg.CreateMap<UpdateHirerInput, Hirer>();
 
-            cfg.CreateMap<CreateInvoiceInput, Invoice>();
-            cfg.CreateMap<DeleteInvoiceInput, Invoice>();
-            cfg.CreateMap<InvoiceFullOutput, Invoice>();
-            cfg.CreateMap<InvoicePartOutput, Invoice>();
-            cfg.CreateMap<GetInvoiceInput, Invoice>();
-            cfg.CreateMap<GetInvoiceListInput, Invoice>();
-            cfg.CreateMap<UpdateInvoiceInput, Invoice>();
-
             cfg.CreateMap<CreateInvoiceDetailInput, InvoiceDetail>();
             cfg.CreateMap<DeleteInvoiceDetailInput, InvoiceDetail>();
             cfg.CreateMap<InvoiceDetailFullOutput, InvoiceDetail>();
@@ -131,6 +141,29 @@ namespace ManageApartments.Manager
             cfg.CreateMap<GetExpenseTypeListInput, ExpenseType>();
             cfg.CreateMap<UpdateExpenseTypeInput, ExpenseType>();
 
+            cfg.CreateMap<CreateElectricInput, Electric>();
+            cfg.CreateMap<DeleteElectricInput, Electric>();
+            cfg.CreateMap<ElectricFullOutput, Electric>();
+            cfg.CreateMap<ElectricPartOutput, Electric>();
+            cfg.CreateMap<GetElectricInput, Electric>();
+            cfg.CreateMap<GetElectricListInput, Electric>();
+            cfg.CreateMap<UpdateElectricInput, Electric>();
+
+            cfg.CreateMap<CreateFeeInput, Fee>();
+            cfg.CreateMap<DeleteFeeInput, Fee>();
+            cfg.CreateMap<FeeFullOutput, Fee>();
+            cfg.CreateMap<FeePartOutput, Fee>();
+            cfg.CreateMap<GetFeeInput, Fee>();
+            cfg.CreateMap<GetFeeListInput, Fee>();
+            cfg.CreateMap<UpdateFeeInput, Fee>();
+
+            cfg.CreateMap<CreateRentInput, Rent>();
+            cfg.CreateMap<DeleteRentInput, Rent>();
+            cfg.CreateMap<RentFullOutput, Rent>();
+            cfg.CreateMap<RentPartOutput, Rent>();
+            cfg.CreateMap<GetRentInput, Rent>();
+            cfg.CreateMap<GetRentListInput, Rent>();
+            cfg.CreateMap<UpdateRentInput, Rent>();
         }
     }
 }

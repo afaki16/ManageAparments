@@ -11,8 +11,6 @@ namespace ManageApartments.Domain.Entities
         public bool IsPaid { get; set; }
         public int? HirerId { get; set; }
         public virtual Hirer Hirer { get; set; }
-        public int? InvoiceId { get; set; }
-        public virtual Invoice Invoice { get; set; }
         public byte[] RowVersion { get; set; }
 
     }

@@ -1,6 +1,5 @@
 ﻿using Abp.Application.Services.Dto;
 using ManageApartments.Domain.Hirer.Dtos;
-using ManageApartments.Domain.Invoice.Dtos;
 using System;
 
 namespace ManageApartments.Domain.InvoiceDetail.Dtos
@@ -13,8 +12,7 @@ namespace ManageApartments.Domain.InvoiceDetail.Dtos
         public bool IsPaid { get; set; }
         public int? HirerId { get; set; }
         public HirerPartOutput Hirer { get; set; }
-        public int? InvoiceId { get; set; }
-        public InvoicePartOutput Invoice { get; set; }
+        
 
 
     }

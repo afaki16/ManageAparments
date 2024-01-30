@@ -17,8 +17,10 @@ namespace ManageApartments.Domain.Configurations
             builder.Property(x => x.RoofNo);
             builder.Property(x => x.RowVersion).IsRowVersion();
 
-            builder.HasMany(x => x.Invoices).WithOne(x => x.Apartment).HasForeignKey(x => x.ApartmentId);
             builder.HasMany(x => x.Hirers).WithOne(x => x.Apartment).HasForeignKey(x => x.ApartmentId);
+            builder.HasMany(x => x.Fees).WithOne(x => x.Apartment).HasForeignKey(x => x.ApartmentId);
+            builder.HasMany(x => x.Electrics).WithOne(x => x.Apartment).HasForeignKey(x => x.ApartmentId);
+            builder.HasMany(x => x.Rents).WithOne(x => x.Apartment).HasForeignKey(x => x.ApartmentId);
           
 
         }

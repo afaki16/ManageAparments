@@ -81,8 +81,8 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Blok Numarası');
-    x.dataField = 'blokNo';
+    x.dataTitle = this.l('Kat Numarası');
+    x.dataField = 'roofNo';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 

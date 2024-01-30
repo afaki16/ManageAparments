@@ -1,11 +1,7 @@
 ﻿using Abp.Application.Services.Dto;
-using ManageApartments.Domain.Apartment.Dtos;
 using ManageApartments.Domain.Building.Dtos;
 using ManageApartments.Domain.ExpenseType.Dtos;
-using ManageApartments.Domain.Hirer.Dtos;
-using ManageApartments.Domain.Invoice.Dtos;
 using System;
-using System.Collections.Generic;
 
 namespace ManageApartments.Domain.Expense.Dtos
 {

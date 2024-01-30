@@ -10,8 +10,10 @@ namespace ManageApartments.Domain.Entities
         public string? RoofNo { get; set; }
         public int? BuildingId { get; set; }
         public virtual Building Building { get; set; }
-        public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<Hirer> Hirers { get; set; }
+        public virtual ICollection<Electric> Electrics { get; set; }
+        public virtual ICollection<Fee> Fees { get; set; }
+        public virtual ICollection<Rent> Rents { get; set; }
         public byte[] RowVersion { get; set; }
 
     }

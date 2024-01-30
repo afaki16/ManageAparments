@@ -41,7 +41,7 @@
         <label
         for="blokNo"
         class="col-4 mb-4 md:col-4 md:mb-0"
-        >{{ "Blok Numarası" | localize }}</label
+        >{{ "Kat Numarası" | localize }}</label
       >
     <div class="col-8 md:col-8">
         <input
@@ -50,7 +50,7 @@
           name="blokNo"
           maxlength="20"
           [placeholder]="'Blok Numarası' | localize"
-          [(ngModel)]="createInput.blokNo"
+          [(ngModel)]="createInput.roofNo"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
           #factoryBlockNoModel="ngModel"
           #factoryBlockNoError

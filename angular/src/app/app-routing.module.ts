@@ -11,7 +11,6 @@ import { ChangePasswordComponent } from './users/change-password/change-password
 import { BuildingComponent } from './defination/building/building.component';
 import { ApartmentComponent } from './defination/apartment/apartment.component';
 import { HirerComponent } from './defination/hirer/hirer.component';
-import { InvoiceComponent } from './defination/invoice/invoice.component';
 import { InvoiceDetailComponent } from './defination/invoiceDetail/invoiceDetail.component';
 
 @NgModule({
@@ -30,7 +29,6 @@ import { InvoiceDetailComponent } from './defination/invoiceDetail/invoiceDetail
                     { path: 'building', component: BuildingComponent, canActivate: [AppRouteGuard] },
                     { path: 'apartment', component: ApartmentComponent, canActivate: [AppRouteGuard] },
                     { path: 'hirer', component: HirerComponent, canActivate: [AppRouteGuard] },
-                    { path: 'invoice', component: InvoiceComponent, canActivate: [AppRouteGuard] },
                     { path: 'invoiceDetail', component: InvoiceDetailComponent, canActivate: [AppRouteGuard] },
                 ]
             }

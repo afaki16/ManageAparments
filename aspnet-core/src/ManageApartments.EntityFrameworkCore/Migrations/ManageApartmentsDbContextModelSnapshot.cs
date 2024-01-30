@@ -1683,6 +1683,63 @@ namespace ManageApartments.Migrations
                     b.ToTable("Buildings", (string)null);
                 });
 
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Electric", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("KW")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("NumeratorNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<int?>("StaticKW")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
+
+                    b.ToTable("Electrics", (string)null);
+                });
+
             modelBuilder.Entity("ManageApartments.Domain.Entities.Expense", b =>
                 {
                     b.Property<int>("Id")
@@ -1788,6 +1845,59 @@ namespace ManageApartments.Migrations
                     b.ToTable("ExpenseTypes", (string)null);
                 });
 
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Fee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
+
+                    b.ToTable("Fees", (string)null);
+                });
+
             modelBuilder.Entity("ManageApartments.Domain.Entities.Hirer", b =>
                 {
                     b.Property<int>("Id")
@@ -1855,65 +1965,6 @@ namespace ManageApartments.Migrations
                     b.ToTable("Hirers", (string)null);
                 });
 
-            modelBuilder.Entity("ManageApartments.Domain.Entities.Invoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("ApartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ContractNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("NumeratorNo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApartmentId");
-
-                    b.ToTable("Invoices", (string)null);
-                });
-
             modelBuilder.Entity("ManageApartments.Domain.Entities.InvoiceDetail", b =>
                 {
                     b.Property<int>("Id")
@@ -1939,9 +1990,6 @@ namespace ManageApartments.Migrations
 
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("InvoiceId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -1970,9 +2018,60 @@ namespace ManageApartments.Migrations
 
                     b.HasIndex("HirerId");
 
-                    b.HasIndex("InvoiceId");
-
                     b.ToTable("InvoiceDetails", (string)null);
+                });
+
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Rent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ApartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApartmentId");
+
+                    b.ToTable("Rents", (string)null);
                 });
 
             modelBuilder.Entity("ManageApartments.MultiTenancy.Tenant", b =>
@@ -2266,6 +2365,15 @@ namespace ManageApartments.Migrations
                     b.Navigation("Building");
                 });
 
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Electric", b =>
+                {
+                    b.HasOne("ManageApartments.Domain.Entities.Apartment", "Apartment")
+                        .WithMany("Electrics")
+                        .HasForeignKey("ApartmentId");
+
+                    b.Navigation("Apartment");
+                });
+
             modelBuilder.Entity("ManageApartments.Domain.Entities.Expense", b =>
                 {
                     b.HasOne("ManageApartments.Domain.Entities.Building", "Building")
@@ -2285,19 +2393,19 @@ namespace ManageApartments.Migrations
                     b.Navigation("ExpenseType");
                 });
 
-            modelBuilder.Entity("ManageApartments.Domain.Entities.Hirer", b =>
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Fee", b =>
                 {
                     b.HasOne("ManageApartments.Domain.Entities.Apartment", "Apartment")
-                        .WithMany("Hirers")
+                        .WithMany("Fees")
                         .HasForeignKey("ApartmentId");
 
                     b.Navigation("Apartment");
                 });
 
-            modelBuilder.Entity("ManageApartments.Domain.Entities.Invoice", b =>
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Hirer", b =>
                 {
                     b.HasOne("ManageApartments.Domain.Entities.Apartment", "Apartment")
-                        .WithMany("Invoices")
+                        .WithMany("Hirers")
                         .HasForeignKey("ApartmentId");
 
                     b.Navigation("Apartment");
@@ -2309,13 +2417,16 @@ namespace ManageApartments.Migrations
                         .WithMany("InvoiceDetails")
                         .HasForeignKey("HirerId");
 
-                    b.HasOne("ManageApartments.Domain.Entities.Invoice", "Invoice")
-                        .WithMany("InvoiceDetails")
-                        .HasForeignKey("InvoiceId");
-
                     b.Navigation("Hirer");
+                });
 
-                    b.Navigation("Invoice");
+            modelBuilder.Entity("ManageApartments.Domain.Entities.Rent", b =>
+                {
+                    b.HasOne("ManageApartments.Domain.Entities.Apartment", "Apartment")
+                        .WithMany("Rents")
+                        .HasForeignKey("ApartmentId");
+
+                    b.Navigation("Apartment");
                 });
 
             modelBuilder.Entity("ManageApartments.MultiTenancy.Tenant", b =>
@@ -2418,9 +2529,13 @@ namespace ManageApartments.Migrations
 
             modelBuilder.Entity("ManageApartments.Domain.Entities.Apartment", b =>
                 {
+                    b.Navigation("Electrics");
+
+                    b.Navigation("Fees");
+
                     b.Navigation("Hirers");
 
-                    b.Navigation("Invoices");
+                    b.Navigation("Rents");
                 });
 
             modelBuilder.Entity("ManageApartments.Domain.Entities.Building", b =>
@@ -2436,11 +2551,6 @@ namespace ManageApartments.Migrations
                 });
 
             modelBuilder.Entity("ManageApartments.Domain.Entities.Hirer", b =>
-                {
-                    b.Navigation("InvoiceDetails");
-                });
-
-            modelBuilder.Entity("ManageApartments.Domain.Entities.Invoice", b =>
                 {
                     b.Navigation("InvoiceDetails");
                 });

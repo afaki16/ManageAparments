@@ -73,26 +73,7 @@ namespace ManageApartments.Authorization
                 hirerParentPermission.CreateChildPermission(PermissionNames.Hirer_Delete,
                     L(PermissionNames.Hirer_Delete));
 
-            //Invoice
-            var invoiceParentPermission =
-             context.CreatePermission(PermissionNames.Invoice, L(PermissionNames.Invoice));
-
-            var invoiceCreatePermission =
-                invoiceParentPermission.CreateChildPermission(PermissionNames.Invoice_Create,
-                    L(PermissionNames.Invoice_Create));
-            var invoiceGetPermission =
-                invoiceParentPermission.CreateChildPermission(PermissionNames.Invoice_Get,
-                    L(PermissionNames.Invoice_Get));
-            var invoiceGetListPermission =
-                invoiceParentPermission.CreateChildPermission(PermissionNames.Invoice_GetList,
-                    L(PermissionNames.Invoice_GetList));
-            var invoiceUpdatePermission =
-                invoiceParentPermission.CreateChildPermission(PermissionNames.Invoice_Update,
-                    L(PermissionNames.Invoice_Update));
-            var invoiceDeletePermission =
-                invoiceParentPermission.CreateChildPermission(PermissionNames.Invoice_Delete,
-                    L(PermissionNames.Invoice_Delete));
-
+            
             //InvoiceDetail
             var invoiceDetailParentPermission =
              context.CreatePermission(PermissionNames.InvoiceDetail, L(PermissionNames.InvoiceDetail));
@@ -154,11 +135,65 @@ namespace ManageApartments.Authorization
                 expenseTypeParentPermission.CreateChildPermission(PermissionNames.ExpenseType_Delete,
                     L(PermissionNames.ExpenseType_Delete));
 
+            //Electric
+            var electricParentPermission =
+             context.CreatePermission(PermissionNames.Electric, L(PermissionNames.Electric));
 
+            var electricCreatePermission =
+                electricParentPermission.CreateChildPermission(PermissionNames.Electric_Create,
+                    L(PermissionNames.Electric_Create));
+            var electricGetPermission =
+                electricParentPermission.CreateChildPermission(PermissionNames.Electric_Get,
+                    L(PermissionNames.Electric_Get));
+            var electricGetListPermission =
+                electricParentPermission.CreateChildPermission(PermissionNames.Electric_GetList,
+                    L(PermissionNames.Electric_GetList));
+            var electricUpdatePermission =
+                electricParentPermission.CreateChildPermission(PermissionNames.Electric_Update,
+                    L(PermissionNames.Electric_Update));
+            var electricDeletePermission =
+                electricParentPermission.CreateChildPermission(PermissionNames.Electric_Delete,
+                    L(PermissionNames.Electric_Delete));
 
+            //Fee
+            var feeParentPermission =
+             context.CreatePermission(PermissionNames.Fee, L(PermissionNames.Fee));
 
+            var feeCreatePermission =
+                feeParentPermission.CreateChildPermission(PermissionNames.Fee_Create,
+                    L(PermissionNames.Fee_Create));
+            var feeGetPermission =
+                feeParentPermission.CreateChildPermission(PermissionNames.Fee_Get,
+                    L(PermissionNames.Fee_Get));
+            var feeGetListPermission =
+                feeParentPermission.CreateChildPermission(PermissionNames.Fee_GetList,
+                    L(PermissionNames.Fee_GetList));
+            var feeUpdatePermission =
+                feeParentPermission.CreateChildPermission(PermissionNames.Fee_Update,
+                    L(PermissionNames.Fee_Update));
+            var feeDeletePermission =
+                feeParentPermission.CreateChildPermission(PermissionNames.Fee_Delete,
+                    L(PermissionNames.Fee_Delete));
 
+            //Rent
+            var rentParentPermission =
+             context.CreatePermission(PermissionNames.Rent, L(PermissionNames.Rent));
 
+            var rentCreatePermission =
+                rentParentPermission.CreateChildPermission(PermissionNames.Rent_Create,
+                    L(PermissionNames.Rent_Create));
+            var rentGetPermission =
+                rentParentPermission.CreateChildPermission(PermissionNames.Rent_Get,
+                    L(PermissionNames.Rent_Get));
+            var rentGetListPermission =
+                rentParentPermission.CreateChildPermission(PermissionNames.Rent_GetList,
+                    L(PermissionNames.Rent_GetList));
+            var rentUpdatePermission =
+                rentParentPermission.CreateChildPermission(PermissionNames.Rent_Update,
+                    L(PermissionNames.Rent_Update));
+            var rentDeletePermission =
+                rentParentPermission.CreateChildPermission(PermissionNames.Rent_Delete,
+                    L(PermissionNames.Rent_Delete));
 
 
         }

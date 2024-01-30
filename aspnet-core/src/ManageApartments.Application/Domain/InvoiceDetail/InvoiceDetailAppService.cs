@@ -37,7 +37,6 @@ public class InvoiceDetailAppService :
     {
         var query = this._invoiceDetailRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
         query = query.Include(x => x.Hirer);
-        query = query.Include(x => x.Invoice);
            
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<InvoiceDetailFullOutput>(
