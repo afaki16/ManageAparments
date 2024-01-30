@@ -5,7 +5,6 @@ using ManageApartments.Authorization.Users;
 using ManageApartments.MultiTenancy;
 using ManageApartments.Domain.Entities;
 using ManageApartments.Domain.Configurations;
-using ManageApartments.Domain.Entites;
 
 namespace ManageApartments.EntityFrameworkCore
 {

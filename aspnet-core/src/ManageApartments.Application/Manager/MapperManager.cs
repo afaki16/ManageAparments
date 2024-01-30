@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ManageApartments.Domain.Apartment.Dtos;
 using ManageApartments.Domain.Building.Dtos;
-using ManageApartments.Domain.Entites;
 using ManageApartments.Domain.Entities;
 using ManageApartments.Domain.Expense.Dtos;
 using ManageApartments.Domain.ExpenseType.Dtos;

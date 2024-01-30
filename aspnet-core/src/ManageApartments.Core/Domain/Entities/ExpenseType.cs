@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ManageApartments.Domain.Entites
+namespace ManageApartments.Domain.Entities
 {
     public class ExpenseType : FullAuditedEntity<int>
     {

@@ -9,7 +9,6 @@ namespace ManageApartments.Domain.Entities
         public InvoiceType Type { get; set; }
         public string? NumeratorNo { get; set; }
         public string? ContractNo { get; set; }
-
         public string? Description { get; set; }
         public bool Active { get; set; }
         public int? ApartmentId { get; set; }
@@ -17,5 +16,7 @@ namespace ManageApartments.Domain.Entities
         public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
         public byte[] RowVersion { get; set; }
 
+
+        
     }
 }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ManageApartments.Domain.Entites;
+using ManageApartments.Domain.Entities;
 
 namespace ManageApartments.Domain.Configurations
 {

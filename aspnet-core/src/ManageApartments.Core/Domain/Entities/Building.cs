@@ -1,5 +1,5 @@
 ﻿using Abp.Domain.Entities.Auditing;
-using ManageApartments.Domain.Entites;
+using ManageApartments.Domain.Entities;
 using System.Collections.Generic;
 
 namespace ManageApartments.Domain.Entities

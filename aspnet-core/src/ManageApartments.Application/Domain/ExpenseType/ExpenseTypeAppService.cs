@@ -2,13 +2,13 @@
 using Abp.Authorization;
 using ManageApartments.Authorization;
 using ManageApartments.Domain.ExpenseType.Dtos;
-using ManageApartments.Domain.ExpenseType;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.ExpenseType;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Microsoft.AspNetCore.Mvc;
 using PrimeNG.TableFilter.Models;
+using PrimeNG.TableFilter;
 
 namespace ManageApartments.Domain.ExpenseType;
 

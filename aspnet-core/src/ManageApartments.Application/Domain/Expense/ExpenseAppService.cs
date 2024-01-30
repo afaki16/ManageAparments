@@ -1,14 +1,16 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using ManageApartments.Authorization;
 using ManageApartments.Domain.Expense.Dtos;
-using ManageApartments.Domain.Expense;
-using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Expense;
+using Microsoft.AspNetCore.Mvc;
+using PrimeNG.TableFilter.Models;
+using PrimeNG.TableFilter;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Abp.Application.Services.Dto;
-using PrimeNG.TableFilter.Models;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Expense;
+
+
 
 namespace ManageApartments.Domain.Expense;
 
@@ -29,8 +31,7 @@ public class ExpenseAppService :
     public async Task<PagedResultDto<ExpenseFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload)
     {
         var query = this._expenseRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
-        query = query.Include(x => x.Hirer);
-        query = query.Include(x => x.Invoice);
+        
 
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<ExpenseFullOutput>(

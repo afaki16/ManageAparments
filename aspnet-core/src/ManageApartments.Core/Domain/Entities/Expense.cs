@@ -2,7 +2,7 @@
 using ManageApartments.Domain.Entities;
 using System;
 
-namespace ManageApartments.Domain.Entites
+namespace ManageApartments.Domain.Entities
 {
     public class Expense : FullAuditedEntity<int>
     {

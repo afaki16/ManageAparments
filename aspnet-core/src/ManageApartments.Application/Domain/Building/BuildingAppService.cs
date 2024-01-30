@@ -1,14 +1,12 @@
 ﻿using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
-using Abp.Domain.Repositories;
-using Abp.UI;
 using ManageApartments.Authorization;
 using ManageApartments.Domain.Building.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using PrimeNG.TableFilter.Models;
 using PrimeNG.TableFilter;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
