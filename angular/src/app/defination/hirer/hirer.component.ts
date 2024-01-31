@@ -87,6 +87,18 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
+    x.dataTitle = this.l('Kiracı Yılı');
+    x.dataField = 'usageTime';
+    x.dataType = DataGridColumnType.number;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Açıklama');
+    x.dataField = 'description';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
     x.dataTitle = this.l('Aktif Kiracı');
     x.dataField = 'isActive';
     x.dataType = DataGridColumnType.boolean;
@@ -102,6 +114,12 @@ export class HirerComponent extends PagedListingComponentBase<HirerFullOutput> i
     x.dataTitle = this.l('Daire');
     x.dataField = 'apartment.name';
     x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Daireye Giriş Tarihi');
+    x.dataField = 'startDate._d';
+    x.dataType = DataGridColumnType.date;
     this.dataGridOptions.columns.push(x);
 
     this.dataGridOptions.parentComponent = this;

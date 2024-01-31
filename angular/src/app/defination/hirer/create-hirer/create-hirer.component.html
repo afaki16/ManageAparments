@@ -10,6 +10,8 @@
   ></abp-modal-header>
 
   <div class="modal-body">
+
+    <!-- Kimlik No -->
     <div class="field grid">
       <label
         for="ssn"
@@ -37,6 +39,7 @@
       </div>
     </div>
 
+    <!-- Ad -->
     <div class="field grid">
         <label
         for="firstName"
@@ -63,6 +66,7 @@
       </div>
     </div>
 
+ <!-- Soyad -->
     <div class="field grid">
       <label
       for="lastName"
@@ -89,6 +93,47 @@
     </div>
   </div>
 
+   <!-- Kiracı Yılı -->
+   <div class="field grid">
+    <label
+    for="usageTime"
+    class="col-4 mb-4 md:col-4 md:mb-0"
+    >{{ "Kiracı Yılı" | localize }}</label
+  >
+<div class="col-8 md:col-8">
+    <input
+      type="text"
+      id="usageTime"
+      name="usageTime"
+      required
+      maxlength="60"
+      [placeholder]="'Kiracı Yılı' | localize"
+      [(ngModel)]="createInput.usageTime"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+      #factoryUsageTimeModel="ngModel"
+      #factoryUsageTimeError
+    />
+    <abp-validation-summary
+    [control]="factoryUsageTimeModel"
+    [controlEl]="factoryUsageTimeError"
+  ></abp-validation-summary>
+  </div>
+</div>
+
+<!-- Açıklama -->
+<div class="field grid">
+  <label
+  for="address"
+  class="col-4 mb-4 md:col-4 md:mb-0"
+  >{{ "Açıklama" | localize }}</label
+>
+<div class="col-8 md:col-8">
+  <textarea [(ngModel)]="createInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
+   ></textarea>
+</div>
+</div>
+
+   <!-- Daireye Yerleştir  -->
   <div class="field grid">
     <label class="col-4 mb-4 md:col-4 md:mb-0" >
       {{ "Daireye Yerleştir" | localize }}
@@ -107,6 +152,8 @@
     </div>
     </div>
 
+
+    <!-- Daire  -->
     <div class="field grid" >
       <label for="apartment" class="col-4 mb-4 md:col-4 md:mb-0">{{
         "Daire" | localize
@@ -134,6 +181,34 @@
         [control]="factoryApartmentModel"
         [controlEl]="factoryApartmentError"
       ></abp-validation-summary>
+      </div>
+    </div>
+
+    <!-- Daire Giriş Tarihi -->
+    <div class="field grid">
+      <label for="startDate" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Daireye Giriş Tarihi" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-calendar
+          type="datetime"
+          [disabled]="!createInput.isActive"
+          [style]="{'width':'100%'}"
+          id="startDate"
+          name="startDate"
+          required
+          dateFormat="dd-mm-yy"
+          [placeholder]="'Daireye Giriş Tarihi' | localize"
+          [(ngModel)]="createInput.startDate"
+          [dateFormat]
+          [showIcon]="true"
+          #startDateModel="ngModel"
+          #startDateError>
+        </p-calendar>
+        <abp-validation-summary
+          [control]="startDateModel"
+          [controlEl]="startDateError"
+        ></abp-validation-summary>
       </div>
     </div>
 

@@ -50,6 +50,7 @@ public class ApartmentAppService :
     {
 
         var apartments = this._apartmentRepository.GetAllList(x => x.BuildingId == input.BuildingId && x.Name == input.Name).ToList();
+
         if (apartments.Count == 0)
         {
             var returnVal = await base.CreateAsync(input);
@@ -61,6 +62,20 @@ public class ApartmentAppService :
             throw new UserFriendlyException(L("Warning"), L("SameNameAndBuildingRecord"));
         }
     }
+
+    //Entities.MaterialTransaction materialTransaction = new Entities.MaterialTransaction()
+    //{
+    //    ShelfId = oldLocation,
+    //    NewShelfId = input.ShelfId,
+    //    MaterialId = material.Id,
+    //    Description = input.Description,
+    //    PhotoUrl = input.PhotoUrl,
+    //    UserId = input.UserId,
+    //};
+
+    //await _materialTransactionRepository.InsertAsync(materialTransaction);
+
+    //        return ObjectMapper.Map<MaterialFullOutput>(material);
 
 
     [HttpPut]
