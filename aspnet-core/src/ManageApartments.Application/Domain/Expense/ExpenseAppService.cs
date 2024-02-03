@@ -9,6 +9,7 @@ using PrimeNG.TableFilter;
 using System.Linq;
 using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Expense;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -31,7 +32,8 @@ public class ExpenseAppService :
     public async Task<PagedResultDto<ExpenseFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload)
     {
         var query = this._expenseRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
-        
+        query = query.Include(x => x.Building);
+        query = query.Include(x => x.ExpenseType);
 
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<ExpenseFullOutput>(

@@ -5,12 +5,11 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'Yeni Apartman Ekle' | localize"
+    [title]="'Yeni Masraf Türü Ekle' | localize"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
 
   <div class="modal-body">
-    <!-- İsim -->
     <div class="field grid">
       <label
         for="name"
@@ -37,44 +36,19 @@
       ></abp-validation-summary>
       </div>
     </div>
-    <!-- Adres -->
+
     <div class="field grid">
       <label
-      for="address"
+      for="description"
       class="col-4 mb-4 md:col-4 md:mb-0"
       >{{ "Adres" | localize }}</label
     >
     <div class="col-8 md:col-8">
-      <textarea [(ngModel)]="createInput.address" [placeholder]="'Adres' | localize" [ngModelOptions]="{ standalone: true }" id="address" rows="4" cols="52" pInputTextarea
+      <textarea [(ngModel)]="createInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
        ></textarea>
     </div>
     </div>
-        <!-- Bina No -->
-    <div class="field grid">
-        <label
-        for="buildingNo"
-        class="col-4 mb-4 md:col-4 md:mb-0"
-        >{{ "Bina Numarası" | localize }}</label
-      >
-    <div class="col-8 md:col-8">
-        <input
-          type="text"
-          id="buildingNo"
-          name="buildingNo"
-          maxlength="20"
-          required
-          [placeholder]="'Bina Numarası' | localize"
-          [(ngModel)]="createInput.buildingNo"
-          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
-          #factoryBuildingNoModel="ngModel"
-          #factoryBuildingNoError
-        />
-        <abp-validation-summary
-        [control]="factoryBuildingNoModel"
-        [controlEl]="factoryBuildingNoError"
-      ></abp-validation-summary>
-      </div>
-    </div>
+
 
   </div>
   <abp-modal-footer

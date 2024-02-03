@@ -61,7 +61,13 @@ import { EditHirerComponent } from './defination/hirer/edit-hirer/edit-hirer.com
 import {InvoiceDetailComponent} from '@app/defination/invoiceDetail/invoiceDetail.component';
 import {CreateInvoiceDetailComponent} from '@app/defination/invoiceDetail/create-invoiceDetail/create-invoiceDetail.component';
 import {EditInvoiceDetailComponent} from '@app/defination/invoiceDetail/edit-invoiceDetail/edit-invoiceDetail.component';
-
+ //expense
+import {ExpenseComponent} from '@app/defination/expense/expense.component';
+import {CreateExpenseComponent} from '@app/defination/expense/create-expense/create-expense.component';
+import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-expense.component';
+ //expenseType
+ import {ExpenseTypeComponent} from '@app/defination/expenseType/expenseType.component';
+ import {CreateExpenseTypeComponent} from '@app/defination/expenseType/create-expenseType/create-expenseType.component';
 
 
 
@@ -107,11 +113,18 @@ import {EditInvoiceDetailComponent} from '@app/defination/invoiceDetail/edit-inv
          HirerComponent,
          CreateHirerComponent,
          EditHirerComponent,
-
          //invoiceDetail
          InvoiceDetailComponent,
          CreateInvoiceDetailComponent,
          EditInvoiceDetailComponent,
+         //expense
+         ExpenseComponent,
+         CreateExpenseComponent,
+         EditExpenseComponent,
+
+         //expenseType
+         ExpenseTypeComponent,
+         CreateExpenseTypeComponent,
 
     ],
     imports: [

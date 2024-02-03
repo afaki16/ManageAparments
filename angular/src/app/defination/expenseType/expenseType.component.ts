@@ -8,21 +8,19 @@ import { DataGridColumn } from '@shared/components/data-grid/dtos/data-grid-colu
 import { DataGridColumnType } from '@shared/components/data-grid/dtos/data-grid-column-type';
 import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-grid/filters/table-filter';
 import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
-import { ApartmentFullOutput, ApartmentServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateApartmentComponent } from './create-apartment/create-apartment.component';
-import { EditApartmentComponent } from './edit-apartment/edit-apartment.component';
-
+import { ExpenseTypeFullOutput, ExpenseTypeServiceProxy } from '@shared/service-proxies/service-proxies';
+import { CreateExpenseTypeComponent } from './create-expenseType/create-expenseType.component';
 
 
 @Component({
-  selector: 'app-apartment',
-  templateUrl: './apartment.component.html',
-  styleUrls: ['./apartment.component.css'],
+  selector: 'app-expenseType',
+  templateUrl: './expenseType.component.html',
+  styleUrls: ['./expenseType.component.css'],
   animations: [appModuleAnimation()]
 })
-export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullOutput> implements OnInit, AfterContentChecked {
-  entities: ApartmentFullOutput[];
-  selectedEntities : ApartmentFullOutput[];
+export class ExpenseTypeComponent extends PagedListingComponentBase<ExpenseTypeFullOutput> implements OnInit, AfterContentChecked {
+  entities: ExpenseTypeFullOutput[];
+  selectedEntities : ExpenseTypeFullOutput[];
   dataGridOptions : DataGridOptions;
   filteredDataRequest : TableFilterModel = new TableFilterModel();
   selectAll: boolean = false;
@@ -30,7 +28,7 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
   constructor(
     injector: Injector,
     private changeDetector: ChangeDetectorRef,
-    private _apartmentService : ApartmentServiceProxy,
+    private _expenseTypeService : ExpenseTypeServiceProxy,
     private _confirmationService : ConfirmationService,
     private _messageService: MessageService,
     private _modalService: BsModalService
@@ -39,20 +37,20 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Daireler');
-    this.dataGridOptions.permissionNameCreate  = 'Apartment.Create';
-    this.dataGridOptions.permissionNameUpdate  = 'Apartment.Update';
-    this.dataGridOptions.permissionNameDelete  = 'Apartment.Delete';
-    this.dataGridOptions.permissionNameExport  = 'Apartment.GetList';
+    this.dataGridOptions.title = this.l('Masraf Türleri');
+    this.dataGridOptions.permissionNameCreate  = 'ExpenseType.Create';
+    this.dataGridOptions.permissionNameUpdate  = 'ExpenseType.Update';
+    this.dataGridOptions.permissionNameDelete  = 'ExpenseType.Delete';
+    this.dataGridOptions.permissionNameExport  = 'ExpenseType.GetList';
 
 
     this.dataGridOptions.buttonActiveCreate = true;
-    this.dataGridOptions.buttonActiveUpdate = true;
+    this.dataGridOptions.buttonActiveUpdate = false;
     this.dataGridOptions.buttonActiveDelete = true;
     this.dataGridOptions.buttonActiveExport = true;
 
     this.dataGridOptions.buttonHiddenCreate = false;
-    this.dataGridOptions.buttonHiddenUpdate = false;
+    this.dataGridOptions.buttonHiddenUpdate = true ;
     this.dataGridOptions.buttonHiddenDelete = false;
     this.dataGridOptions.buttonHiddenExport = true;
 
@@ -69,20 +67,8 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Apartmanlar');
-    x.dataField = 'building.name';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l("İsim");
+    x.dataTitle = this.l("Masraf Türü");
     x.dataField = "name";
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Kat Numarası');
-    x.dataField = 'roofNo';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
@@ -91,7 +77,6 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     x.dataField = 'description';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
-
 
 
     this.dataGridOptions.parentComponent = this;
@@ -109,7 +94,7 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     pageNumber: number,
     finishedCallback: Function
   ): void {
-    this._apartmentService
+    this._expenseTypeService
     .getAllFiltered(this.filteredDataRequest)
     .pipe(
       finalize(() => {
@@ -143,13 +128,10 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
   }
 
   public create() {
-    this.showCreateOrEditApartmentDialog();
+    this.showCreateOrEditExpenseTypeDialog();
   }
 
-  public update(entitiy: ApartmentFullOutput) {
-   this.showCreateOrEditApartmentDialog(entitiy.id);
-  }
-  public delete(entitiy: ApartmentFullOutput): void {
+  public delete(entitiy: ExpenseTypeFullOutput): void {
 
     this._confirmationService.confirm({
       message: this.l('DeleteConfirmation'),
@@ -160,8 +142,8 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
       rejectButtonStyleClass : "p-button-secondary",
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this._apartmentService.delete(entitiy.id).subscribe(() => {
-          this._messageService.add({severity:'info', summary:this.l(entitiy.name + ' ' + 'başaralı şekilde silindi' ), detail : this.l('SuccessfullyDeleted')});
+        this._expenseTypeService.delete(entitiy.id).subscribe(() => {
+          this._messageService.add({severity:'info', summary:this.l('RequestCompleted'), detail : this.l('SuccessfullyDeleted')});
           this.refresh();
         });
       },
@@ -176,26 +158,16 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     });
   }
 
-  private showCreateOrEditApartmentDialog(id?: number): void {
+  private showCreateOrEditExpenseTypeDialog(): void {
     let createOrEditUserDialog: BsModalRef;
-    if (!id) {
+
       createOrEditUserDialog = this._modalService.show(
-        CreateApartmentComponent,
+        CreateExpenseTypeComponent,
         {
           class: 'modal-lg',
         }
       );
-    } else {
-      createOrEditUserDialog = this._modalService.show(
-       EditApartmentComponent,
-        {
-          class: 'modal-lg',
-          initialState: {
-             id: id,
-          },
-        }
-      );
-    }
+
 
     createOrEditUserDialog.content.onSave.subscribe(() => {
       this.refresh();
@@ -216,7 +188,7 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
       if (checked) {
         this.filteredDataRequest.rows = this.totalCount;
         this.filteredDataRequest.first = 0;
-        this._apartmentService
+        this._expenseTypeService
           .getAllFiltered(this.filteredDataRequest)
           .pipe(finalize(() => {}))
           .subscribe((response) => {

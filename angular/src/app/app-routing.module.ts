@@ -12,6 +12,8 @@ import { BuildingComponent } from './defination/building/building.component';
 import { ApartmentComponent } from './defination/apartment/apartment.component';
 import { HirerComponent } from './defination/hirer/hirer.component';
 import { InvoiceDetailComponent } from './defination/invoiceDetail/invoiceDetail.component';
+import { ExpenseComponent } from './defination/expense/expense.component';
+import { ExpenseTypeComponent } from './defination/expenseType/expenseType.component';
 
 @NgModule({
     imports: [
@@ -30,6 +32,8 @@ import { InvoiceDetailComponent } from './defination/invoiceDetail/invoiceDetail
                     { path: 'apartment', component: ApartmentComponent, canActivate: [AppRouteGuard] },
                     { path: 'hirer', component: HirerComponent, canActivate: [AppRouteGuard] },
                     { path: 'invoiceDetail', component: InvoiceDetailComponent, canActivate: [AppRouteGuard] },
+                    { path: 'expense', component: ExpenseComponent, canActivate: [AppRouteGuard] },
+                    { path: 'expenseType', component: ExpenseTypeComponent, canActivate: [AppRouteGuard] },
                 ]
             }
         ])

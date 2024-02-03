@@ -9,6 +9,9 @@ using Abp.Application.Services.Dto;
 using Microsoft.AspNetCore.Mvc;
 using PrimeNG.TableFilter.Models;
 using PrimeNG.TableFilter;
+using ManageApartments.Domain.Apartment.Dtos;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManageApartments.Domain.ExpenseType;
 
@@ -59,6 +62,13 @@ namespace ManageApartments.Domain.ExpenseType;
 
         return Repository.DeleteAsync(input.Id);
 
+    }
+
+    [HttpGet]
+    public async Task<List<ExpenseTypePartOutput>> GetExpenseTypePartOutputs()
+    {
+        var query = this._expenseTypeRepository.GetAll().ToListAsync();
+        return this.ObjectMapper.Map<List<ExpenseTypePartOutput>>(await query);
     }
 
 }
