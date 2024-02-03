@@ -11,6 +11,16 @@ using System.Linq;
 using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Hirer;
 using Microsoft.EntityFrameworkCore;
+using Abp.UI;
+using ManageApartments.Domain.Apartment.Dtos;
+using System.Collections.Generic;
+using ManageApartments.Domain.InvoiceDetail.Dtos;
+using ManageApartments.Domain.InvoiceDetail;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.InvoiceDetail;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Rent;
+using System.Linq.Dynamic.Core;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Fee;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
 
 namespace ManageApartments.Domain.Hirer;
 
@@ -21,11 +31,23 @@ public class HirerAppService :
         GetHirerInput, DeleteHirerInput>, IHirerAppService
 {
     private readonly IHirerRepository _hirerRepository;
+    private readonly IInvoiceDetailRepository _invoiceDetailRepository;
+    private readonly IRentRepository _rentRepository;
+    private readonly IFeeRepository _feeRepository;
+    private readonly IApartmentRepository _apartmentRepository;
 
 
-    public HirerAppService(IHirerRepository hirerRepository) : base(hirerRepository)
+    public HirerAppService(IHirerRepository hirerRepository,
+        IInvoiceDetailRepository invoiceDetailRepository, 
+        IRentRepository rentRepository, 
+        IFeeRepository feeRepository,
+        IApartmentRepository apartmentRepository) : base(hirerRepository)
     {
         _hirerRepository = hirerRepository;
+        _invoiceDetailRepository = invoiceDetailRepository;
+        _rentRepository = rentRepository;
+        _feeRepository = feeRepository;
+        _apartmentRepository = apartmentRepository;
 
     }
 
@@ -44,18 +66,76 @@ public class HirerAppService :
     }
 
     [HttpPost]
-    public override Task<HirerFullOutput> CreateAsync(CreateHirerInput input)
+    public async override Task<HirerFullOutput> CreateAsync(CreateHirerInput input)
     {
+        HirerFullOutput createdHirer = new();
 
-        return base.CreateAsync(input);
+        if (input.IsActive == false)
+        {
+            input.ApartmentId = null;
+            input.StartDate = null;
+            createdHirer = await base.CreateAsync(input);
+
+        }
+        else
+        {
+            createdHirer = await base.CreateAsync(input);
+        
+
+        DateTime? currentDate = createdHirer.StartDate;
+        var rent = _rentRepository.GetAll().FirstOrDefault(x=>x.IsActive==true && x.ApartmentId == createdHirer.ApartmentId);
+        var fee = _feeRepository.GetAll().FirstOrDefault(x => x.IsActive == true && x.ApartmentId == createdHirer.ApartmentId);
+
+
+
+            for (int i = 1; i < 13; i++)
+        {
+            Entities.InvoiceDetail invoiceDetail = new Entities.InvoiceDetail
+            {
+                HirerId = createdHirer.Id,
+                InvoiceType = Enums.InvoiceType.Rent,
+                Description = $"{i}.Ay",
+                Price= Convert.ToInt32(rent.Price),
+                IsPaid = false,
+                InvoiceDate= currentDate
+            };
+
+            currentDate = currentDate?.AddMonths(1);
+
+            await _invoiceDetailRepository.InsertAsync(invoiceDetail);
+
+        }
+            for (int i = 1; i < 13; i++)
+            {
+                Entities.InvoiceDetail invoiceDetail = new Entities.InvoiceDetail
+                {
+                    HirerId = createdHirer.Id,
+                    InvoiceType = Enums.InvoiceType.Fee,
+                    Description = $"{i}.Ay",
+                    Price = Convert.ToInt32(rent.Price),
+                    IsPaid = false,
+                    InvoiceDate = currentDate
+                };
+
+                currentDate = currentDate?.AddMonths(1);
+
+                await _invoiceDetailRepository.InsertAsync(invoiceDetail);
+
+            }
+
+        }
+
+        return createdHirer;
+
+
     }
 
 
     [HttpPut]
-    public override Task<HirerFullOutput> UpdateAsync(UpdateHirerInput input)
+    public async override Task<HirerFullOutput> UpdateAsync(UpdateHirerInput input)
     {
 
-        return base.UpdateAsync(input);
+        return await base.UpdateAsync(input);
     }
 
 
@@ -66,6 +146,14 @@ public class HirerAppService :
         return Repository.DeleteAsync(input.Id);
 
     }
+
+    [HttpGet]
+    public async Task<List<HirerPartOutput>> GetHirerPartOutputs()
+    {
+        var query = this._hirerRepository.GetAll().Include(x => x.Apartment).ToListAsync();
+        return this.ObjectMapper.Map<List<HirerPartOutput>>(await query);
+    }
+    
 
 
 }

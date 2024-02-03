@@ -13,7 +13,8 @@ namespace ManageApartments.Domain.Configurations
             builder.ToTable("InvoiceDetails");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Price).IsRequired();
-            builder.Property(x => x.InvoiceDate).IsRequired();
+            builder.Property(x => x.InvoiceDate);
+            builder.Property(x => x.Description);
             builder.Property(x => x.IsPaid).IsRequired();    
             builder.Property(x => x.RowVersion).IsRowVersion();
 

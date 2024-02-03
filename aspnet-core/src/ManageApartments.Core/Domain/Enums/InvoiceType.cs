@@ -6,12 +6,14 @@ namespace ManageApartments.Domain.Enums
     public enum InvoiceType
     {
         [Description("Aidat")]
-        Dues = 0,
-        [Description("Su")]
-        Water = 1,
+        Fee = 0,
+        [Description("Kira")]
+        Rent = 1,
         [Description("Elektrik")]
         Electric = 2,
-        [Description("Doğal Gaz")]
-        Heat = 3,
+        [Description("Diğer")]
+        Other = 3,
+
+
     }
 }

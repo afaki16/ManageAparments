@@ -3,7 +3,7 @@ import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core
 import { AppComponentBase } from '@shared/app-component-base';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { InvoiceDetailServiceProxy,CreateInvoiceDetailInput, ApartmentServiceProxy, ApartmentPartOutput } from '@shared/service-proxies/service-proxies';
+import { InvoiceDetailServiceProxy,CreateInvoiceDetailInput, ApartmentServiceProxy, ApartmentPartOutput, HirerPartOutput, HirerServiceProxy } from '@shared/service-proxies/service-proxies';
 import { log } from 'console';
 
 @Component({
@@ -16,27 +16,29 @@ export class CreateInvoiceDetailComponent extends AppComponentBase implements On
 
   saving : boolean = false;
   createInput : CreateInvoiceDetailInput = new CreateInvoiceDetailInput();
-  apartments: ApartmentPartOutput[];
+  invoiceTypes = [];
+  hirers: HirerPartOutput[];
 
 
   constructor(
     injector: Injector,
     private _invoiceDetailService: InvoiceDetailServiceProxy,
     private _messageService: MessageService,
-    private _apartmentService: ApartmentServiceProxy,
+    private _hirerService: HirerServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
   }
 
   ngOnInit() {
-    this.getApartments();
+    this.invoiceTypes = this.getInvoiceTypeEnumsAndValues();
+    this.getHirers();
   }
 
-  getApartments() {
-    this._apartmentService.getApartmentPartOutputs().subscribe((response) => {
+  getHirers() {
+    this._hirerService.getHirerPartOutputs().subscribe((response) => {
         if (response) {
-            this.apartments = response;
+            this.hirers = response;
             this.saving = false;
         } else {
             this.saving = false;

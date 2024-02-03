@@ -4,6 +4,7 @@ using ManageApartments.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ManageApartments.Migrations
 {
     [DbContext(typeof(ManageApartmentsDbContext))]
-    partial class ManageApartmentsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240203164016_Add new properties for InvoiceDetail")]
+    partial class AddnewpropertiesforInvoiceDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1991,7 +1994,7 @@ namespace ManageApartments.Migrations
                     b.Property<int?>("HirerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("InvoiceDate")
+                    b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("InvoiceType")
@@ -2009,8 +2012,8 @@ namespace ManageApartments.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

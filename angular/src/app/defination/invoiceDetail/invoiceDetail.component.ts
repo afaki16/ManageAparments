@@ -11,6 +11,7 @@ import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api
 import { InvoiceDetailFullOutput, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
 import { CreateInvoiceDetailComponent } from './create-invoiceDetail/create-invoiceDetail.component';
 import { EditInvoiceDetailComponent } from './edit-invoiceDetail/edit-invoiceDetail.component';
+import { InvoiceTypeEnum } from '@app/service/enum/InvoiceType';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
   selectedEntities : InvoiceDetailFullOutput[];
   dataGridOptions : DataGridOptions;
   filteredDataRequest : TableFilterModel = new TableFilterModel();
+  invoiceTypeEnum = InvoiceTypeEnum;
   selectAll: boolean = false;
   totalCount: number ;
   constructor(
@@ -38,7 +40,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Fatura Detay');
+    this.dataGridOptions.title = this.l('Ödemeler');
     this.dataGridOptions.permissionNameCreate  = 'InvoiceDetail.Create';
     this.dataGridOptions.permissionNameUpdate  = 'InvoiceDetail.Update';
     this.dataGridOptions.permissionNameDelete  = 'InvoiceDetail.Delete';
@@ -68,30 +70,6 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l("Ücret");
-    x.dataField = "price";
-    x.dataType = DataGridColumnType.number;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Fatura Tarihi');
-    x.dataField = 'invoiceDate';
-    x.dataType = DataGridColumnType.date;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Son Ödeme Tarihi');
-    x.dataField = 'lastPaymentDate';
-    x.dataType = DataGridColumnType.date;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Ödendi mi?');
-    x.dataField = 'isPaid';
-    x.dataType = DataGridColumnType.boolean;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
     x.dataTitle = this.l('Kiracı Adı');
     x.dataField = 'hirer.firstName';
     x.dataType = DataGridColumnType.string;
@@ -101,6 +79,40 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     x.dataTitle = this.l('Kiracı Soyadı');
     x.dataField = 'hirer.lastName';
     x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Borç Türü');
+    x.dataField = "invoiceType";
+    x.dataType = DataGridColumnType.enum;
+    x.dataEnum = this.invoiceTypeEnum;
+    x.sortingEnabled = false;
+    x.filteringEnabled = true;
+    x.dataFieldLocalize = true;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l("Tutar");
+    x.dataField = "price";
+    x.dataType = DataGridColumnType.number;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Tarih');
+    x.dataField = 'invoiceDate';
+    x.dataType = DataGridColumnType.date;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Açıklama');
+    x.dataField = 'description';
+    x.dataType = DataGridColumnType.string;
+    this.dataGridOptions.columns.push(x);
+
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Ödendi mi?');
+    x.dataField = 'isPaid';
+    x.dataType = DataGridColumnType.boolean;
     this.dataGridOptions.columns.push(x);
 
 

@@ -14,6 +14,8 @@ using Abp.UI;
 using Microsoft.EntityFrameworkCore;
 using ManageApartments.Domain.Building.Dtos;
 using System.Collections.Generic;
+using ManageApartments.Domain.Hirer.Dtos;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Hirer;
 
 namespace ManageApartments.Domain.Apartment;
 
@@ -24,11 +26,13 @@ public class ApartmentAppService :
         GetApartmentInput, DeleteApartmentInput>, IApartmentAppService
 {
     private readonly IApartmentRepository _apartmentRepository;
+    private readonly IHirerRepository _hirerRepository;
 
 
-    public ApartmentAppService(IApartmentRepository apartmentRepository) : base(apartmentRepository)
+    public ApartmentAppService(IApartmentRepository apartmentRepository, IHirerRepository hirerRepository) : base(apartmentRepository)
     {
         _apartmentRepository = apartmentRepository;
+        _hirerRepository = hirerRepository;
 
     }
 
@@ -63,20 +67,6 @@ public class ApartmentAppService :
         }
     }
 
-    //Entities.MaterialTransaction materialTransaction = new Entities.MaterialTransaction()
-    //{
-    //    ShelfId = oldLocation,
-    //    NewShelfId = input.ShelfId,
-    //    MaterialId = material.Id,
-    //    Description = input.Description,
-    //    PhotoUrl = input.PhotoUrl,
-    //    UserId = input.UserId,
-    //};
-
-    //await _materialTransactionRepository.InsertAsync(materialTransaction);
-
-    //        return ObjectMapper.Map<MaterialFullOutput>(material);
-
 
     [HttpPut]
     public override Task<ApartmentFullOutput> UpdateAsync(UpdateApartmentInput input)
@@ -99,6 +89,26 @@ public class ApartmentAppService :
     {
         var query = this._apartmentRepository.GetAll().Include(x => x.Building).ToListAsync();
         return this.ObjectMapper.Map<List<ApartmentPartOutput>>(await query);
+    }
+
+    [HttpGet]
+    public async Task<List<ApartmentPartOutput>> GetActiveApartmentPartOutputs()
+    {
+
+        var query = from apartment in _apartmentRepository.GetAll()
+                    join hirer in _hirerRepository.GetAll()
+                    on apartment.Id equals hirer.ApartmentId into hirerGroup
+                    from h in hirerGroup.DefaultIfEmpty()
+                    where h == null
+                    select new
+                    {
+                        Apartment = apartment,
+                    };
+
+
+
+
+        return this.ObjectMapper.Map<List<ApartmentPartOutput>>(query);
     }
 
 

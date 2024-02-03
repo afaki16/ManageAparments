@@ -2675,6 +2675,64 @@ export class HirerServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getHirerPartOutputs(): Observable<HirerPartOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/Hirer/GetHirerPartOutputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetHirerPartOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetHirerPartOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<HirerPartOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<HirerPartOutput[]>;
+        }));
+    }
+
+    protected processGetHirerPartOutputs(response: HttpResponseBase): Observable<HirerPartOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(HirerPartOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -6102,7 +6160,8 @@ export interface ICreateHirerInput {
 export class CreateInvoiceDetailInput implements ICreateInvoiceDetailInput {
     price: number;
     invoiceDate: moment.Moment;
-    lastPaymentDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
 
@@ -6119,7 +6178,8 @@ export class CreateInvoiceDetailInput implements ICreateInvoiceDetailInput {
         if (_data) {
             this.price = _data["price"];
             this.invoiceDate = _data["invoiceDate"] ? moment(_data["invoiceDate"].toString()) : <any>undefined;
-            this.lastPaymentDate = _data["lastPaymentDate"] ? moment(_data["lastPaymentDate"].toString()) : <any>undefined;
+            this.invoiceType = _data["invoiceType"];
+            this.description = _data["description"];
             this.isPaid = _data["isPaid"];
             this.hirerId = _data["hirerId"];
         }
@@ -6136,7 +6196,8 @@ export class CreateInvoiceDetailInput implements ICreateInvoiceDetailInput {
         data = typeof data === 'object' ? data : {};
         data["price"] = this.price;
         data["invoiceDate"] = this.invoiceDate ? this.invoiceDate.toISOString() : <any>undefined;
-        data["lastPaymentDate"] = this.lastPaymentDate ? this.lastPaymentDate.toISOString() : <any>undefined;
+        data["invoiceType"] = this.invoiceType;
+        data["description"] = this.description;
         data["isPaid"] = this.isPaid;
         data["hirerId"] = this.hirerId;
         return data;
@@ -6153,7 +6214,8 @@ export class CreateInvoiceDetailInput implements ICreateInvoiceDetailInput {
 export interface ICreateInvoiceDetailInput {
     price: number;
     invoiceDate: moment.Moment;
-    lastPaymentDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
 }
@@ -7390,7 +7452,8 @@ export class InvoiceDetailFullOutput implements IInvoiceDetailFullOutput {
     id: number;
     price: number;
     invoiceDate: moment.Moment;
-    lastPaymentDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
     hirer: HirerPartOutput;
@@ -7409,7 +7472,8 @@ export class InvoiceDetailFullOutput implements IInvoiceDetailFullOutput {
             this.id = _data["id"];
             this.price = _data["price"];
             this.invoiceDate = _data["invoiceDate"] ? moment(_data["invoiceDate"].toString()) : <any>undefined;
-            this.lastPaymentDate = _data["lastPaymentDate"] ? moment(_data["lastPaymentDate"].toString()) : <any>undefined;
+            this.invoiceType = _data["invoiceType"];
+            this.description = _data["description"];
             this.isPaid = _data["isPaid"];
             this.hirerId = _data["hirerId"];
             this.hirer = _data["hirer"] ? HirerPartOutput.fromJS(_data["hirer"]) : <any>undefined;
@@ -7428,7 +7492,8 @@ export class InvoiceDetailFullOutput implements IInvoiceDetailFullOutput {
         data["id"] = this.id;
         data["price"] = this.price;
         data["invoiceDate"] = this.invoiceDate ? this.invoiceDate.toISOString() : <any>undefined;
-        data["lastPaymentDate"] = this.lastPaymentDate ? this.lastPaymentDate.toISOString() : <any>undefined;
+        data["invoiceType"] = this.invoiceType;
+        data["description"] = this.description;
         data["isPaid"] = this.isPaid;
         data["hirerId"] = this.hirerId;
         data["hirer"] = this.hirer ? this.hirer.toJSON() : <any>undefined;
@@ -7447,7 +7512,8 @@ export interface IInvoiceDetailFullOutput {
     id: number;
     price: number;
     invoiceDate: moment.Moment;
-    lastPaymentDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
     hirer: HirerPartOutput;
@@ -7506,6 +7572,13 @@ export class InvoiceDetailFullOutputPagedResultDto implements IInvoiceDetailFull
 export interface IInvoiceDetailFullOutputPagedResultDto {
     items: InvoiceDetailFullOutput[] | undefined;
     totalCount: number;
+}
+
+export enum InvoiceType {
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
+    _3 = 3,
 }
 
 export class IsTenantAvailableInput implements IIsTenantAvailableInput {
@@ -9055,7 +9128,8 @@ export class UpdateInvoiceDetailInput implements IUpdateInvoiceDetailInput {
     id: number;
     price: number;
     invoiceDate: moment.Moment;
-    lastPaymentDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
 
@@ -9073,7 +9147,8 @@ export class UpdateInvoiceDetailInput implements IUpdateInvoiceDetailInput {
             this.id = _data["id"];
             this.price = _data["price"];
             this.invoiceDate = _data["invoiceDate"] ? moment(_data["invoiceDate"].toString()) : <any>undefined;
-            this.lastPaymentDate = _data["lastPaymentDate"] ? moment(_data["lastPaymentDate"].toString()) : <any>undefined;
+            this.invoiceType = _data["invoiceType"];
+            this.description = _data["description"];
             this.isPaid = _data["isPaid"];
             this.hirerId = _data["hirerId"];
         }
@@ -9091,7 +9166,8 @@ export class UpdateInvoiceDetailInput implements IUpdateInvoiceDetailInput {
         data["id"] = this.id;
         data["price"] = this.price;
         data["invoiceDate"] = this.invoiceDate ? this.invoiceDate.toISOString() : <any>undefined;
-        data["lastPaymentDate"] = this.lastPaymentDate ? this.lastPaymentDate.toISOString() : <any>undefined;
+        data["invoiceType"] = this.invoiceType;
+        data["description"] = this.description;
         data["isPaid"] = this.isPaid;
         data["hirerId"] = this.hirerId;
         return data;
@@ -9109,7 +9185,8 @@ export interface IUpdateInvoiceDetailInput {
     id: number;
     price: number;
     invoiceDate: moment.Moment;
-    lastPaymentDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
 }

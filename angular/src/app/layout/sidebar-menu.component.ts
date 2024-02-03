@@ -46,7 +46,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(this.l('Binalar'), '/app/building', "ml-2 fas fa-building"),
             new MenuItem(this.l('Daireler'), '/app/apartment', 'fas fa-home'),
             new MenuItem(this.l('Kiracılar'), '/app/hirer', "ml-2 fa fa-handshake"),
-            new MenuItem(this.l('Fatura Detayları'), '/app/invoiceDetail', "ml-2 fas fa-receipt"),
+            new MenuItem(this.l('Ödemeler'), '/app/invoiceDetail', "ml-2 fas fa-receipt"),
             new MenuItem(this.l('Masraflar'), '', 'fa-solid fa-money-check-dollar', '', [
 
                     new MenuItem(
