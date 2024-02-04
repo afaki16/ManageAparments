@@ -47,6 +47,26 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(this.l('Daireler'), '/app/apartment', 'fas fa-home'),
             new MenuItem(this.l('Kiracılar'), '/app/hirer', "ml-2 fa fa-handshake"),
             new MenuItem(this.l('Ödemeler'), '/app/invoiceDetail', "ml-2 fas fa-receipt"),
+            new MenuItem(this.l('İşlemler'), '', "fa fa-bar-chart ml-2 nav-icon",'',[
+
+                new MenuItem(
+                    'Kira Düzenle',
+                    '/app/expense',
+                    'fa-solid fa-file-invoice-dollar'
+                ),
+                new MenuItem(
+                    'Kiracı Ekle',
+                    '/app/expenseType',
+                    'fa-solid fa-hurricane'
+                ),
+                new MenuItem(
+                    'Kiracı Çıkart',
+                    '/app/expenseType',
+                    'fa-solid fa-hurricane'
+                ),
+
+        ]),
+
             new MenuItem(this.l('Masraflar'), '', 'fa-solid fa-money-check-dollar', '', [
 
                     new MenuItem(
@@ -61,6 +81,8 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                     ),
 
             ]),
+            new MenuItem(this.l('Kiracı Takip'), '/app/hirer', "ml-2 fa fa-handshake"),
+
 
             new MenuItem(
                 this.l('Roles'),
