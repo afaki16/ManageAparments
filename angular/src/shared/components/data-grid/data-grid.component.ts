@@ -28,6 +28,7 @@ export class DataGridComponent extends AppComponentBase implements OnInit {
 
   constructor(
     injector: Injector,
+    private _datePipe: DatePipe
 
   ) {
     super(injector);
@@ -77,6 +78,28 @@ export class DataGridComponent extends AppComponentBase implements OnInit {
       case DataGridColumnType.enum:
         return this.l(
           enumData.find((x) => x.id == rowData[dataField]).displayName
+        );
+        case DataGridColumnType.date:
+          return (
+            this._datePipe.transform(
+              new Date(rowData[dataField])?.toString(),
+              "shortDate"
+            ) +
+            " " +
+            this._datePipe.transform(
+              new Date(rowData[dataField])?.toString(),
+              "mediumTime"
+            )
+          );
+          case DataGridColumnType.dateOnly:
+        return this._datePipe.transform(
+          new Date(rowData[dataField])?.toString(),
+          "shortDate"
+        );
+      case DataGridColumnType.timeOnly:
+        return this._datePipe.transform(
+          new Date(rowData[dataField])?.toString(),
+          "mediumTime"
         );
 
       case DataGridColumnType.color:

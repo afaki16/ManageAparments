@@ -99,7 +99,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
 
     x = new DataGridColumn();
     x.dataTitle = this.l('Tarih');
-    x.dataField = 'invoiceDate';
+    x.dataField = 'invoiceDate._d';
     x.dataType = DataGridColumnType.date;
     this.dataGridOptions.columns.push(x);
 

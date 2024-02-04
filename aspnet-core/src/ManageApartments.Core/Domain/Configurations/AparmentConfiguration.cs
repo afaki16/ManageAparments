@@ -15,6 +15,7 @@ namespace ManageApartments.Domain.Configurations
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.Description);
             builder.Property(x => x.RoofNo);
+            builder.Property(x => x.IsActive);
             builder.Property(x => x.RowVersion).IsRowVersion();
 
             builder.HasMany(x => x.Hirers).WithOne(x => x.Apartment).HasForeignKey(x => x.ApartmentId);

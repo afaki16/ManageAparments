@@ -33,7 +33,7 @@ export class CreateHirerComponent extends AppComponentBase implements OnInit {
   }
 
   getApartments() {
-    this._apartmentService.getApartmentPartOutputs().subscribe((response) => {
+    this._apartmentService.getActiveApartmentPartOutputs().subscribe((response) => {
         if (response) {
             this.apartments = response;
             this.saving = false;
@@ -47,11 +47,11 @@ export class CreateHirerComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
-
+debugger
      this._hirerService.create(this.createInput).subscribe(
       (response) => {
         if (response) {
-          this._messageService.add({ severity: 'success', summary: this.l('RequestCompleted'), detail: this.l('SavedSuccessfully') });
+          this._messageService.add({ severity: 'success', summary: this.l('Kiracı Oluşturuldu.'), detail: this.l('SavedSuccessfully') });
           this.bsModalRef.hide();
           this.onSave.emit();
         }

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -52,7 +52,8 @@ export class SharedModule {
                 AppUrlService,
                 AppAuthService,
                 AppRouteGuard,
-                LayoutStoreService
+                LayoutStoreService,
+                DatePipe
             ]
         };
     }

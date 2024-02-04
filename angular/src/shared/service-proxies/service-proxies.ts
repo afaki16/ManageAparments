@@ -431,6 +431,64 @@ export class ApartmentServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getActiveApartmentPartOutputs(): Observable<ApartmentPartOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/Apartment/GetActiveApartmentPartOutputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetActiveApartmentPartOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetActiveApartmentPartOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<ApartmentPartOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<ApartmentPartOutput[]>;
+        }));
+    }
+
+    protected processGetActiveApartmentPartOutputs(response: HttpResponseBase): Observable<ApartmentPartOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(ApartmentPartOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -5057,6 +5115,7 @@ export class ApartmentFullOutput implements IApartmentFullOutput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
     building: BuildingPartOutput;
     hirers: HirerFullOutput[] | undefined;
@@ -5079,6 +5138,7 @@ export class ApartmentFullOutput implements IApartmentFullOutput {
             this.name = _data["name"];
             this.description = _data["description"];
             this.roofNo = _data["roofNo"];
+            this.isActive = _data["isActive"];
             this.buildingId = _data["buildingId"];
             this.building = _data["building"] ? BuildingPartOutput.fromJS(_data["building"]) : <any>undefined;
             if (Array.isArray(_data["hirers"])) {
@@ -5117,6 +5177,7 @@ export class ApartmentFullOutput implements IApartmentFullOutput {
         data["name"] = this.name;
         data["description"] = this.description;
         data["roofNo"] = this.roofNo;
+        data["isActive"] = this.isActive;
         data["buildingId"] = this.buildingId;
         data["building"] = this.building ? this.building.toJSON() : <any>undefined;
         if (Array.isArray(this.hirers)) {
@@ -5155,6 +5216,7 @@ export interface IApartmentFullOutput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
     building: BuildingPartOutput;
     hirers: HirerFullOutput[] | undefined;
@@ -5223,6 +5285,7 @@ export class ApartmentPartOutput implements IApartmentPartOutput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
     building: BuildingPartOutput;
 
@@ -5241,6 +5304,7 @@ export class ApartmentPartOutput implements IApartmentPartOutput {
             this.name = _data["name"];
             this.description = _data["description"];
             this.roofNo = _data["roofNo"];
+            this.isActive = _data["isActive"];
             this.buildingId = _data["buildingId"];
             this.building = _data["building"] ? BuildingPartOutput.fromJS(_data["building"]) : <any>undefined;
         }
@@ -5259,6 +5323,7 @@ export class ApartmentPartOutput implements IApartmentPartOutput {
         data["name"] = this.name;
         data["description"] = this.description;
         data["roofNo"] = this.roofNo;
+        data["isActive"] = this.isActive;
         data["buildingId"] = this.buildingId;
         data["building"] = this.building ? this.building.toJSON() : <any>undefined;
         return data;
@@ -5277,6 +5342,7 @@ export interface IApartmentPartOutput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
     building: BuildingPartOutput;
 }
@@ -5764,6 +5830,7 @@ export class CreateApartmentInput implements ICreateApartmentInput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
 
     constructor(data?: ICreateApartmentInput) {
@@ -5780,6 +5847,7 @@ export class CreateApartmentInput implements ICreateApartmentInput {
             this.name = _data["name"];
             this.description = _data["description"];
             this.roofNo = _data["roofNo"];
+            this.isActive = _data["isActive"];
             this.buildingId = _data["buildingId"];
         }
     }
@@ -5796,6 +5864,7 @@ export class CreateApartmentInput implements ICreateApartmentInput {
         data["name"] = this.name;
         data["description"] = this.description;
         data["roofNo"] = this.roofNo;
+        data["isActive"] = this.isActive;
         data["buildingId"] = this.buildingId;
         return data;
     }
@@ -5812,6 +5881,7 @@ export interface ICreateApartmentInput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
 }
 
@@ -6159,7 +6229,7 @@ export interface ICreateHirerInput {
 
 export class CreateInvoiceDetailInput implements ICreateInvoiceDetailInput {
     price: number;
-    invoiceDate: moment.Moment;
+    invoiceDate: moment.Moment | undefined;
     invoiceType: InvoiceType;
     description: string | undefined;
     isPaid: boolean;
@@ -6213,7 +6283,7 @@ export class CreateInvoiceDetailInput implements ICreateInvoiceDetailInput {
 
 export interface ICreateInvoiceDetailInput {
     price: number;
-    invoiceDate: moment.Moment;
+    invoiceDate: moment.Moment | undefined;
     invoiceType: InvoiceType;
     description: string | undefined;
     isPaid: boolean;
@@ -7451,7 +7521,7 @@ export interface IInt64EntityDto {
 export class InvoiceDetailFullOutput implements IInvoiceDetailFullOutput {
     id: number;
     price: number;
-    invoiceDate: moment.Moment;
+    invoiceDate: moment.Moment | undefined;
     invoiceType: InvoiceType;
     description: string | undefined;
     isPaid: boolean;
@@ -7511,7 +7581,7 @@ export class InvoiceDetailFullOutput implements IInvoiceDetailFullOutput {
 export interface IInvoiceDetailFullOutput {
     id: number;
     price: number;
-    invoiceDate: moment.Moment;
+    invoiceDate: moment.Moment | undefined;
     invoiceType: InvoiceType;
     description: string | undefined;
     isPaid: boolean;
@@ -8704,6 +8774,7 @@ export class UpdateApartmentInput implements IUpdateApartmentInput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
 
     constructor(data?: IUpdateApartmentInput) {
@@ -8721,6 +8792,7 @@ export class UpdateApartmentInput implements IUpdateApartmentInput {
             this.name = _data["name"];
             this.description = _data["description"];
             this.roofNo = _data["roofNo"];
+            this.isActive = _data["isActive"];
             this.buildingId = _data["buildingId"];
         }
     }
@@ -8738,6 +8810,7 @@ export class UpdateApartmentInput implements IUpdateApartmentInput {
         data["name"] = this.name;
         data["description"] = this.description;
         data["roofNo"] = this.roofNo;
+        data["isActive"] = this.isActive;
         data["buildingId"] = this.buildingId;
         return data;
     }
@@ -8755,6 +8828,7 @@ export interface IUpdateApartmentInput {
     name: string | undefined;
     description: string | undefined;
     roofNo: string | undefined;
+    isActive: boolean | undefined;
     buildingId: number | undefined;
 }
 
@@ -9127,7 +9201,7 @@ export interface IUpdateHirerInput {
 export class UpdateInvoiceDetailInput implements IUpdateInvoiceDetailInput {
     id: number;
     price: number;
-    invoiceDate: moment.Moment;
+    invoiceDate: moment.Moment | undefined;
     invoiceType: InvoiceType;
     description: string | undefined;
     isPaid: boolean;
@@ -9184,7 +9258,7 @@ export class UpdateInvoiceDetailInput implements IUpdateInvoiceDetailInput {
 export interface IUpdateInvoiceDetailInput {
     id: number;
     price: number;
-    invoiceDate: moment.Moment;
+    invoiceDate: moment.Moment | undefined;
     invoiceType: InvoiceType;
     description: string | undefined;
     isPaid: boolean;

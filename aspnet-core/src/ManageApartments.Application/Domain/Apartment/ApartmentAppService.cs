@@ -94,21 +94,8 @@ public class ApartmentAppService :
     [HttpGet]
     public async Task<List<ApartmentPartOutput>> GetActiveApartmentPartOutputs()
     {
-
-        var query = from apartment in _apartmentRepository.GetAll()
-                    join hirer in _hirerRepository.GetAll()
-                    on apartment.Id equals hirer.ApartmentId into hirerGroup
-                    from h in hirerGroup.DefaultIfEmpty()
-                    where h == null
-                    select new
-                    {
-                        Apartment = apartment,
-                    };
-
-
-
-
-        return this.ObjectMapper.Map<List<ApartmentPartOutput>>(query);
+        var query = this._apartmentRepository.GetAll().Include(x => x.Building).Where(x=>x.IsActive!=true).ToListAsync();
+        return this.ObjectMapper.Map<List<ApartmentPartOutput>>(await query);
     }
 
 

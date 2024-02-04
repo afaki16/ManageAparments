@@ -21,6 +21,7 @@ using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Rent;
 using System.Linq.Dynamic.Core;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Fee;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
+using ManageApartments.Domain.Entities;
 
 namespace ManageApartments.Domain.Hirer;
 
@@ -105,6 +106,7 @@ public class HirerAppService :
             await _invoiceDetailRepository.InsertAsync(invoiceDetail);
 
         }
+            currentDate = createdHirer.StartDate;
             for (int i = 1; i < 13; i++)
             {
                 Entities.InvoiceDetail invoiceDetail = new Entities.InvoiceDetail
@@ -112,7 +114,7 @@ public class HirerAppService :
                     HirerId = createdHirer.Id,
                     InvoiceType = Enums.InvoiceType.Fee,
                     Description = $"{i}.Ay",
-                    Price = Convert.ToInt32(rent.Price),
+                    Price = Convert.ToInt32(fee.Price),
                     IsPaid = false,
                     InvoiceDate = currentDate
                 };
@@ -122,6 +124,10 @@ public class HirerAppService :
                 await _invoiceDetailRepository.InsertAsync(invoiceDetail);
 
             }
+            
+            var apartment = _apartmentRepository.GetAll().FirstOrDefault(x => x.Id == createdHirer.ApartmentId);
+            apartment.IsActive= true;
+            await _apartmentRepository.UpdateAsync(apartment);
 
         }
 

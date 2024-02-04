@@ -36,7 +36,7 @@ export class EditHirerComponent extends AppComponentBase implements OnInit {
   }
 
   getApartments() {
-    this._apartmentService.getApartmentPartOutputs().subscribe((response) => {
+    this._apartmentService.getActiveApartmentPartOutputs().subscribe((response) => {
         if (response) {
             this.apartments = response;
             this.saving = false;
@@ -54,7 +54,7 @@ export class EditHirerComponent extends AppComponentBase implements OnInit {
     this._hirerService.update(this.updateInput).subscribe(
       (response) => {
         if (response) {
-          this._messageService.add({ severity: 'success', summary: this.l('RequestCompleted'), detail: this.l('SavedSuccessfully') });
+          this._messageService.add({ severity: 'success', summary: this.l('Kiracı Güncellendi.'), detail: this.l('SavedSuccessfully') });
           this.bsModalRef.hide();
           this.onSave.emit();
         }
