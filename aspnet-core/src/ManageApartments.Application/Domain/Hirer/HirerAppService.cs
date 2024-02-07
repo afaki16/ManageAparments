@@ -159,7 +159,15 @@ public class HirerAppService :
         var query = this._hirerRepository.GetAll().Include(x => x.Apartment).ToListAsync();
         return this.ObjectMapper.Map<List<HirerPartOutput>>(await query);
     }
-    
+
+    [HttpGet]
+    public async Task<List<HirerPartOutput>> GetActiveHirerPartOutputs()
+    {
+        var query = this._hirerRepository.GetAll().Include(x => x.Apartment).Where(x => x.IsActive != true).ToListAsync();
+        return this.ObjectMapper.Map<List<HirerPartOutput>>(await query);
+
+    }
+
 
 
 }

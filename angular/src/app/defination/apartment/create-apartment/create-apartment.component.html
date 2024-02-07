@@ -38,7 +38,7 @@
       ></abp-validation-summary>
       </div>
     </div>
-
+ <!-- Daire Adı -->
     <div class="field grid">
       <label
         for="name"
@@ -65,7 +65,7 @@
       ></abp-validation-summary>
       </div>
     </div>
-
+ <!-- Kat Numarası -->
     <div class="field grid">
         <label
         for="roofNo"
@@ -114,7 +114,7 @@
               <i class="pi pi-sun"></i>
               <span>Elektrik</span>
           </ng-template>
-
+     <!-- Sayaç No -->
           <div class="field grid">
             <label
             for="numeratorNo"
@@ -139,6 +139,32 @@
           ></abp-validation-summary>
           </div>
         </div>
+
+     <!-- Kw -->
+        <div class="field grid">
+          <label
+          for="numeratorNo"
+          class="col-4 mb-4 md:col-4 md:mb-0"
+          >{{ "KW" | localize }}</label
+        >
+      <div class="col-8 md:col-8">
+          <input
+            type="text"
+            id="kw"
+            name="kw"
+            maxlength="20"
+            [placeholder]="'KW' | localize"
+            [(ngModel)]="createInputElectric.kw"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            #factoryKWModel="ngModel"
+            #factoryKWError
+          />
+          <abp-validation-summary
+          [control]="factoryKWModel"
+          [controlEl]="factoryKWError"
+        ></abp-validation-summary>
+        </div>
+      </div>
       </p-tabPanel>
       <!-- Aidat -->
       <p-tabPanel header="Header II">

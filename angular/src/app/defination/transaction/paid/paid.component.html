@@ -1,0 +1,54 @@
+<section class="content-header" style="padding: 5px 0.5rem">
+</section>
+<section class="content px-2" style="height: calc(100vh - 159px)">
+
+<div class="card">
+  <h5 class="p-toolbar p-component">Tahsilatlar</h5>
+<form>
+<div class="modal-body">
+  <!-- Daire  -->
+  <div class="field grid" >
+    <label for="hirer" class="col-4 mb-4 md:col-4 md:mb-0">{{
+      "Daire" | localize
+    }}</label>
+    <div class="col-8 md:col-8">
+      <p-dropdown
+
+        optionLabel="firstName"
+        optionValue="id"
+
+
+        [style]="{ width: '100%' }"
+        [placeholder]="'Kiracı Seçiniz' | localize"
+
+        >
+
+      </p-dropdown>
+
+    </div>
+    </div>
+  <!-- Kiracı  -->
+  <div class="field grid" >
+   <label for="hirer" class="col-4 mb-4 md:col-4 md:mb-0">{{
+     "Kiracı" | localize
+   }}</label>
+   <div class="col-8 md:col-8">
+     <p-dropdown
+
+       optionLabel="firstName"
+       optionValue="id"
+
+
+       [style]="{ width: '100%' }"
+       [placeholder]="'Kiracı Seçiniz' | localize"
+
+       >
+
+     </p-dropdown>
+
+   </div>
+ </div>
+ </div>
+</form>
+</div>
+</section>

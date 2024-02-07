@@ -47,22 +47,28 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(this.l('Daireler'), '/app/apartment', 'fas fa-home'),
             new MenuItem(this.l('Kiracılar'), '/app/hirer', "ml-2 fa fa-handshake"),
             new MenuItem(this.l('Ödemeler'), '/app/invoiceDetail', "ml-2 fas fa-receipt"),
-            new MenuItem(this.l('İşlemler'), '', "fa fa-bar-chart ml-2 nav-icon",'',[
+            new MenuItem(this.l('Ödeme Takip'), '/app/payment', "fa-solid fa-cart-shopping"),
 
+            new MenuItem(this.l('İşlemler'), '', "fa fa-bar-chart ml-2 nav-icon",'',[
+                new MenuItem(
+                    'Tahsilatlar',
+                    '/app/paid',
+                    'fas fa-check'
+                ),
                 new MenuItem(
                     'Kira Düzenle',
-                    '/app/expense',
-                    'fa-solid fa-file-invoice-dollar'
+                    '/app/changeRent',
+                    'fa-solid fa-arrows-rotate'
                 ),
                 new MenuItem(
-                    'Kiracı Ekle',
-                    '/app/expenseType',
-                    'fa-solid fa-hurricane'
+                    'Daireyi Boşalt',
+                    '/app/outHirer',
+                    'fa-solid fa-arrow-turn-up'
                 ),
                 new MenuItem(
-                    'Kiracı Çıkart',
-                    '/app/expenseType',
-                    'fa-solid fa-hurricane'
+                    'Kiracı Yerleştir',
+                    '/app/inHirer',
+                    'fa-solid fa-arrow-turn-down'
                 ),
 
         ]),
@@ -81,8 +87,6 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                     ),
 
             ]),
-            new MenuItem(this.l('Kiracı Takip'), '/app/hirer', "ml-2 fa fa-handshake"),
-
 
             new MenuItem(
                 this.l('Roles'),

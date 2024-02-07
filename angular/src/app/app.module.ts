@@ -68,9 +68,15 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
  //expenseType
  import {ExpenseTypeComponent} from '@app/defination/expenseType/expenseType.component';
  import {CreateExpenseTypeComponent} from '@app/defination/expenseType/create-expenseType/create-expenseType.component';
-
-
-
+ //payment
+ import {PaymentComponent} from '@app/defination/payment/payment.component';
+ //In-Out Hirer
+ import {InHirerComponent} from '@app/defination/transaction/inHirer/inHirer.component';
+ import {OutHirerComponent} from '@app/defination/transaction/outHirer/outHirer.component';
+  //changeRent
+ import {ChangeRentComponent} from '@app/defination/transaction/changeRent/changeRent.component';
+  //paid
+  import {PaidComponent} from '@app/defination/transaction/paid/paid.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -125,6 +131,20 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
          //expenseType
          ExpenseTypeComponent,
          CreateExpenseTypeComponent,
+
+         //payment
+         PaymentComponent,
+
+         //in-out hirer
+         InHirerComponent,
+         OutHirerComponent,
+
+         //changeRent
+         ChangeRentComponent,
+
+         //paid
+         PaidComponent,
+
 
     ],
     imports: [

@@ -14,6 +14,11 @@ import { HirerComponent } from './defination/hirer/hirer.component';
 import { InvoiceDetailComponent } from './defination/invoiceDetail/invoiceDetail.component';
 import { ExpenseComponent } from './defination/expense/expense.component';
 import { ExpenseTypeComponent } from './defination/expenseType/expenseType.component';
+import { PaymentComponent } from './defination/payment/payment.component';
+import { InHirerComponent } from './defination/transaction/inHirer/inHirer.component';
+import { OutHirerComponent } from './defination/transaction/outHirer/outHirer.component';
+import { ChangeRentComponent } from './defination/transaction/changeRent/changeRent.component';
+import { PaidComponent } from './defination/transaction/paid/paid.component';
 
 @NgModule({
     imports: [
@@ -34,6 +39,11 @@ import { ExpenseTypeComponent } from './defination/expenseType/expenseType.compo
                     { path: 'invoiceDetail', component: InvoiceDetailComponent, canActivate: [AppRouteGuard] },
                     { path: 'expense', component: ExpenseComponent, canActivate: [AppRouteGuard] },
                     { path: 'expenseType', component: ExpenseTypeComponent, canActivate: [AppRouteGuard] },
+                    { path: 'payment', component: PaymentComponent, canActivate: [AppRouteGuard] },
+                    { path: 'inHirer', component: InHirerComponent, canActivate: [AppRouteGuard] },
+                    { path: 'outHirer', component: OutHirerComponent, canActivate: [AppRouteGuard] },
+                    { path: 'changeRent', component: ChangeRentComponent, canActivate: [AppRouteGuard] },
+                    { path: 'paid', component: PaidComponent, canActivate: [AppRouteGuard] },
                 ]
             }
         ])
