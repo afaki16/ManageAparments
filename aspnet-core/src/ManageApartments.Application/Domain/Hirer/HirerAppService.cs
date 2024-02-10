@@ -22,6 +22,7 @@ using System.Linq.Dynamic.Core;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Fee;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
 using ManageApartments.Domain.Entities;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ManageApartments.Domain.Hirer;
 
@@ -71,8 +72,9 @@ public class HirerAppService :
     {
         HirerFullOutput createdHirer = new();
 
-        if (input.IsActive == false)
+        if (input.IsActive != true)
         {
+            input.IsActive = false;
             input.ApartmentId = null;
             input.StartDate = null;
             createdHirer = await base.CreateAsync(input);
@@ -166,6 +168,38 @@ public class HirerAppService :
         var query = this._hirerRepository.GetAll().Include(x => x.Apartment).Where(x => x.IsActive != true).ToListAsync();
         return this.ObjectMapper.Map<List<HirerPartOutput>>(await query);
 
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> HirerInApartment(int apartmentId,int hirerId)
+    {
+        try
+        {
+            var apartment = _apartmentRepository.GetAll().FirstOrDefault(x => x.Id == apartmentId);
+            apartment.IsActive = true;
+            await _apartmentRepository.UpdateAsync(apartment);
+
+            var hirer = _hirerRepository.GetAll().FirstOrDefault(x => x.Id == hirerId);
+            hirer.ApartmentId = apartmentId;
+            hirer.IsActive = true;
+            hirer.StartDate=DateTime.Now;
+            await _hirerRepository.UpdateAsync(hirer);
+
+            return new OkResult();
+        }
+        catch (Exception ex)
+        {
+            return new BadRequestResult();
+        }
+       
+
+    }
+
+    [HttpGet]
+    public async Task<List<HirerPartOutput>> GetAllByApartmentId(int aparmentId)
+    {
+        var hirers = this._hirerRepository.GetAll().FirstOrDefault(x => x.ApartmentId == aparmentId && x.IsActive==true);
+        return this.ObjectMapper.Map<List<HirerPartOutput>>(hirers);
     }
 
 

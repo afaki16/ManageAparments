@@ -47,7 +47,6 @@ export class CreateHirerComponent extends AppComponentBase implements OnInit {
 
   save(): void {
     this.saving = true;
-debugger
      this._hirerService.create(this.createInput).subscribe(
       (response) => {
         if (response) {

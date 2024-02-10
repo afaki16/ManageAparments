@@ -2849,6 +2849,126 @@ export class HirerServiceProxy {
     }
 
     /**
+     * @param apartmentId (optional) 
+     * @param hirerId (optional) 
+     * @return Success
+     */
+    hirerInApartment(apartmentId: number | undefined, hirerId: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Hirer/HirerInApartment?";
+        if (apartmentId === null)
+            throw new Error("The parameter 'apartmentId' cannot be null.");
+        else if (apartmentId !== undefined)
+            url_ += "apartmentId=" + encodeURIComponent("" + apartmentId) + "&";
+        if (hirerId === null)
+            throw new Error("The parameter 'hirerId' cannot be null.");
+        else if (hirerId !== undefined)
+            url_ += "hirerId=" + encodeURIComponent("" + hirerId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHirerInApartment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHirerInApartment(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processHirerInApartment(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param aparmentId (optional) 
+     * @return Success
+     */
+    getAllByApartmentId(aparmentId: number | undefined): Observable<HirerPartOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/Hirer/GetAllByApartmentId?";
+        if (aparmentId === null)
+            throw new Error("The parameter 'aparmentId' cannot be null.");
+        else if (aparmentId !== undefined)
+            url_ += "aparmentId=" + encodeURIComponent("" + aparmentId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllByApartmentId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllByApartmentId(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<HirerPartOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<HirerPartOutput[]>;
+        }));
+    }
+
+    protected processGetAllByApartmentId(response: HttpResponseBase): Observable<HirerPartOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(HirerPartOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */

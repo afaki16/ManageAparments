@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApartmentPartOutput, ApartmentServiceProxy, HirerPartOutput, HirerServiceProxy } from '@shared/service-proxies/service-proxies';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-inHirer',
@@ -9,9 +10,12 @@ import { ApartmentPartOutput, ApartmentServiceProxy, HirerPartOutput, HirerServi
 export class InHirerComponent implements OnInit {
   hirers: HirerPartOutput[];
   apartments: ApartmentPartOutput[];
+  hirerInput :  HirerPartOutput = new HirerPartOutput();
+  apartmentInput : ApartmentPartOutput = new ApartmentPartOutput();
   constructor(
     private _hirerService: HirerServiceProxy,
     private _apartmentService: ApartmentServiceProxy,
+    private _messageService: MessageService,
   ) { }
 
   ngOnInit() {
@@ -38,5 +42,13 @@ getApartment() {
 
       }
   });
+}
+
+save(): void {
+  this._hirerService.hirerInApartment(this.apartmentInput.id, this.hirerInput.id).subscribe(
+    );
+ this._messageService.add({ severity: 'success', summary: 'Request Completed', detail: 'Saved Successfully' });
+ abp.message.success('Kiracı Yerleştirildi.', 'Success');
+ window.location.reload();
 }
 }

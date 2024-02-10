@@ -87,7 +87,7 @@ public class ApartmentAppService :
     [HttpGet]
     public async Task<List<ApartmentPartOutput>> GetApartmentPartOutputs()
     {
-        var query = this._apartmentRepository.GetAll().Include(x => x.Building).ToListAsync();
+        var query = this._apartmentRepository.GetAll().Include(x => x.Building).Where(x => x.IsActive == true).ToListAsync();
         return this.ObjectMapper.Map<List<ApartmentPartOutput>>(await query);
     }
 

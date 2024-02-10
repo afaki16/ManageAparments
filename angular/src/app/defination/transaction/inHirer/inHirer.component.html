@@ -13,15 +13,20 @@
     }}</label>
     <div class="col-8 md:col-8">
       <p-dropdown
+      [disabled]="apartments.length === 0"
         [options]="apartments"
         optionLabel="name"
         optionValue="id"
         [filter]="true"
         filterBy="name"
+        [(ngModel)]="apartmentInput.id"
+        [ngModelOptions]="{ standalone: true }"
         [style]="{ width: '100%' }"
         [placeholder]="'Daire Seçiniz' | localize"
-
         >
+        <ng-template let-item pTemplate="item">
+          {{item.building.name}} - {{item.name}}
+      </ng-template>
 
       </p-dropdown>
 
@@ -34,15 +39,16 @@
    }}</label>
    <div class="col-8 md:col-8">
      <p-dropdown
+     [disabled]="hirers.length === 0"
       [options]="hirers"
        optionLabel="firstName"
        optionValue="id"
        [filter]="true"
        filterBy="firstName"
-
+       [(ngModel)]="hirerInput.id"
+       [ngModelOptions]="{ standalone: true }"
        [style]="{ width: '100%' }"
        [placeholder]="'Kiracı Seçiniz' | localize"
-
        >
        <ng-template let-item pTemplate="item">
         {{item.firstName}}  {{item.lastName}}
@@ -54,7 +60,10 @@
 
     <!-- Kaydet  -->
     <div class="col-12 md:col-4 md:text-right mt-4">
-      <p-button>
+      <p-button
+      (click)="save()"
+      [disabled]="apartments.length === 0 || hirers.length === 0"
+      >
           Kaydet
       </p-button>
   </div>
