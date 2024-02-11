@@ -9,9 +9,7 @@ import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/a
   styleUrls: ['./outHirer.component.css']
 })
 export class OutHirerComponent implements OnInit {
-  hirers: HirerPartOutput[];
   apartments: ApartmentPartOutput[];
-  hirerInput :  HirerPartOutput = new HirerPartOutput();
   apartmentInput : ApartmentPartOutput = new ApartmentPartOutput();
 
   constructor(
@@ -35,33 +33,22 @@ export class OutHirerComponent implements OnInit {
         }
     });
   }
-  save(entitiy: ApartmentPartOutput): void {
-debugger
-    this._confirmationService.confirm({
-      message: '',
-      header: 'Emin misiniz',
-      acceptLabel: 'Evet',
-      rejectLabel: 'İptal',
-      acceptButtonStyleClass : "p-button-danger",
-      rejectButtonStyleClass : "p-button-secondary",
-      icon: 'pi pi-exclamation-triangle',
 
-      accept: () => {
-        this._apartmentService.update(entitiy).subscribe(() => {
-          this._messageService.add({severity:'info', summary:'RequestCompleted', detail : 'SuccessfullyDeleted'});
-          window.location.reload();
-        });
-      },
-      reject: (type) => {
-          switch(type) {
-              case ConfirmEventType.REJECT:
-              break;
-              case ConfirmEventType.CANCEL:
-              break;
+  save() {
+
+        this._hirerService.outApartment(this.apartmentInput.id).subscribe((response) => {
+          if (response) {
+            abp.message.success('Başarılı','Daire Boşaltıldı.',true)
+            .then(function (isConfirmed) {
+              window.location.reload();
+            });
+          } else {
+            abp.message.error('Daire Boşaltma Başarısız Oldu.', 'Danger');
           }
-      }
-    });
-  }
+      });
 
+
+
+  }
 
 }

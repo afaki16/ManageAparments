@@ -213,7 +213,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
         {
           class: 'modal-lg',
           initialState: {
-            // id: id,
+             id: id,
           },
         }
       );

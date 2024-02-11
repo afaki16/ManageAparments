@@ -23,6 +23,7 @@ using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Fee;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
 using ManageApartments.Domain.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ManageApartments.Domain.Hirer;
 
@@ -171,7 +172,7 @@ public class HirerAppService :
     }
 
     [HttpPost]
-    public async Task<IActionResult> HirerInApartment(int apartmentId,int hirerId)
+    public async Task<bool> HirerInApartment(int apartmentId,int hirerId)
     {
         try
         {
@@ -182,25 +183,43 @@ public class HirerAppService :
             var hirer = _hirerRepository.GetAll().FirstOrDefault(x => x.Id == hirerId);
             hirer.ApartmentId = apartmentId;
             hirer.IsActive = true;
-            hirer.StartDate=DateTime.Now;
+            hirer.StartDate = DateTime.Now;
             await _hirerRepository.UpdateAsync(hirer);
-
-            return new OkResult();
+            return true;
         }
         catch (Exception ex)
         {
-            return new BadRequestResult();
+            return false;
         }
-       
 
     }
 
-    [HttpGet]
-    public async Task<List<HirerPartOutput>> GetAllByApartmentId(int aparmentId)
+    [HttpPost]
+    public async Task<bool> OutApartment(int apartmentId)
     {
-        var hirers = this._hirerRepository.GetAll().FirstOrDefault(x => x.ApartmentId == aparmentId && x.IsActive==true);
-        return this.ObjectMapper.Map<List<HirerPartOutput>>(hirers);
+        try
+        {
+            var apartment = _apartmentRepository.GetAll().FirstOrDefault(x => x.Id == apartmentId);
+            apartment.IsActive = false;
+            await _apartmentRepository.UpdateAsync(apartment);
+            var hirer = _hirerRepository.GetAll().FirstOrDefault(x => x.ApartmentId == apartmentId && x.IsActive==true);
+            hirer.IsActive = false;
+            await _hirerRepository.UpdateAsync(hirer);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+
     }
+
+    //[HttpGet]
+    //public async Task<List<HirerPartOutput>> GetAllByApartmentId(int aparmentId)
+    //{
+    //    var hirers = this._hirerRepository.GetAll().FirstOrDefault(x => x.ApartmentId == aparmentId && x.IsActive==true);
+    //    return this.ObjectMapper.Map<List<HirerPartOutput>>(hirers);
+    //}
 
 
 

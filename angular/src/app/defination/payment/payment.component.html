@@ -6,13 +6,13 @@
       #dt2
       [value]="invoices"
       dataKey="id"
-      [rows]="10"
-      [showCurrentPageReport]="true"
-      [rowsPerPageOptions]="[10, 25, 50]"
-      [paginator]="true"
-      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+
+
+
+
+
       [globalFilterFields]="['firstName', 'lastName', 'ssn', 'status']"
-      [tableStyle]="{ 'min-width': '75rem' }"
+
       >
 
       <ng-template pTemplate="caption">
@@ -25,34 +25,56 @@
       </ng-template>
       <ng-template pTemplate="header">
           <tr>
-              <th style="width:22%">Kimlik No</th>
-              <th style="width:22%">Kiracı</th>
-              <th style="width:22%">Status</th>
-              <th style="width:12%">Verified</th>
+
+              <th >Kimlik No</th>
+              <th >Kiracı</th>
+              <th >Borç Türü</th>
+              <th >Tutar</th>
+              <th >Tarih</th>
+              <th >Açıklama</th>
+              <th >Durum</th>
+              <th >Ödendi mi?</th>
+
+
+
           </tr>
 
       </ng-template>
       <ng-template pTemplate="body" let-invoice>
           <tr>
+
             <td>
               {{ invoice.hirer.ssn }}
            </td>
               <td>
                   {{ invoice.hirer.firstName }} {{ invoice.hirer.lastName }}
               </td>
-
               <td>
-                  <p-tag [value]="invoice.invoiceDate" ></p-tag>
-              </td>
-              <td>
-                  <i class="pi" [ngClass]="{ 'text-green-500 pi-check-circle': invoice.isPaid, 'text-red-500 pi-times-circle': !invoice.isPaid }"></i>
-              </td>
+                {{ invoiceTypeEnum[invoice.invoiceType].displayName }}
+            </td>
+            <td>
+                {{ invoice.price }} TL
+            </td>
+            <td>
+                {{ invoice.invoiceDate | date: 'dd/MM/yyyy' }}
+            </td>
+            <td>
+                {{ invoice.description }}
+            </td>
+            <td>
+                <p-tag  [severity]="getSeverity(getTime(invoice.invoiceDate))">
+                    {{getTime(invoice.invoiceDate)}} gün kaldı
+            </p-tag>
+        </td>
+        <td>
+            <i class="pi" [ngClass]="{ 'text-green-500 pi-check-circle': invoice.isPaid, 'text-red-500 pi-times-circle': !invoice.isPaid }"></i>
+        </td>
           </tr>
       </ng-template>
 
       <ng-template pTemplate="emptymessage">
           <tr>
-              <td colspan="5">No customers found.</td>
+              <td colspan="5">No found.</td>
           </tr>
       </ng-template>
 

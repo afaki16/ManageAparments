@@ -44,11 +44,18 @@ getApartment() {
   });
 }
 
-save(): void {
-  this._hirerService.hirerInApartment(this.apartmentInput.id, this.hirerInput.id).subscribe(
-    );
- this._messageService.add({ severity: 'success', summary: 'Request Completed', detail: 'Saved Successfully' });
- abp.message.success('Kiracı Yerleştirildi.', 'Success');
- window.location.reload();
+save() {
+  this._hirerService.hirerInApartment(this.apartmentInput.id, this.hirerInput.id).subscribe((response) => {
+    if (response) {
+      abp.message.success('Başarılı','Kiracı Yerleştirildi.',true)
+      .then(function (isConfirmed) {
+        window.location.reload();
+      });
+    } else {
+      abp.message.error('Kiracı Yerleştirme Başarısız Oldu.', 'Danger');
+    }
+});
+
 }
+
 }

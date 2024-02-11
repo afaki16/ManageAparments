@@ -92,6 +92,12 @@ export class ApartmentComponent extends PagedListingComponentBase<ApartmentFullO
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
+    x = new DataGridColumn();
+    x.dataTitle = this.l('Dolu mu?');
+    x.dataField = 'isActive';
+    x.dataType = DataGridColumnType.boolean;
+    this.dataGridOptions.columns.push(x);
+
 
 
     this.dataGridOptions.parentComponent = this;

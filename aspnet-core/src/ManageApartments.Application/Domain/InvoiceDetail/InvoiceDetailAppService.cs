@@ -73,7 +73,7 @@ public class InvoiceDetailAppService :
     [HttpGet]
     public async Task<List<InvoiceDetailFullOutput>> GetAllPayment()
     {
-        var query = this._invoiceDetailRepository.GetAll().Include(x => x.Hirer).ToListAsync();
+        var query = this._invoiceDetailRepository.GetAll().Include(x => x.Hirer).Where(x=>x.IsPaid ==false).OrderBy(x => x.InvoiceDate).ToListAsync();
         return this.ObjectMapper.Map<List<InvoiceDetailFullOutput>>(await query);
     }
 

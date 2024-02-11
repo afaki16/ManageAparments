@@ -50,11 +50,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(this.l('Ödeme Takip'), '/app/payment', "fa-solid fa-cart-shopping"),
 
             new MenuItem(this.l('İşlemler'), '', "fa fa-bar-chart ml-2 nav-icon",'',[
-                new MenuItem(
-                    'Tahsilatlar',
-                    '/app/paid',
-                    'fas fa-check'
-                ),
+                // new MenuItem(
+                //     'Tahsilatlar',
+                //     '/app/paid',
+                //     'fas fa-check'
+                // ),
                 new MenuItem(
                     'Kira Düzenle',
                     '/app/changeRent',

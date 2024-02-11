@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HirerPartOutput, HirerServiceProxy, InvoiceDetailFullOutput, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
+import { InvoiceTypeEnum } from '@app/service/enum/InvoiceType';
+import { InvoiceDetailFullOutput, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
+import { log } from 'console';
 
 @Component({
   selector: 'app-payment',
@@ -8,43 +10,50 @@ import { HirerPartOutput, HirerServiceProxy, InvoiceDetailFullOutput, InvoiceDet
 })
 export class PaymentComponent implements OnInit {
   invoices: InvoiceDetailFullOutput[];
-  statuses!: any[];
+  invoiceTypeEnum = InvoiceTypeEnum;
 
     constructor(private _invoiceDetailService: InvoiceDetailServiceProxy,) {}
 
     ngOnInit() {
+
         this._invoiceDetailService.getAllPayment().subscribe((invoices) => {
             this.invoices = invoices;
 
         });
 
-        this.statuses = [
-            { label: 'Unqualified', value: 'unqualified' },
-            { label: 'Qualified', value: 'qualified' },
-            { label: 'New', value: 'new' },
-            { label: 'Negotiation', value: 'negotiation' },
-            { label: 'Renewal', value: 'renewal' },
-            { label: 'Proposal', value: 'proposal' }
-        ];
+    }
+
+    getTime(invoiceDate:Date) {
+
+        var invoiceDate = new Date(invoiceDate);
+        var today = new Date();
+        var differenceInMilliseconds = invoiceDate.getTime() - today.getTime();
+        var oneDayInMilliseconds = 1000 * 60 * 60 * 24;
+        var differenceInDays = Math.floor(differenceInMilliseconds / oneDayInMilliseconds);
+
+        return differenceInDays;
     }
 
 
-    getSeverity(status: string) {
-        switch (status) {
-            case 'unqualified':
-                return 'danger';
 
-            case 'qualified':
-                return 'success';
 
-            case 'new':
-                return 'info';
 
-            case 'negotiation':
-                return 'warning';
-
-            case 'renewal':
-                return null;
+    getSeverity(status: number) {
+        if (31<status) {
+            return'secondary'
         }
+        else if(3<status && status<31)
+        {
+             return 'success'
+        }
+        else if(0<status &&status<3)
+        {
+            return 'warning'
+        }
+        else
+        {
+            return 'danger'
+        }
+
     }
 }
