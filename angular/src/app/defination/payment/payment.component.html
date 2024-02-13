@@ -1,16 +1,11 @@
 <section class="content-header" style="padding: 5px 0.5rem">
 </section>
-<section class="content px-2" style="height: calc(100vh - 159px)">
+
 <div class="card">
   <p-table
       #dt2
       [value]="invoices"
       dataKey="id"
-
-
-
-
-
       [globalFilterFields]="['firstName', 'lastName', 'ssn', 'status']"
 
       >
@@ -26,6 +21,7 @@
       <ng-template pTemplate="header">
           <tr>
 
+              <th >Id</th>
               <th >Kimlik No</th>
               <th >Kiracı</th>
               <th >Borç Türü</th>
@@ -42,7 +38,9 @@
       </ng-template>
       <ng-template pTemplate="body" let-invoice>
           <tr>
-
+            <td>
+                {{ invoice.id }}
+             </td>
             <td>
               {{ invoice.hirer.ssn }}
            </td>
@@ -80,4 +78,4 @@
 
   </p-table>
 </div>
-</section>
+

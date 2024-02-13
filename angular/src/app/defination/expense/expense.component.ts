@@ -86,7 +86,7 @@ export class ExpenseComponent extends PagedListingComponentBase<ExpenseFullOutpu
 
     x = new DataGridColumn();
     x.dataTitle = this.l('Masraf Tarihi');
-    x.dataField = 'pricedate._d';
+    x.dataField = 'priceDate._d';
     x.dataType = DataGridColumnType.date;
     this.dataGridOptions.columns.push(x);
 
