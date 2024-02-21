@@ -15,6 +15,8 @@ namespace ManageApartments.Domain.Entities
         public bool? IsActive{ get; set; }
         public DateTime? StartDate  { get; set; }
         public int? UsageTime { get; set; }
+        public int? Deposit { get; set; }
+        public string? Profession { get; set; }
         public string? Description { get; set; }
         public int? ApartmentId { get; set; }
         public virtual Apartment Apartment { get; set; }

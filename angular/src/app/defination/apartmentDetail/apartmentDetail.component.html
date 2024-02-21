@@ -11,11 +11,11 @@
     [value]="apartmentDetail"
     [tableStyle]="{'min-width': '60rem'}"
     [paginator]="true"
-    [rows]="5"
+    [rows]="10"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [globalFilterFields]="['apartmentName', 'rent.price', 'fee.price', 'electric.numeratorNo','electric.kw']"
-    [rowsPerPageOptions]="[5, 10, 20]"
+    [rowsPerPageOptions]="[10, 20, 50]"
     >
     <ng-template pTemplate="caption">
         <div class="flex">

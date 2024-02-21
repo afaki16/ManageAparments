@@ -53,18 +53,11 @@ public class ApartmentAppService :
     public override async Task<ApartmentFullOutput> CreateAsync(CreateApartmentInput input)
     {
 
-        var apartments = this._apartmentRepository.GetAllList(x => x.BuildingId == input.BuildingId && x.Name == input.Name).ToList();
 
-        if (apartments.Count == 0)
-        {
-            var returnVal = await base.CreateAsync(input);
+            input.IsActive = false;
+            return await base.CreateAsync(input);
 
-            return returnVal;
-        }
-        else
-        {
-            throw new UserFriendlyException(L("Warning"), L("SameNameAndBuildingRecord"));
-        }
+       
     }
 
 

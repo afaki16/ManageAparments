@@ -19,6 +19,7 @@ import { InHirerComponent } from './defination/transaction/inHirer/inHirer.compo
 import { OutHirerComponent } from './defination/transaction/outHirer/outHirer.component';
 import { ChangeRentComponent } from './defination/transaction/changeRent/changeRent.component';
 import { PaidComponent } from './defination/transaction/paid/paid.component';
+import { ApartmentDetailComponent } from './defination/apartmentDetail/apartmentDetail.component';
 
 @NgModule({
     imports: [
@@ -35,6 +36,7 @@ import { PaidComponent } from './defination/transaction/paid/paid.component';
                     { path: 'update-password', component: ChangePasswordComponent, canActivate: [AppRouteGuard] },
                     { path: 'building', component: BuildingComponent, canActivate: [AppRouteGuard] },
                     { path: 'apartment', component: ApartmentComponent, canActivate: [AppRouteGuard] },
+                    { path: 'apartmentDetail', component: ApartmentDetailComponent, canActivate: [AppRouteGuard] },
                     { path: 'hirer', component: HirerComponent, canActivate: [AppRouteGuard] },
                     { path: 'invoiceDetail', component: InvoiceDetailComponent, canActivate: [AppRouteGuard] },
                     { path: 'expense', component: ExpenseComponent, canActivate: [AppRouteGuard] },

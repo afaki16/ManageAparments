@@ -2968,6 +2968,64 @@ export class HirerServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getDetailApartmentOutput(): Observable<DetailApartmentOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/Hirer/GetDetailApartmentOutput";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDetailApartmentOutput(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDetailApartmentOutput(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<DetailApartmentOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<DetailApartmentOutput[]>;
+        }));
+    }
+
+    protected processGetDetailApartmentOutput(response: HttpResponseBase): Observable<DetailApartmentOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(DetailApartmentOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -5345,6 +5403,153 @@ export class UserServiceProxy {
     }
 }
 
+export class Apartment implements IApartment {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    roofNo: string | undefined;
+    isActive: boolean | undefined;
+    buildingId: number | undefined;
+    building: Building;
+    hirers: Hirer[] | undefined;
+    electrics: Electric[] | undefined;
+    fees: Fee[] | undefined;
+    rents: Rent[] | undefined;
+    rowVersion: string | undefined;
+
+    constructor(data?: IApartment) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.name = _data["name"];
+            this.description = _data["description"];
+            this.roofNo = _data["roofNo"];
+            this.isActive = _data["isActive"];
+            this.buildingId = _data["buildingId"];
+            this.building = _data["building"] ? Building.fromJS(_data["building"]) : <any>undefined;
+            if (Array.isArray(_data["hirers"])) {
+                this.hirers = [] as any;
+                for (let item of _data["hirers"])
+                    this.hirers.push(Hirer.fromJS(item));
+            }
+            if (Array.isArray(_data["electrics"])) {
+                this.electrics = [] as any;
+                for (let item of _data["electrics"])
+                    this.electrics.push(Electric.fromJS(item));
+            }
+            if (Array.isArray(_data["fees"])) {
+                this.fees = [] as any;
+                for (let item of _data["fees"])
+                    this.fees.push(Fee.fromJS(item));
+            }
+            if (Array.isArray(_data["rents"])) {
+                this.rents = [] as any;
+                for (let item of _data["rents"])
+                    this.rents.push(Rent.fromJS(item));
+            }
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Apartment {
+        data = typeof data === 'object' ? data : {};
+        let result = new Apartment();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        data["roofNo"] = this.roofNo;
+        data["isActive"] = this.isActive;
+        data["buildingId"] = this.buildingId;
+        data["building"] = this.building ? this.building.toJSON() : <any>undefined;
+        if (Array.isArray(this.hirers)) {
+            data["hirers"] = [];
+            for (let item of this.hirers)
+                data["hirers"].push(item.toJSON());
+        }
+        if (Array.isArray(this.electrics)) {
+            data["electrics"] = [];
+            for (let item of this.electrics)
+                data["electrics"].push(item.toJSON());
+        }
+        if (Array.isArray(this.fees)) {
+            data["fees"] = [];
+            for (let item of this.fees)
+                data["fees"].push(item.toJSON());
+        }
+        if (Array.isArray(this.rents)) {
+            data["rents"] = [];
+            for (let item of this.rents)
+                data["rents"].push(item.toJSON());
+        }
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Apartment {
+        const json = this.toJSON();
+        let result = new Apartment();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IApartment {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    roofNo: string | undefined;
+    isActive: boolean | undefined;
+    buildingId: number | undefined;
+    building: Building;
+    hirers: Hirer[] | undefined;
+    electrics: Electric[] | undefined;
+    fees: Fee[] | undefined;
+    rents: Rent[] | undefined;
+    rowVersion: string | undefined;
+}
+
 export class ApartmentFullOutput implements IApartmentFullOutput {
     id: number;
     name: string | undefined;
@@ -5749,6 +5954,117 @@ export interface IAuthenticateResultModel {
     encryptedAccessToken: string | undefined;
     expireInSeconds: number;
     userId: number;
+}
+
+export class Building implements IBuilding {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    name: string | undefined;
+    address: string | undefined;
+    buildingNo: string | undefined;
+    apartments: Apartment[] | undefined;
+    expenses: Expense[] | undefined;
+    rowVersion: string | undefined;
+
+    constructor(data?: IBuilding) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.name = _data["name"];
+            this.address = _data["address"];
+            this.buildingNo = _data["buildingNo"];
+            if (Array.isArray(_data["apartments"])) {
+                this.apartments = [] as any;
+                for (let item of _data["apartments"])
+                    this.apartments.push(Apartment.fromJS(item));
+            }
+            if (Array.isArray(_data["expenses"])) {
+                this.expenses = [] as any;
+                for (let item of _data["expenses"])
+                    this.expenses.push(Expense.fromJS(item));
+            }
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Building {
+        data = typeof data === 'object' ? data : {};
+        let result = new Building();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["name"] = this.name;
+        data["address"] = this.address;
+        data["buildingNo"] = this.buildingNo;
+        if (Array.isArray(this.apartments)) {
+            data["apartments"] = [];
+            for (let item of this.apartments)
+                data["apartments"].push(item.toJSON());
+        }
+        if (Array.isArray(this.expenses)) {
+            data["expenses"] = [];
+            for (let item of this.expenses)
+                data["expenses"].push(item.toJSON());
+        }
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Building {
+        const json = this.toJSON();
+        let result = new Building();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBuilding {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    name: string | undefined;
+    address: string | undefined;
+    buildingNo: string | undefined;
+    apartments: Apartment[] | undefined;
+    expenses: Expense[] | undefined;
+    rowVersion: string | undefined;
 }
 
 export class BuildingFullOutput implements IBuildingFullOutput {
@@ -6398,6 +6714,8 @@ export class CreateHirerInput implements ICreateHirerInput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
 
@@ -6418,6 +6736,8 @@ export class CreateHirerInput implements ICreateHirerInput {
             this.isActive = _data["isActive"];
             this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
             this.usageTime = _data["usageTime"];
+            this.deposit = _data["deposit"];
+            this.profession = _data["profession"];
             this.description = _data["description"];
             this.apartmentId = _data["apartmentId"];
         }
@@ -6438,6 +6758,8 @@ export class CreateHirerInput implements ICreateHirerInput {
         data["isActive"] = this.isActive;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["usageTime"] = this.usageTime;
+        data["deposit"] = this.deposit;
+        data["profession"] = this.profession;
         data["description"] = this.description;
         data["apartmentId"] = this.apartmentId;
         return data;
@@ -6458,6 +6780,8 @@ export interface ICreateHirerInput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
 }
@@ -6781,6 +7105,168 @@ export interface ICreateUserDto {
     password: string;
 }
 
+export class DetailApartmentOutput implements IDetailApartmentOutput {
+    id: number;
+    apartmentId: number;
+    apartmentName: string | undefined;
+    fee: Fee;
+    rent: Rent;
+    electric: Electric;
+
+    constructor(data?: IDetailApartmentOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.apartmentId = _data["apartmentId"];
+            this.apartmentName = _data["apartmentName"];
+            this.fee = _data["fee"] ? Fee.fromJS(_data["fee"]) : <any>undefined;
+            this.rent = _data["rent"] ? Rent.fromJS(_data["rent"]) : <any>undefined;
+            this.electric = _data["electric"] ? Electric.fromJS(_data["electric"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): DetailApartmentOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new DetailApartmentOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["apartmentId"] = this.apartmentId;
+        data["apartmentName"] = this.apartmentName;
+        data["fee"] = this.fee ? this.fee.toJSON() : <any>undefined;
+        data["rent"] = this.rent ? this.rent.toJSON() : <any>undefined;
+        data["electric"] = this.electric ? this.electric.toJSON() : <any>undefined;
+        return data;
+    }
+
+    clone(): DetailApartmentOutput {
+        const json = this.toJSON();
+        let result = new DetailApartmentOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDetailApartmentOutput {
+    id: number;
+    apartmentId: number;
+    apartmentName: string | undefined;
+    fee: Fee;
+    rent: Rent;
+    electric: Electric;
+}
+
+export class Electric implements IElectric {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    numeratorNo: string | undefined;
+    staticKW: number | undefined;
+    kw: number | undefined;
+    isActive: boolean | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    rowVersion: string | undefined;
+
+    constructor(data?: IElectric) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.numeratorNo = _data["numeratorNo"];
+            this.staticKW = _data["staticKW"];
+            this.kw = _data["kw"];
+            this.isActive = _data["isActive"];
+            this.apartmentId = _data["apartmentId"];
+            this.apartment = _data["apartment"] ? Apartment.fromJS(_data["apartment"]) : <any>undefined;
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Electric {
+        data = typeof data === 'object' ? data : {};
+        let result = new Electric();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["numeratorNo"] = this.numeratorNo;
+        data["staticKW"] = this.staticKW;
+        data["kw"] = this.kw;
+        data["isActive"] = this.isActive;
+        data["apartmentId"] = this.apartmentId;
+        data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Electric {
+        const json = this.toJSON();
+        let result = new Electric();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IElectric {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    numeratorNo: string | undefined;
+    staticKW: number | undefined;
+    kw: number | undefined;
+    isActive: boolean | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    rowVersion: string | undefined;
+}
+
 export class ElectricFullOutput implements IElectricFullOutput {
     id: number;
     numeratorNo: string | undefined;
@@ -6901,6 +7387,109 @@ export class ElectricFullOutputPagedResultDto implements IElectricFullOutputPage
 export interface IElectricFullOutputPagedResultDto {
     items: ElectricFullOutput[] | undefined;
     totalCount: number;
+}
+
+export class Expense implements IExpense {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    description: string | undefined;
+    price: number;
+    priceDate: moment.Moment | undefined;
+    expenseTypeId: number;
+    expenseType: ExpenseType;
+    buildingId: number;
+    building: Building;
+    rowVersion: string | undefined;
+
+    constructor(data?: IExpense) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.description = _data["description"];
+            this.price = _data["price"];
+            this.priceDate = _data["priceDate"] ? moment(_data["priceDate"].toString()) : <any>undefined;
+            this.expenseTypeId = _data["expenseTypeId"];
+            this.expenseType = _data["expenseType"] ? ExpenseType.fromJS(_data["expenseType"]) : <any>undefined;
+            this.buildingId = _data["buildingId"];
+            this.building = _data["building"] ? Building.fromJS(_data["building"]) : <any>undefined;
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Expense {
+        data = typeof data === 'object' ? data : {};
+        let result = new Expense();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["description"] = this.description;
+        data["price"] = this.price;
+        data["priceDate"] = this.priceDate ? this.priceDate.toISOString() : <any>undefined;
+        data["expenseTypeId"] = this.expenseTypeId;
+        data["expenseType"] = this.expenseType ? this.expenseType.toJSON() : <any>undefined;
+        data["buildingId"] = this.buildingId;
+        data["building"] = this.building ? this.building.toJSON() : <any>undefined;
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Expense {
+        const json = this.toJSON();
+        let result = new Expense();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IExpense {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    description: string | undefined;
+    price: number;
+    priceDate: moment.Moment | undefined;
+    expenseTypeId: number;
+    expenseType: ExpenseType;
+    buildingId: number;
+    building: Building;
+    rowVersion: string | undefined;
 }
 
 export class ExpenseFullOutput implements IExpenseFullOutput {
@@ -7027,6 +7616,101 @@ export class ExpenseFullOutputPagedResultDto implements IExpenseFullOutputPagedR
 export interface IExpenseFullOutputPagedResultDto {
     items: ExpenseFullOutput[] | undefined;
     totalCount: number;
+}
+
+export class ExpenseType implements IExpenseType {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    expenses: Expense[] | undefined;
+    rowVersion: string | undefined;
+
+    constructor(data?: IExpenseType) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.name = _data["name"];
+            this.description = _data["description"];
+            if (Array.isArray(_data["expenses"])) {
+                this.expenses = [] as any;
+                for (let item of _data["expenses"])
+                    this.expenses.push(Expense.fromJS(item));
+            }
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): ExpenseType {
+        data = typeof data === 'object' ? data : {};
+        let result = new ExpenseType();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        if (Array.isArray(this.expenses)) {
+            data["expenses"] = [];
+            for (let item of this.expenses)
+                data["expenses"].push(item.toJSON());
+        }
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): ExpenseType {
+        const json = this.toJSON();
+        let result = new ExpenseType();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IExpenseType {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    name: string | undefined;
+    description: string | undefined;
+    expenses: Expense[] | undefined;
+    rowVersion: string | undefined;
 }
 
 export class ExpenseTypeFullOutput implements IExpenseTypeFullOutput {
@@ -7196,6 +7880,101 @@ export interface IExpenseTypePartOutput {
     id: number;
     name: string | undefined;
     description: string | undefined;
+}
+
+export class Fee implements IFee {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
+    price: number;
+    isActive: boolean | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    rowVersion: string | undefined;
+
+    constructor(data?: IFee) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
+            this.price = _data["price"];
+            this.isActive = _data["isActive"];
+            this.apartmentId = _data["apartmentId"];
+            this.apartment = _data["apartment"] ? Apartment.fromJS(_data["apartment"]) : <any>undefined;
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Fee {
+        data = typeof data === 'object' ? data : {};
+        let result = new Fee();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["price"] = this.price;
+        data["isActive"] = this.isActive;
+        data["apartmentId"] = this.apartmentId;
+        data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Fee {
+        const json = this.toJSON();
+        let result = new Fee();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IFee {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
+    price: number;
+    isActive: boolean | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    rowVersion: string | undefined;
 }
 
 export class FeeFullOutput implements IFeeFullOutput {
@@ -7485,6 +8264,137 @@ export interface IGetRoleForEditOutput {
     grantedPermissionNames: string[] | undefined;
 }
 
+export class Hirer implements IHirer {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    ssn: number;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    isActive: boolean | undefined;
+    startDate: moment.Moment | undefined;
+    usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
+    description: string | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    invoiceDetails: InvoiceDetail[] | undefined;
+    rowVersion: string | undefined;
+
+    constructor(data?: IHirer) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.ssn = _data["ssn"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.isActive = _data["isActive"];
+            this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
+            this.usageTime = _data["usageTime"];
+            this.deposit = _data["deposit"];
+            this.profession = _data["profession"];
+            this.description = _data["description"];
+            this.apartmentId = _data["apartmentId"];
+            this.apartment = _data["apartment"] ? Apartment.fromJS(_data["apartment"]) : <any>undefined;
+            if (Array.isArray(_data["invoiceDetails"])) {
+                this.invoiceDetails = [] as any;
+                for (let item of _data["invoiceDetails"])
+                    this.invoiceDetails.push(InvoiceDetail.fromJS(item));
+            }
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Hirer {
+        data = typeof data === 'object' ? data : {};
+        let result = new Hirer();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["ssn"] = this.ssn;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["isActive"] = this.isActive;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["usageTime"] = this.usageTime;
+        data["deposit"] = this.deposit;
+        data["profession"] = this.profession;
+        data["description"] = this.description;
+        data["apartmentId"] = this.apartmentId;
+        data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
+        if (Array.isArray(this.invoiceDetails)) {
+            data["invoiceDetails"] = [];
+            for (let item of this.invoiceDetails)
+                data["invoiceDetails"].push(item.toJSON());
+        }
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Hirer {
+        const json = this.toJSON();
+        let result = new Hirer();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IHirer {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    ssn: number;
+    firstName: string | undefined;
+    lastName: string | undefined;
+    isActive: boolean | undefined;
+    startDate: moment.Moment | undefined;
+    usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
+    description: string | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    invoiceDetails: InvoiceDetail[] | undefined;
+    rowVersion: string | undefined;
+}
+
 export class HirerFullOutput implements IHirerFullOutput {
     id: number;
     ssn: number;
@@ -7493,6 +8403,8 @@ export class HirerFullOutput implements IHirerFullOutput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
@@ -7516,6 +8428,8 @@ export class HirerFullOutput implements IHirerFullOutput {
             this.isActive = _data["isActive"];
             this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
             this.usageTime = _data["usageTime"];
+            this.deposit = _data["deposit"];
+            this.profession = _data["profession"];
             this.description = _data["description"];
             this.apartmentId = _data["apartmentId"];
             this.apartment = _data["apartment"] ? ApartmentPartOutput.fromJS(_data["apartment"]) : <any>undefined;
@@ -7543,6 +8457,8 @@ export class HirerFullOutput implements IHirerFullOutput {
         data["isActive"] = this.isActive;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["usageTime"] = this.usageTime;
+        data["deposit"] = this.deposit;
+        data["profession"] = this.profession;
         data["description"] = this.description;
         data["apartmentId"] = this.apartmentId;
         data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
@@ -7570,6 +8486,8 @@ export interface IHirerFullOutput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
@@ -7639,6 +8557,8 @@ export class HirerPartOutput implements IHirerPartOutput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
@@ -7661,6 +8581,8 @@ export class HirerPartOutput implements IHirerPartOutput {
             this.isActive = _data["isActive"];
             this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
             this.usageTime = _data["usageTime"];
+            this.deposit = _data["deposit"];
+            this.profession = _data["profession"];
             this.description = _data["description"];
             this.apartmentId = _data["apartmentId"];
             this.apartment = _data["apartment"] ? ApartmentPartOutput.fromJS(_data["apartment"]) : <any>undefined;
@@ -7683,6 +8605,8 @@ export class HirerPartOutput implements IHirerPartOutput {
         data["isActive"] = this.isActive;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["usageTime"] = this.usageTime;
+        data["deposit"] = this.deposit;
+        data["profession"] = this.profession;
         data["description"] = this.description;
         data["apartmentId"] = this.apartmentId;
         data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
@@ -7705,6 +8629,8 @@ export interface IHirerPartOutput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
     apartment: ApartmentPartOutput;
@@ -7751,6 +8677,109 @@ export class Int64EntityDto implements IInt64EntityDto {
 
 export interface IInt64EntityDto {
     id: number;
+}
+
+export class InvoiceDetail implements IInvoiceDetail {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    price: number;
+    invoiceDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
+    isPaid: boolean;
+    hirerId: number | undefined;
+    hirer: Hirer;
+    rowVersion: string | undefined;
+
+    constructor(data?: IInvoiceDetail) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.price = _data["price"];
+            this.invoiceDate = _data["invoiceDate"] ? moment(_data["invoiceDate"].toString()) : <any>undefined;
+            this.invoiceType = _data["invoiceType"];
+            this.description = _data["description"];
+            this.isPaid = _data["isPaid"];
+            this.hirerId = _data["hirerId"];
+            this.hirer = _data["hirer"] ? Hirer.fromJS(_data["hirer"]) : <any>undefined;
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): InvoiceDetail {
+        data = typeof data === 'object' ? data : {};
+        let result = new InvoiceDetail();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["price"] = this.price;
+        data["invoiceDate"] = this.invoiceDate ? this.invoiceDate.toISOString() : <any>undefined;
+        data["invoiceType"] = this.invoiceType;
+        data["description"] = this.description;
+        data["isPaid"] = this.isPaid;
+        data["hirerId"] = this.hirerId;
+        data["hirer"] = this.hirer ? this.hirer.toJSON() : <any>undefined;
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): InvoiceDetail {
+        const json = this.toJSON();
+        let result = new InvoiceDetail();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IInvoiceDetail {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    price: number;
+    invoiceDate: moment.Moment | undefined;
+    invoiceType: InvoiceType;
+    description: string | undefined;
+    isPaid: boolean;
+    hirerId: number | undefined;
+    hirer: Hirer;
+    rowVersion: string | undefined;
 }
 
 export class InvoiceDetailFullOutput implements IInvoiceDetailFullOutput {
@@ -8186,6 +9215,101 @@ export class RegisterOutput implements IRegisterOutput {
 
 export interface IRegisterOutput {
     canLogin: boolean;
+}
+
+export class Rent implements IRent {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
+    price: number;
+    isActive: boolean | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    rowVersion: string | undefined;
+
+    constructor(data?: IRent) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? moment(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? moment(_data["deletionTime"].toString()) : <any>undefined;
+            this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
+            this.price = _data["price"];
+            this.isActive = _data["isActive"];
+            this.apartmentId = _data["apartmentId"];
+            this.apartment = _data["apartment"] ? Apartment.fromJS(_data["apartment"]) : <any>undefined;
+            this.rowVersion = _data["rowVersion"];
+        }
+    }
+
+    static fromJS(data: any): Rent {
+        data = typeof data === 'object' ? data : {};
+        let result = new Rent();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
+        data["price"] = this.price;
+        data["isActive"] = this.isActive;
+        data["apartmentId"] = this.apartmentId;
+        data["apartment"] = this.apartment ? this.apartment.toJSON() : <any>undefined;
+        data["rowVersion"] = this.rowVersion;
+        return data;
+    }
+
+    clone(): Rent {
+        const json = this.toJSON();
+        let result = new Rent();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IRent {
+    id: number;
+    creationTime: moment.Moment;
+    creatorUserId: number | undefined;
+    lastModificationTime: moment.Moment | undefined;
+    lastModifierUserId: number | undefined;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: moment.Moment | undefined;
+    startDate: moment.Moment | undefined;
+    price: number;
+    isActive: boolean | undefined;
+    apartmentId: number | undefined;
+    apartment: Apartment;
+    rowVersion: string | undefined;
 }
 
 export class RentFullOutput implements IRentFullOutput {
@@ -9366,6 +10490,8 @@ export class UpdateHirerInput implements IUpdateHirerInput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
 
@@ -9387,6 +10513,8 @@ export class UpdateHirerInput implements IUpdateHirerInput {
             this.isActive = _data["isActive"];
             this.startDate = _data["startDate"] ? moment(_data["startDate"].toString()) : <any>undefined;
             this.usageTime = _data["usageTime"];
+            this.deposit = _data["deposit"];
+            this.profession = _data["profession"];
             this.description = _data["description"];
             this.apartmentId = _data["apartmentId"];
         }
@@ -9408,6 +10536,8 @@ export class UpdateHirerInput implements IUpdateHirerInput {
         data["isActive"] = this.isActive;
         data["startDate"] = this.startDate ? this.startDate.toISOString() : <any>undefined;
         data["usageTime"] = this.usageTime;
+        data["deposit"] = this.deposit;
+        data["profession"] = this.profession;
         data["description"] = this.description;
         data["apartmentId"] = this.apartmentId;
         return data;
@@ -9429,6 +10559,8 @@ export interface IUpdateHirerInput {
     isActive: boolean | undefined;
     startDate: moment.Moment | undefined;
     usageTime: number | undefined;
+    deposit: number | undefined;
+    profession: string | undefined;
     description: string | undefined;
     apartmentId: number | undefined;
 }

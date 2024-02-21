@@ -24,6 +24,10 @@ using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Apartment;
 using ManageApartments.Domain.Entities;
 using Microsoft.AspNetCore.Http.HttpResults;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using ManageApartments.EntityFrameworkCore.Repositories.Contracts.Electric;
+using ManageApartments.Domain.Fee.Dtos;
+using ManageApartments.Domain.Rent.Dtos;
+using ManageApartments.Domain.Electric.Dtos;
 
 namespace ManageApartments.Domain.Hirer;
 
@@ -38,18 +42,21 @@ public class HirerAppService :
     private readonly IRentRepository _rentRepository;
     private readonly IFeeRepository _feeRepository;
     private readonly IApartmentRepository _apartmentRepository;
+    private readonly IElectricRepository _electricRepository;
 
 
     public HirerAppService(IHirerRepository hirerRepository,
         IInvoiceDetailRepository invoiceDetailRepository, 
         IRentRepository rentRepository, 
         IFeeRepository feeRepository,
+        IElectricRepository electricRepository,
         IApartmentRepository apartmentRepository) : base(hirerRepository)
     {
         _hirerRepository = hirerRepository;
         _invoiceDetailRepository = invoiceDetailRepository;
         _rentRepository = rentRepository;
         _feeRepository = feeRepository;
+        _electricRepository = electricRepository;
         _apartmentRepository = apartmentRepository;
 
     }
@@ -221,6 +228,24 @@ public class HirerAppService :
     //    return this.ObjectMapper.Map<List<HirerPartOutput>>(hirers);
     //}
 
+    [HttpGet]
+    public async Task<List<DetailApartmentOutput>> GetDetailApartmentOutput()
+    {
+        var apartment = await this._apartmentRepository.GetAll()
+     .Select(apartment => new DetailApartmentOutput
+     {
+         ApartmentId = apartment.Id,
+         ApartmentName = apartment.Name,
+         Fee = this._feeRepository.GetAll().Where(fee => fee.ApartmentId == apartment.Id && fee.IsActive == true).FirstOrDefault(),
+         Rent = this._rentRepository.GetAll().Where(rent => rent.ApartmentId == apartment.Id && rent.IsActive == true).FirstOrDefault(),
+         Electric = this._electricRepository.GetAll().Where(electric => electric.ApartmentId == apartment.Id && electric.IsActive == true).FirstOrDefault()
+     })
+     .ToListAsync();
+
+
+        return this.ObjectMapper.Map<List<DetailApartmentOutput>>(apartment);
+
+    }
 
 
 }

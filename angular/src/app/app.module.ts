@@ -53,6 +53,8 @@ import { EditBuildingComponent } from './defination/building/edit-building/edit-
 import {ApartmentComponent} from '@app/defination/apartment/apartment.component';
 import { CreateApartmentComponent } from './defination/apartment/create-apartment/create-apartment.component';
 import { EditApartmentComponent } from './defination/apartment/edit-apartment/edit-apartment.component';
+//apartmentDetail
+import {ApartmentDetailComponent} from '@app/defination/apartmentDetail/apartmentDetail.component';
 //hirer
 import {HirerComponent} from '@app/defination/hirer/hirer.component';
 import { CreateHirerComponent } from './defination/hirer/create-hirer/create-hirer.component';
@@ -115,6 +117,10 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
          ApartmentComponent,
          CreateApartmentComponent,
          EditApartmentComponent,
+
+         //apartmentDetail
+         ApartmentDetailComponent,
+
          //hirer
          HirerComponent,
          CreateHirerComponent,

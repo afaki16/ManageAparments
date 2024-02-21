@@ -66,7 +66,7 @@
       </div>
     </div>
 
- <!-- Soyad -->
+   <!-- Soyad -->
     <div class="field grid">
       <label
       for="lastName"
@@ -92,6 +92,33 @@
     ></abp-validation-summary>
     </div>
   </div>
+
+      <!-- Meslek -->
+      <div class="field grid">
+        <label
+        for="profession"
+        class="col-4 mb-4 md:col-4 md:mb-0"
+        >{{ "Meslek" | localize }}</label
+      >
+     <div class="col-8 md:col-8">
+        <input
+          type="text"
+          id="profession"
+          name="profession"
+          required
+          maxlength="60"
+          [placeholder]="'Meslek' | localize"
+          [(ngModel)]="createInput.profession"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          #factoryProfessionModel="ngModel"
+          #factoryProfessioError
+        />
+        <abp-validation-summary
+        [control]="factoryProfessionModel"
+        [controlEl]="factoryProfessioError"
+      ></abp-validation-summary>
+      </div>
+     </div>
 
    <!-- Kiracı Yılı -->
    <div class="field grid">
@@ -212,9 +239,32 @@
       </div>
     </div>
 
-
-
-
+     <!-- Depozito -->
+     <div class="field grid">
+       <label
+       for="deposit"
+       class="col-4 mb-4 md:col-4 md:mb-0"
+       >{{ "Depozito" | localize }}</label
+     >
+     <div class="col-8 md:col-8">
+       <input
+         type="number"
+         [disabled]="!createInput.isActive"
+         id="deposit"
+         name="deposit"
+         maxlength="60"
+         [placeholder]="'Depozito' | localize"
+         [(ngModel)]="createInput.deposit"
+         class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+         #factoryDepositModel="ngModel"
+         #factoryDepositError
+       />
+       <abp-validation-summary
+       [control]="factoryDepositModel"
+       [controlEl]="factoryDepositError"
+     ></abp-validation-summary>
+     </div>
+     </div>
 
 
   </div>

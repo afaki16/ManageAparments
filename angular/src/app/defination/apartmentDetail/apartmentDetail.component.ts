@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DetailApartmentOutput, HirerServiceProxy } from '@shared/service-proxies/service-proxies';
-import { TreeNode } from 'primeng/api';
 
 @Component({
-  selector: 'app-changeRent',
-  templateUrl: './changeRent.component.html',
-  styleUrls: ['./changeRent.component.css']
+  selector: 'app-apartmentDetail',
+  templateUrl: './apartmentDetail.component.html',
+  styleUrls: ['./apartmentDetail.component.css']
 })
-export class ChangeRentComponent implements OnInit {
+export class ApartmentDetailComponent implements OnInit {
 
   apartmentDetail : DetailApartmentOutput[];
 
@@ -19,5 +18,6 @@ export class ChangeRentComponent implements OnInit {
   });
 
   }
+
 
 }

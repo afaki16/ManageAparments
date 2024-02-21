@@ -2,11 +2,18 @@
 </section>
 
 <div class="card">
+    <h5 class="p-toolbar p-component">Ödeme Takip</h5>
+<div class="card">
   <p-table
       #dt2
       [value]="invoices"
-      dataKey="id"
-      [globalFilterFields]="['firstName', 'lastName', 'ssn', 'status']"
+      [tableStyle]="{'min-width': '60rem'}"
+      [paginator]="true"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['hirer.ssn', 'hirer.firstName', 'hirer.lastName','price','description']"
+      [rowsPerPageOptions]="[10, 20, 50]"
 
       >
 
@@ -51,7 +58,7 @@
                 {{ invoiceTypeEnum[invoice.invoiceType].displayName }}
             </td>
             <td>
-                {{ invoice.price }} TL
+                {{ invoice.price | currency:'TRY':'symbol':'1.2-2' }}
             </td>
             <td>
                 {{ invoice.invoiceDate | date: 'dd/MM/yyyy' }}
@@ -77,5 +84,6 @@
       </ng-template>
 
   </p-table>
+</div>
 </div>
 

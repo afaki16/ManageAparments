@@ -45,6 +45,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
             new MenuItem(this.l('HomePage'), '/app/home', 'fas fa-home'),
             new MenuItem(this.l('Binalar'), '/app/building', "ml-2 fas fa-building"),
             new MenuItem(this.l('Daireler'), '/app/apartment', 'fas fa-home'),
+            new MenuItem(this.l('Daire Detay'), '/app/apartmentDetail', 'fa-solid fa-building-user'),
             new MenuItem(this.l('Kiracılar'), '/app/hirer', "ml-2 fa fa-handshake"),
             new MenuItem(this.l('Ödemeler'), '/app/invoiceDetail', "ml-2 fas fa-receipt"),
             new MenuItem(this.l('Ödeme Takip'), '/app/payment', "fa-solid fa-cart-shopping"),
@@ -55,11 +56,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                 //     '/app/paid',
                 //     'fas fa-check'
                 // ),
-                new MenuItem(
-                    'Kira Düzenle',
-                    '/app/changeRent',
-                    'fa-solid fa-arrows-rotate'
-                ),
+                // new MenuItem(
+                //     'Kira Düzenle',
+                //     '/app/changeRent',
+                //     'fa-solid fa-arrows-rotate'
+                // ),
                 new MenuItem(
                     'Daireyi Boşalt',
                     '/app/outHirer',

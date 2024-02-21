@@ -1,6 +1,6 @@
 <section class="content-header" style="padding: 5px 0.5rem">
 </section>
-<section class="content px-2" style="height: calc(100vh - 159px)">
+<section class="content px-2" style="height: calc(100vh - 120px)">
   <p-table #dt dataKey="id" [(selection)]="dataGridOptions.parentComponent.selectedEntities" [selectionMode]="dataGridOptions.selectionMode" [resizableColumns]="true" responsive="true" [autoLayout]="true" styleClass="p-datatable-sm p-datatable-gridlines" columnResizeMode="expand" [scrollable]="true" scrollHeight="flex" [paginator]="true" [rows]="dataGridOptions.parentComponent.pageSize" [rowsPerPageOptions]="dataGridOptions.paginationSizes" [totalRecords]="dataGridOptions.parentComponent.totalItems" [loading]="dataGridOptions.parentComponent.isTableLoading" [lazy]="true" (onLazyLoad)="dataGridOptions.parentComponent.onLazyLoad($event)" [columns]="dataGridOptions.columns" [value]="entities"
   (selectionChange)="onSelectionChange($event)" [selectAll]="dataGridOptions.parentComponent.selectAll" (selectAllChange)="onSelectAllChange($event)" sortMode="multiple" [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">  <ng-template pTemplate="caption">
       <p-toolbar>
