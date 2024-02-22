@@ -78,7 +78,8 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
   //changeRent
  import {ChangeRentComponent} from '@app/defination/transaction/changeRent/changeRent.component';
   //paid
-  import {PaidComponent} from '@app/defination/transaction/paid/paid.component';
+ import {PaidComponent} from '@app/defination/transaction/paid/paid.component';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -150,6 +151,7 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
 
          //paid
          PaidComponent,
+
 
 
     ],

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { InvoiceTypeEnum } from '@app/service/enum/InvoiceType';
+import { GetAllPaidReport, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-paid',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaidComponent implements OnInit {
 
-  constructor() { }
+  paidReport : GetAllPaidReport[];
+  invoiceTypeEnum = InvoiceTypeEnum;
+
+  constructor(private invoiceDetailService: InvoiceDetailServiceProxy) {}
 
   ngOnInit() {
-  }
+    this.invoiceDetailService.getAllPaidReport().subscribe((data) => {
+      this.paidReport = data;
+  });
 
+  }
 }

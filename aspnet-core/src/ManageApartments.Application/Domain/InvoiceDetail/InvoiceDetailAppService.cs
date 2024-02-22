@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using ManageApartments.EntityFrameworkCore.Repositories.Contracts.InvoiceDetail;
 using Microsoft.EntityFrameworkCore;
 using ManageApartments.Domain.Hirer.Dtos;
+using System.Linq.Dynamic.Core;
 
 namespace ManageApartments.Domain.InvoiceDetail;
 
@@ -77,7 +78,27 @@ public class InvoiceDetailAppService :
         return this.ObjectMapper.Map<List<InvoiceDetailFullOutput>>(await query);
     }
 
-    
-    
+    [HttpGet]
+    public async Task<List<GetAllPaidReport>> GetAllPaidReport()
+    {
+        var query = await _invoiceDetailRepository.GetAll()
+            .Include(id => id.Hirer)
+                .ThenInclude(h => h.Apartment)
+            .Where(id => id.IsPaid)
+            .GroupBy(id => new { ApartmentName = id.Hirer.Apartment.Name, InvoiceType = id.InvoiceType })
+            .Select(group => new GetAllPaidReport
+            {
+                TotalPrice = group.Sum(id => id.Price),
+                Apartment = group.Key.ApartmentName,
+                InvoiceType = group.Key.InvoiceType
+            })
+             .OrderBy(result => result.Apartment)
+            .ToListAsync();
+
+        return query;
+    }
+
+
+
 
 }

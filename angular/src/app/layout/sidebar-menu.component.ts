@@ -88,6 +88,16 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
                     ),
 
             ]),
+            new MenuItem(this.l('Raporlar'), '', 'fa-solid fa-flag', '', [
+                new MenuItem(
+                    'Daire Ödemeleri',
+                    '/app/paid',
+                     'fa-solid fa-money-bills'
+                ),
+
+
+        ]),
+
 
             new MenuItem(
                 this.l('Roles'),

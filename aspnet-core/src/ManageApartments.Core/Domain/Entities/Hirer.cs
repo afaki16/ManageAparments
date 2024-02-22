@@ -10,8 +10,6 @@ namespace ManageApartments.Domain.Entities
         public ulong SSN { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        //Belgeler için property
-        //public int MyProperty { get; set; }
         public bool? IsActive{ get; set; }
         public DateTime? StartDate  { get; set; }
         public int? UsageTime { get; set; }

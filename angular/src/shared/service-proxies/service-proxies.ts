@@ -3428,6 +3428,64 @@ export class InvoiceDetailServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getAllPaidReport(): Observable<GetAllPaidReport[]> {
+        let url_ = this.baseUrl + "/api/services/app/InvoiceDetail/GetAllPaidReport";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPaidReport(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPaidReport(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<GetAllPaidReport[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<GetAllPaidReport[]>;
+        }));
+    }
+
+    protected processGetAllPaidReport(response: HttpResponseBase): Observable<GetAllPaidReport[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(GetAllPaidReport.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -8144,6 +8202,61 @@ export interface IFlatPermissionDto {
     name: string | undefined;
     displayName: string | undefined;
     description: string | undefined;
+}
+
+export class GetAllPaidReport implements IGetAllPaidReport {
+    id: number;
+    totalPrice: number;
+    apartment: string | undefined;
+    invoiceType: InvoiceType;
+
+    constructor(data?: IGetAllPaidReport) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.totalPrice = _data["totalPrice"];
+            this.apartment = _data["apartment"];
+            this.invoiceType = _data["invoiceType"];
+        }
+    }
+
+    static fromJS(data: any): GetAllPaidReport {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllPaidReport();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["totalPrice"] = this.totalPrice;
+        data["apartment"] = this.apartment;
+        data["invoiceType"] = this.invoiceType;
+        return data;
+    }
+
+    clone(): GetAllPaidReport {
+        const json = this.toJSON();
+        let result = new GetAllPaidReport();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IGetAllPaidReport {
+    id: number;
+    totalPrice: number;
+    apartment: string | undefined;
+    invoiceType: InvoiceType;
 }
 
 export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInformationsOutput {

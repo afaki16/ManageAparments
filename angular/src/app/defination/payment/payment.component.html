@@ -12,7 +12,7 @@
       [rows]="10"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="['hirer.ssn', 'hirer.firstName', 'hirer.lastName','price','description']"
+      [globalFilterFields]="['hirer.ssn', 'hirer.firstName', 'hirer.lastName','price','description','invoiceType']"
       [rowsPerPageOptions]="[10, 20, 50]"
 
       >
@@ -26,23 +26,20 @@
           </div>
       </ng-template>
       <ng-template pTemplate="header">
-          <tr>
+        <tr>
+            <th pSortableColumn="id" >Id <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="hirer.ssn" >Kimlik No<p-sortIcon field="hirer.ssn"></p-sortIcon></th>
+            <th pSortableColumn="hirer.firstName" >Kiracı<p-sortIcon field="hirer.firstName"></p-sortIcon></th>
+            <th pSortableColumn="invoiceType" >Borç Türü<p-sortIcon field="invoiceType"></p-sortIcon></th>
+            <th pSortableColumn="price" >Tutar<p-sortIcon field="price"></p-sortIcon></th>
+            <th pSortableColumn="invoiceDate" >Tarih<p-sortIcon field="invoiceDate"></p-sortIcon></th>
+            <th pSortableColumn="description" >Açıklama<p-sortIcon field="description"></p-sortIcon></th>
+            <th>Durum</th>
+            <th pSortableColumn="isPaid" >Ödendi mi?<p-sortIcon field="isPaid"></p-sortIcon></th>
 
-              <th >Id</th>
-              <th >Kimlik No</th>
-              <th >Kiracı</th>
-              <th >Borç Türü</th>
-              <th >Tutar</th>
-              <th >Tarih</th>
-              <th >Açıklama</th>
-              <th >Durum</th>
-              <th >Ödendi mi?</th>
+        </tr>
+    </ng-template>
 
-
-
-          </tr>
-
-      </ng-template>
       <ng-template pTemplate="body" let-invoice>
           <tr>
             <td>
