@@ -20,6 +20,7 @@ namespace ManageApartments.EntityFrameworkCore
         public DbSet<Electric> Electrics { get; set; }
         public DbSet<Fee> Fees { get; set; }
         public DbSet<Rent> Rents { get; set; }
+        public DbSet<LoginImage> LoginImages { get; set; }
 
         public ManageApartmentsDbContext(DbContextOptions<ManageApartmentsDbContext> options)
             : base(options)

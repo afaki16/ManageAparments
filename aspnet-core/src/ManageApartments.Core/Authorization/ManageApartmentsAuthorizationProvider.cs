@@ -195,6 +195,25 @@ namespace ManageApartments.Authorization
                 rentParentPermission.CreateChildPermission(PermissionNames.Rent_Delete,
                     L(PermissionNames.Rent_Delete));
 
+            // loginImage
+            var loginImageParentPermission =
+             context.CreatePermission(PermissionNames.LoginImage, L(PermissionNames.LoginImage));
+
+            var loginImageCreatePermission =
+                loginImageParentPermission.CreateChildPermission(PermissionNames.LoginImage_Create,
+                    L(PermissionNames.LoginImage_Create));
+            var loginImageGetPermission =
+                loginImageParentPermission.CreateChildPermission(PermissionNames.LoginImage_Get,
+                    L(PermissionNames.LoginImage_Get));
+            var loginImageGetListPermission =
+                loginImageParentPermission.CreateChildPermission(PermissionNames.LoginImage_GetList,
+                    L(PermissionNames.LoginImage_GetList));
+            var loginImageUpdatePermission =
+                loginImageParentPermission.CreateChildPermission(PermissionNames.LoginImage_Update,
+                    L(PermissionNames.LoginImage_Update));
+            var loginImageDeletePermission =
+                loginImageParentPermission.CreateChildPermission(PermissionNames.LoginImage_Delete,
+                    L(PermissionNames.LoginImage_Delete));
 
         }
         private static ILocalizableString L(string name)

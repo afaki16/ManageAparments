@@ -72,5 +72,12 @@
         public const string Rent_Update = "Rent.Update";
         public const string Rent_Delete = "Rent.Delete";
 
+        public const string LoginImage = "LoginImage";
+        public const string LoginImage_GetList = "LoginImage.GetList";
+        public const string LoginImage_Create = "LoginImage.Create";
+        public const string LoginImage_Get = "LoginImage.Get";
+        public const string LoginImage_Update = "LoginImage.Update";
+        public const string LoginImage_Delete = "LoginImage.Delete";
+
     }
 }
