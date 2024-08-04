@@ -79,6 +79,9 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
  import {ChangeRentComponent} from '@app/defination/transaction/changeRent/changeRent.component';
   //paid
  import {PaidComponent} from '@app/defination/transaction/paid/paid.component';
+//LoginImage
+ import { CreateLoginImageComponent } from '@app/defination/loginImage/create-loginImage/create-loginImage.component';
+ import { LoginImageComponent } from '@app/defination/loginImage/loginImage.component';
 
 @NgModule({
     declarations: [
@@ -151,6 +154,10 @@ import {EditExpenseComponent} from '@app/defination/expense/edit-expense/edit-ex
 
          //paid
          PaidComponent,
+
+         //LoginImage
+         LoginImageComponent,
+         CreateLoginImageComponent,
 
 
 

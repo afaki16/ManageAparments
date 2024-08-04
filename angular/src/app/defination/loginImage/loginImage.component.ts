@@ -1,38 +1,31 @@
 import { AfterContentChecked, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { Observable, finalize } from 'rxjs';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { DataGridOptions } from '@shared/components/data-grid/dtos/data-grid-options';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DataGridColumn } from '@shared/components/data-grid/dtos/data-grid-column';
 import { DataGridColumnType } from '@shared/components/data-grid/dtos/data-grid-column-type';
-import { TableFilterModel, TableFilterSortMeta } from '@shared/components/data-grid/filters/table-filter';
-import {ConfirmationService, ConfirmEventType, MessageService} from 'primeng/api';
-import { InvoiceDetailFullOutput, InvoiceDetailServiceProxy } from '@shared/service-proxies/service-proxies';
-import { CreateInvoiceDetailComponent } from './create-invoiceDetail/create-invoiceDetail.component';
-import { EditInvoiceDetailComponent } from './edit-invoiceDetail/edit-invoiceDetail.component';
-import { InvoiceTypeEnum } from '@app/service/enum/InvoiceType';
-import { log } from 'console';
-
+import { DataGridOptions } from '@shared/components/data-grid/dtos/data-grid-options';
+import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
+import { LoginImageFullOutput, LoginImageServiceProxy, TableFilterModel, TableFilterSortMeta } from '@shared/service-proxies/service-proxies';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
+import { Observable, finalize } from 'rxjs';
+import { CreateLoginImageComponent } from './create-loginImage/create-loginImage.component';
 
 @Component({
-  selector: 'app-invoiceDetail',
-  templateUrl: './invoiceDetail.component.html',
-  styleUrls: ['./invoiceDetail.component.css'],
-  animations: [appModuleAnimation()]
+  selector: 'app-loginImage',
+  templateUrl: './loginImage.component.html',
+  styleUrls: ['./loginImage.component.css']
 })
-export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDetailFullOutput> implements OnInit, AfterContentChecked {
-  entities: InvoiceDetailFullOutput[];
-  selectedEntities : InvoiceDetailFullOutput[];
+export class LoginImageComponent extends PagedListingComponentBase<LoginImageFullOutput> implements OnInit, AfterContentChecked {
+
+  entities: LoginImageFullOutput[];
+  selectedEntities : LoginImageFullOutput[];
   dataGridOptions : DataGridOptions;
   filteredDataRequest : TableFilterModel = new TableFilterModel();
-  invoiceTypeEnum = InvoiceTypeEnum;
   selectAll: boolean = false;
   totalCount: number ;
   constructor(
     injector: Injector,
     private changeDetector: ChangeDetectorRef,
-    private _invoiceDetailService : InvoiceDetailServiceProxy,
+    private _loginImageService : LoginImageServiceProxy,
     private _confirmationService : ConfirmationService,
     private _messageService: MessageService,
     private _modalService: BsModalService
@@ -41,20 +34,20 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
 
     this.dataGridOptions = new DataGridOptions();
 
-    this.dataGridOptions.title = this.l('Ödemeler');
-    this.dataGridOptions.permissionNameCreate  = 'InvoiceDetail.Create';
-    this.dataGridOptions.permissionNameUpdate  = 'InvoiceDetail.Update';
-    this.dataGridOptions.permissionNameDelete  = 'InvoiceDetail.Delete';
-    this.dataGridOptions.permissionNameExport  = 'InvoiceDetail.GetList';
+    this.dataGridOptions.title = this.l('LoginImages');
+    this.dataGridOptions.permissionNameCreate  = 'LoginImage.Create';
+    this.dataGridOptions.permissionNameUpdate  = 'LoginImage.Update';
+    this.dataGridOptions.permissionNameDelete  = 'LoginImage.Delete';
+    this.dataGridOptions.permissionNameExport  = 'LoginImage.GetList';
 
 
     this.dataGridOptions.buttonActiveCreate = true;
-    this.dataGridOptions.buttonActiveUpdate = true;
+    this.dataGridOptions.buttonActiveUpdate = false;
     this.dataGridOptions.buttonActiveDelete = true;
     this.dataGridOptions.buttonActiveExport = true;
 
     this.dataGridOptions.buttonHiddenCreate = false;
-    this.dataGridOptions.buttonHiddenUpdate = false;
+    this.dataGridOptions.buttonHiddenUpdate = true;
     this.dataGridOptions.buttonHiddenDelete = false;
     this.dataGridOptions.buttonHiddenExport = true;
 
@@ -65,62 +58,23 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     this.dataGridOptions.filteringGlobal = true;
 
     let x = new DataGridColumn();
-    x.dataTitle = this.l('Daire Adı');
-    x.dataField = 'hirer.apartment.name';
+    x.dataTitle = 'Id';
+    x.dataField = 'id';
     x.dataType = DataGridColumnType.string;
     this.dataGridOptions.columns.push(x);
 
     x = new DataGridColumn();
-    x.dataTitle = this.l('Kiracı Adı');
-    x.dataField = 'hirer.firstName';
-    x.dataType = DataGridColumnType.string;
+    x.dataTitle = this.l("Image");
+    x.dataField = "photoUrl";
+    x.dataType = DataGridColumnType.image;
+    x.filteringEnabled = false;
     this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Kiracı Soyadı');
-    x.dataField = 'hirer.lastName';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Borç Türü');
-    x.dataField = "invoiceType";
-    x.dataType = DataGridColumnType.enum;
-    x.dataEnum = this.invoiceTypeEnum;
-    x.sortingEnabled = false;
-    x.filteringEnabled = true;
-    x.dataFieldLocalize = true;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l("Tutar");
-    x.dataField = "price";
-    x.dataType = DataGridColumnType.number;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Tarih');
-    x.dataField = 'invoiceDate._d';
-    x.dataType = DataGridColumnType.date;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Açıklama');
-    x.dataField = 'description';
-    x.dataType = DataGridColumnType.string;
-    this.dataGridOptions.columns.push(x);
-
-    x = new DataGridColumn();
-    x.dataTitle = this.l('Ödendi mi?');
-    x.dataField = 'isPaid';
-    x.dataType = DataGridColumnType.boolean;
-    this.dataGridOptions.columns.push(x);
-
 
     this.dataGridOptions.parentComponent = this;
   }
 
-  ngOnInit(): void {
+
+  ngOnInit() {
   }
 
   ngAfterContentChecked(): void {
@@ -132,7 +86,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     pageNumber: number,
     finishedCallback: Function
   ): void {
-    this._invoiceDetailService
+    this._loginImageService
     .getAllFiltered(this.filteredDataRequest)
     .pipe(
       finalize(() => {
@@ -140,14 +94,13 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
       })
     )
     .subscribe((response) => {
-
         this.entities = response.items;
         this.totalCount = response.totalCount;
         this.showPaging(response, pageNumber);
 
     });
-
   }
+
   public changePageNumber(event) {
     this.pageSize = event.rows;
     this.getDataPage(event.page);
@@ -167,13 +120,15 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
   }
 
   public create() {
-    this.showCreateOrEditInvoiceDetailDialog();
+    this.showCreateOrEditBuildingDialog();
   }
 
-  public update(entitiy: InvoiceDetailFullOutput) {
-   this.showCreateOrEditInvoiceDetailDialog(entitiy.id);
+  public update(entitiy: LoginImageFullOutput) {
+   this.showCreateOrEditBuildingDialog(entitiy.id);
   }
-  public delete(entitiy: InvoiceDetailFullOutput): void {
+
+  public delete(entitiy: LoginImageFullOutput): void {
+
 
     this._confirmationService.confirm({
       message: this.l('DeleteConfirmation'),
@@ -184,7 +139,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
       rejectButtonStyleClass : "p-button-secondary",
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this._invoiceDetailService.delete(entitiy.id).subscribe(() => {
+        this._loginImageService.delete(entitiy.id).subscribe(() => {
           this._messageService.add({severity:'info', summary:this.l('RequestCompleted'), detail : this.l('SuccessfullyDeleted')});
           this.refresh();
         });
@@ -200,23 +155,13 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     });
   }
 
-  private showCreateOrEditInvoiceDetailDialog(id?: number): void {
+  private showCreateOrEditBuildingDialog(id?: number): void {
     let createOrEditUserDialog: BsModalRef;
     if (!id) {
       createOrEditUserDialog = this._modalService.show(
-        CreateInvoiceDetailComponent,
+        CreateLoginImageComponent,
         {
           class: 'modal-lg',
-        }
-      );
-    } else {
-      createOrEditUserDialog = this._modalService.show(
-        EditInvoiceDetailComponent,
-        {
-          class: 'modal-lg',
-          initialState: {
-             id: id,
-          },
         }
       );
     }
@@ -226,7 +171,6 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
     });
 
   }
-
 
   onSelectionChange(value = []) {
     this.selectAll = value.length === this.totalCount;
@@ -240,7 +184,7 @@ export class InvoiceDetailComponent extends PagedListingComponentBase<InvoiceDet
       if (checked) {
         this.filteredDataRequest.rows = this.totalCount;
         this.filteredDataRequest.first = 0;
-        this._invoiceDetailService
+        this._loginImageService
           .getAllFiltered(this.filteredDataRequest)
           .pipe(finalize(() => {}))
           .subscribe((response) => {

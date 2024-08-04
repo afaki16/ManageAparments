@@ -38,7 +38,7 @@ public class InvoiceDetailAppService :
     public async Task<PagedResultDto<InvoiceDetailFullOutput>> GetAllFilteredAsync(TableFilterModel tableFilterPayload)
     {
         var query = this._invoiceDetailRepository.GetAll().PrimengTableFilter(tableFilterPayload, out var totalRecord);
-        query = query.Include(x => x.Hirer);
+        query = query.Include(x => x.Hirer).ThenInclude(x=>x.Apartment);
            
         var entities = await AsyncQueryableExecuter.ToListAsync(query);
         return new PagedResultDto<InvoiceDetailFullOutput>(
@@ -74,7 +74,7 @@ public class InvoiceDetailAppService :
     [HttpGet]
     public async Task<List<InvoiceDetailFullOutput>> GetAllPayment()
     {
-        var query = this._invoiceDetailRepository.GetAll().Include(x => x.Hirer).Where(x=>x.IsPaid ==false).OrderBy(x => x.InvoiceDate).ToListAsync();
+        var query = this._invoiceDetailRepository.GetAll().Include(x => x.Hirer).ThenInclude(x=>x.Apartment).Where(x=>x.IsPaid ==false).OrderBy(x => x.InvoiceDate).ToListAsync();
         return this.ObjectMapper.Map<List<InvoiceDetailFullOutput>>(await query);
     }
 

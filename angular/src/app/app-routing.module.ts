@@ -20,6 +20,7 @@ import { OutHirerComponent } from './defination/transaction/outHirer/outHirer.co
 import { ChangeRentComponent } from './defination/transaction/changeRent/changeRent.component';
 import { PaidComponent } from './defination/transaction/paid/paid.component';
 import { ApartmentDetailComponent } from './defination/apartmentDetail/apartmentDetail.component';
+import { LoginImageComponent } from './defination/loginImage/loginImage.component';
 
 @NgModule({
     imports: [
@@ -46,6 +47,7 @@ import { ApartmentDetailComponent } from './defination/apartmentDetail/apartment
                     { path: 'outHirer', component: OutHirerComponent, canActivate: [AppRouteGuard] },
                     { path: 'changeRent', component: ChangeRentComponent, canActivate: [AppRouteGuard] },
                     { path: 'paid', component: PaidComponent, canActivate: [AppRouteGuard] },
+                    { path: 'loginImages', component: LoginImageComponent, canActivate: [AppRouteGuard] },
                 ]
             }
         ])

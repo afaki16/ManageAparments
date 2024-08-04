@@ -18,9 +18,7 @@ export class PaymentComponent implements OnInit {
 
         this._invoiceDetailService.getAllPayment().subscribe((invoices) => {
             this.invoices = invoices;
-
         });
-
     }
 
     getTime(invoiceDate:Date) {

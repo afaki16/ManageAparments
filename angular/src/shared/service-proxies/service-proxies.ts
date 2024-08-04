@@ -3599,6 +3599,408 @@ export class InvoiceDetailServiceProxy {
 }
 
 @Injectable()
+export class LoginImageServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getAllFiltered(body: TableFilterModel | undefined): Observable<LoginImageFullOutputPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/GetAllFiltered";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllFiltered(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllFiltered(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LoginImageFullOutputPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LoginImageFullOutputPagedResultDto>;
+        }));
+    }
+
+    protected processGetAllFiltered(response: HttpResponseBase): Observable<LoginImageFullOutputPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginImageFullOutputPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getImagesFullOutputs(): Observable<LoginImageFullOutput[]> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/GetImagesFullOutputs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetImagesFullOutputs(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetImagesFullOutputs(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LoginImageFullOutput[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LoginImageFullOutput[]>;
+        }));
+    }
+
+    protected processGetImagesFullOutputs(response: HttpResponseBase): Observable<LoginImageFullOutput[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(LoginImageFullOutput.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateLoginImageInput | undefined): Observable<LoginImageFullOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LoginImageFullOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LoginImageFullOutput>;
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<LoginImageFullOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginImageFullOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    get(id: number | undefined): Observable<LoginImageFullOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/Get?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LoginImageFullOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LoginImageFullOutput>;
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<LoginImageFullOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginImageFullOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    getAll(id: number | undefined): Observable<LoginImageFullOutputPagedResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/GetAll?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LoginImageFullOutputPagedResultDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LoginImageFullOutputPagedResultDto>;
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<LoginImageFullOutputPagedResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginImageFullOutputPagedResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    update(body: UpdateLoginImageInput | undefined): Observable<LoginImageFullOutput> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/Update";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<LoginImageFullOutput>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<LoginImageFullOutput>;
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<LoginImageFullOutput> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = LoginImageFullOutput.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param id (optional) 
+     * @return Success
+     */
+    delete(id: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/LoginImage/Delete?";
+        if (id === null)
+            throw new Error("The parameter 'id' cannot be null.");
+        else if (id !== undefined)
+            url_ += "Id=" + encodeURIComponent("" + id) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class RentServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -6014,6 +6416,57 @@ export interface IAuthenticateResultModel {
     userId: number;
 }
 
+export class Base64FileUpload implements IBase64FileUpload {
+    fileName: string | undefined;
+    fileData: string | undefined;
+    fileExtn: string | undefined;
+
+    constructor(data?: IBase64FileUpload) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.fileName = _data["fileName"];
+            this.fileData = _data["fileData"];
+            this.fileExtn = _data["fileExtn"];
+        }
+    }
+
+    static fromJS(data: any): Base64FileUpload {
+        data = typeof data === 'object' ? data : {};
+        let result = new Base64FileUpload();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fileName"] = this.fileName;
+        data["fileData"] = this.fileData;
+        data["fileExtn"] = this.fileExtn;
+        return data;
+    }
+
+    clone(): Base64FileUpload {
+        const json = this.toJSON();
+        let result = new Base64FileUpload();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBase64FileUpload {
+    fileName: string | undefined;
+    fileData: string | undefined;
+    fileExtn: string | undefined;
+}
+
 export class Building implements IBuilding {
     id: number;
     creationTime: moment.Moment;
@@ -6905,6 +7358,53 @@ export interface ICreateInvoiceDetailInput {
     description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
+}
+
+export class CreateLoginImageInput implements ICreateLoginImageInput {
+    photoUrl: string | undefined;
+    base64FileUpload: Base64FileUpload;
+
+    constructor(data?: ICreateLoginImageInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.photoUrl = _data["photoUrl"];
+            this.base64FileUpload = _data["base64FileUpload"] ? Base64FileUpload.fromJS(_data["base64FileUpload"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateLoginImageInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateLoginImageInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["photoUrl"] = this.photoUrl;
+        data["base64FileUpload"] = this.base64FileUpload ? this.base64FileUpload.toJSON() : <any>undefined;
+        return data;
+    }
+
+    clone(): CreateLoginImageInput {
+        const json = this.toJSON();
+        let result = new CreateLoginImageInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateLoginImageInput {
+    photoUrl: string | undefined;
+    base64FileUpload: Base64FileUpload;
 }
 
 export class CreateRentInput implements ICreateRentInput {
@@ -9118,6 +9618,112 @@ export interface IIsTenantAvailableOutput {
     tenantId: number | undefined;
 }
 
+export class LoginImageFullOutput implements ILoginImageFullOutput {
+    id: number;
+    photoUrl: string | undefined;
+    base64FileUpload: Base64FileUpload;
+
+    constructor(data?: ILoginImageFullOutput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.photoUrl = _data["photoUrl"];
+            this.base64FileUpload = _data["base64FileUpload"] ? Base64FileUpload.fromJS(_data["base64FileUpload"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): LoginImageFullOutput {
+        data = typeof data === 'object' ? data : {};
+        let result = new LoginImageFullOutput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["photoUrl"] = this.photoUrl;
+        data["base64FileUpload"] = this.base64FileUpload ? this.base64FileUpload.toJSON() : <any>undefined;
+        return data;
+    }
+
+    clone(): LoginImageFullOutput {
+        const json = this.toJSON();
+        let result = new LoginImageFullOutput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILoginImageFullOutput {
+    id: number;
+    photoUrl: string | undefined;
+    base64FileUpload: Base64FileUpload;
+}
+
+export class LoginImageFullOutputPagedResultDto implements ILoginImageFullOutputPagedResultDto {
+    items: LoginImageFullOutput[] | undefined;
+    totalCount: number;
+
+    constructor(data?: ILoginImageFullOutputPagedResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items.push(LoginImageFullOutput.fromJS(item));
+            }
+            this.totalCount = _data["totalCount"];
+        }
+    }
+
+    static fromJS(data: any): LoginImageFullOutputPagedResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LoginImageFullOutputPagedResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        data["totalCount"] = this.totalCount;
+        return data;
+    }
+
+    clone(): LoginImageFullOutputPagedResultDto {
+        const json = this.toJSON();
+        let result = new LoginImageFullOutputPagedResultDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILoginImageFullOutputPagedResultDto {
+    items: LoginImageFullOutput[] | undefined;
+    totalCount: number;
+}
+
 export class PermissionDto implements IPermissionDto {
     id: number;
     name: string | undefined;
@@ -10743,6 +11349,57 @@ export interface IUpdateInvoiceDetailInput {
     description: string | undefined;
     isPaid: boolean;
     hirerId: number | undefined;
+}
+
+export class UpdateLoginImageInput implements IUpdateLoginImageInput {
+    id: number;
+    photoUrl: string | undefined;
+    base64FileUpload: Base64FileUpload;
+
+    constructor(data?: IUpdateLoginImageInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.photoUrl = _data["photoUrl"];
+            this.base64FileUpload = _data["base64FileUpload"] ? Base64FileUpload.fromJS(_data["base64FileUpload"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpdateLoginImageInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateLoginImageInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["photoUrl"] = this.photoUrl;
+        data["base64FileUpload"] = this.base64FileUpload ? this.base64FileUpload.toJSON() : <any>undefined;
+        return data;
+    }
+
+    clone(): UpdateLoginImageInput {
+        const json = this.toJSON();
+        let result = new UpdateLoginImageInput();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUpdateLoginImageInput {
+    id: number;
+    photoUrl: string | undefined;
+    base64FileUpload: Base64FileUpload;
 }
 
 export class UpdateRentInput implements IUpdateRentInput {

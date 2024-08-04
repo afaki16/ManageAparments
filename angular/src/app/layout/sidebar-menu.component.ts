@@ -97,6 +97,11 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
 
         ]),
+        new MenuItem(
+            'Giriş Fotoğraf',
+            "/app/loginImages",
+            "ml-2 fa-regular fa-image",
+          ),
 
 
             new MenuItem(

@@ -12,7 +12,7 @@
       [rows]="10"
       [showCurrentPageReport]="true"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="['hirer.ssn', 'hirer.firstName', 'hirer.lastName','price','description','invoiceType']"
+      [globalFilterFields]="['hirer.ssn', 'hirer.firstName', 'hirer.lastName','price','description','invoiceType','hirer.apartment.name']"
       [rowsPerPageOptions]="[10, 20, 50]"
 
       >
@@ -28,6 +28,7 @@
       <ng-template pTemplate="header">
         <tr>
             <th pSortableColumn="id" >Id <p-sortIcon field="id"></p-sortIcon></th>
+            <th pSortableColumn="hirer.apartment.name" >Daire Adı<p-sortIcon field="hirer.apartment.name"></p-sortIcon></th>
             <th pSortableColumn="hirer.ssn" >Kimlik No<p-sortIcon field="hirer.ssn"></p-sortIcon></th>
             <th pSortableColumn="hirer.firstName" >Kiracı<p-sortIcon field="hirer.firstName"></p-sortIcon></th>
             <th pSortableColumn="invoiceType" >Borç Türü<p-sortIcon field="invoiceType"></p-sortIcon></th>
@@ -44,6 +45,9 @@
           <tr>
             <td>
                 {{ invoice.id }}
+             </td>
+             <td>
+                {{ invoice.hirer.apartment.name }}
              </td>
             <td>
               {{ invoice.hirer.ssn }}
