@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ManageApartments.Domain.Configurations
 {
+
     public class HirerConfiguration : IEntityTypeConfiguration<Hirer>
     {
         public void Configure(EntityTypeBuilder<Hirer> builder)

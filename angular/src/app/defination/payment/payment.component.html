@@ -47,13 +47,13 @@
                 {{ invoice.id }}
              </td>
              <td>
-                {{ invoice.hirer.apartment.name }}
+                {{ invoice.hirer?.apartment.name }}
              </td>
             <td>
-              {{ invoice.hirer.ssn }}
+              {{ invoice.hirer?.ssn }}
            </td>
               <td>
-                  {{ invoice.hirer.firstName }} {{ invoice.hirer.lastName }}
+                  {{ invoice.hirer?.firstName }} {{ invoice.hirer?.lastName }}
               </td>
               <td>
                 {{ invoiceTypeEnum[invoice.invoiceType].displayName }}
