@@ -1,0 +1,108 @@
+<section class="content-header" style="padding: 5px 0.5rem">
+</section>
+<section class="content px-2" style="height: calc(100vh - 120px)">
+  <p-table #dt dataKey="id" [(selection)]="dataGridOptions.parentComponent.selectedEntities" [selectionMode]="dataGridOptions.selectionMode" [resizableColumns]="true" responsive="true" [autoLayout]="true" styleClass="p-datatable-sm p-datatable-gridlines" columnResizeMode="expand" [scrollable]="true" scrollHeight="flex" [paginator]="true" [rows]="dataGridOptions.parentComponent.pageSize" [rowsPerPageOptions]="dataGridOptions.paginationSizes" [totalRecords]="dataGridOptions.parentComponent.totalItems" [loading]="dataGridOptions.parentComponent.isTableLoading" [lazy]="true" (onLazyLoad)="dataGridOptions.parentComponent.onLazyLoad($event)" [columns]="dataGridOptions.columns" [value]="entities"
+  (selectionChange)="onSelectionChange($event)" [selectAll]="dataGridOptions.parentComponent.selectAll" (selectAllChange)="onSelectAllChange($event)" sortMode="multiple" [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']">  <ng-template pTemplate="caption">
+      <p-toolbar>
+        <div class="p-toolbar-group-start">
+          <h5 class="m-0">{{ dataGridOptions.title | localize }}</h5>
+        </div>
+        <div class="p-toolbar-group-end">
+          <button type="button" pButton pRipple  icon="pi pi-plus" class="p-button-success p-button-sm mr-2" style="max-height: 38px;" (click)="dataGridOptions.parentComponent.create()" pTooltip="{{ 'Create' | localize }}" tooltipPosition="bottom" [disabled]="!isCreateActive()" [hidden]="this.dataGridOptions.buttonHiddenCreate"></button>
+            <!-- <button type="button" pButton pRipple icon="pi pi-file" (click)="dt.exportCSV()" class="p-button-secondary p-button-sm mr-2" style="max-height: 38px;" pTooltip="CSV" tooltipPosition="bottom" [disabled]="!isExportActive()" [hidden]="this.dataGridOptions.buttonHiddenExport"></button> -->
+            <button type="button" pButton pRipple icon="pi pi-file-excel" [disabled]="dataGridOptions.parentComponent.isTableLoading" class="p-button-secondary p-button-sm mr-2" style="max-height: 38px;" pTooltip="XLS" tooltipPosition="bottom" [disabled]="!isExportActive()" [hidden]="this.dataGridOptions.buttonHiddenExport"></button>
+            <!-- <button type="button" pButton pRipple icon="pi pi-file-pdf" [disabled]="dataGridOptions.parentComponent.isTableLoading" (click)="exportPdf()" class="p-button-secondary p-button-sm mr-2" style="max-height: 38px;" pTooltip="PDF" tooltipPosition="bottom" [disabled]="!isExportActive()" [hidden]="this.dataGridOptions.buttonHiddenExport"></button> -->
+            <div class="ml-2" *ngIf="dataGridOptions.filteringGlobal">
+              <div class="p-inputgroup" style="max-height: 38px;">
+                  <input #globalFilter type="text" pInputText [placeholder]="'SearchWithThreeDot' | localize" (keyup.enter)="dt.filterGlobal($event.target.value, 'contains')">
+                  <button type="button" pButton pRipple icon="fas fa-search" styleClass="p-button-warn p-button-sm" (click)="dt.filterGlobal(globalFilter.value, 'contains')"></button>
+              </div>
+          </div>
+        </div>
+      </p-toolbar>
+    </ng-template>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngIf="dataGridOptions.selectionMode" style="width: 4rem" pFrozenColumn alignFrozen="left" [frozen]="true">
+              <p-tableHeaderCheckbox appendTo="body"  *ngIf="dataGridOptions.selectionMode == 'multiple'"></p-tableHeaderCheckbox>
+            </th>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.dataField" [pSortableColumnDisabled]="!col.sortingEnabled">
+                <ng-container [ngSwitch]="true" *ngIf="col.filteringEnabled">
+                    <p-columnFilter *ngSwitchCase="col.dataType == 1" type="boolean" [field]="col.dataField" display="menu"></p-columnFilter>
+                    <p-columnFilter *ngSwitchCase="col.dataType == 2" type="numeric" [field]="col.dataField" display="menu"></p-columnFilter>
+                    <p-columnFilter *ngSwitchCase="col.dataType == 3" type="date" [field]="col.dataField" display="menu"></p-columnFilter>
+                    <p-columnFilter *ngSwitchCase="col.dataType == 5" type="date" [field]="col.dataField" display="menu"></p-columnFilter>
+                    <p-columnFilter *ngSwitchCase="col.dataType == 6" type="date" [field]="col.dataField" display="menu"></p-columnFilter>
+                    <p-columnFilter *ngSwitchCase="col.dataType == 4" [field]="col.dataField" matchMode="equals" display="menu" [showMatchModes]="false" [showOperator]="false" [showAddButton]="false">
+                        <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                            <p-dropdown appendTo="body" [ngModel]="value" [options]="col.dataEnum" optionLabel="displayName" optionValue="id"
+                                (onChange)="filter($event.value)" [placeholder]="'l_MakeASelection' | localize" [showClear]="true">
+                                <ng-template let-currentItem pTemplate="item">
+                                  <span *ngIf="col.dataFieldLocalize">{{ currentItem.displayName | localize}}</span>
+                                  <span *ngIf="!col.dataFieldLocalize">{{ currentItem.displayName }}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                    </p-columnFilter>
+                    <p-columnFilter *ngSwitchDefault type="text" [field]="col.dataField" display="menu"></p-columnFilter>
+                </ng-container>
+                <ng-container [ngSwitch]="true">
+                    <span *ngSwitchCase="col.dataTitleLocalize">{{col.dataTitle | localize}}</span>
+                    <span *ngSwitchDefault>{{col.dataTitle}}</span>
+                </ng-container>
+                <p-sortIcon *ngIf="col.sortingEnabled" [field]="col.dataField"></p-sortIcon>
+            </th>
+            <th *ngIf="(dataGridOptions.actions && dataGridOptions.actions.length > 0) || !this.dataGridOptions.buttonHiddenUpdate || !this.dataGridOptions.buttonHiddenDelete" pFrozenColumn alignFrozen="right" [frozen]="true" style="width: 310px;text-align: right;">{{ "Actions" | localize }}</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex" let-selectedEntities="selection">
+        <tr [ngClass]="{'p-highlight':isHighlight(dataGridOptions.parentComponent.selectedEntities, rowData)}">
+            <td appendTo="body" *ngIf="dataGridOptions.selectionMode" pFrozenColumn alignFrozen="left" [frozen]="true">
+              <p-tableCheckbox appendTo="body" *ngIf="dataGridOptions.selectionMode == 'multiple'" [value]="rowData"></p-tableCheckbox>
+              <p-tableRadioButton appendTo="body" *ngIf="dataGridOptions.selectionMode == 'single'" [value]="rowData"></p-tableRadioButton>
+            </td>
+            <td *ngFor="let col of columns" [ngClass]="{'text-center' : col.dataType == 1 || col.dataType == 8 }">
+              <ng-container [ngSwitch]="true">
+                <span *ngSwitchCase="col.dataType == 1" [style]="col.style"><i class="{{ fetchFromObject(rowData, col.dataField, col.dataType, col.dataEnum) }}"></i></span>
+                <span *ngSwitchCase="col.dataType == 3 || col.dataType == 5 || col.dataType == 6" [style]="col.style">{{ fetchFromObject(rowData, col.dataField, col.dataType, col.dataEnum) }}</span>
+                <span *ngSwitchCase="col.dataType == 7" [style]="col.style"><div [style]="fetchFromObject(rowData, col.dataField, col.dataType, col.dataEnum)"></div></span>
+                <span *ngSwitchCase="col.dataType == 8" [style]="col.style"><p-image src="{{ fetchFromObject(rowData, col.dataField, col.dataType, col.dataEnum) }}" alt="Image" height="50px" [preview]="true"></p-image></span>
+                <ng-container *ngSwitchDefault>
+                  <span *ngIf="col.dataFieldLocalize" [style]="col.style">{{ fetchFromObject(rowData, col.dataField, col.dataType, col.dataEnum) | localize}}</span>
+                  <span *ngIf="!col.dataFieldLocalize" [style]="col.style">{{ fetchFromObject(rowData, col.dataField, col.dataType, col.dataEnum) }}</span>
+                </ng-container>
+              </ng-container>
+            </td>
+            <td *ngIf="(dataGridOptions.actions && dataGridOptions.actions.length > 0) || !this.dataGridOptions.buttonHiddenUpdate || !this.dataGridOptions.buttonHiddenDelete" pFrozenColumn alignFrozen="right" [frozen]="true" style="text-align: right;max-height: 38px;">
+              <ng-container *ngIf="dataGridOptions.actions">
+                  <button *ngFor="let action of dataGridOptions.actions" type="button" pButton pRipple [icon]="action.icon" (click)="action.callback(rowData, dataGridOptions.parentComponent)" [ngClass]="action.class" class="p-button-sm mr-2" [pTooltip]="action.title | localize" tooltipPosition="bottom" [disabled]="action.disabled(rowData)" style="max-height: 38px;"></button>
+              </ng-container>
+              <button type="button" pButton pRipple icon="fas fa-pencil-alt" (click)="dataGridOptions.parentComponent.update(rowData)" class="p-button-sm p-button-secondary mr-2" [pTooltip]="'Edit' | localize" tooltipPosition="bottom" [disabled]="!isEditActive(rowData)" [hidden]="this.dataGridOptions.buttonHiddenUpdate" style="max-height: 38px;"></button>
+              <button type="button" pButton pRipple icon="fas fa-trash" (click)="dataGridOptions.parentComponent.delete(rowData)" class="p-button-sm p-button-danger mr-2" [pTooltip]="'Delete' | localize" tooltipPosition="bottom" [disabled]="!isDeleteActive(rowData)" [hidden]="this.dataGridOptions.buttonHiddenDelete" style="max-height: 38px;"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+  <!-- <ng-template pTemplate="paginatorright">
+    <p-button
+      icon="pi pi-sync"
+      styleClass="p-button-text"
+      type="button"
+    ></p-button>
+  </ng-template> -->
+
+  <ng-template pTemplate="paginatorleft">
+  <button type="button" pButton pRipple icon="pi pi-sync" (click)="dataGridOptions.parentComponent.refresh()" class="p-button-primary" style="max-height: 38px;" [pTooltip]="'Refresh' | localize" tooltipPosition="bottom" [disabled]="dataGridOptions.parentComponent.isTableLoading"></button>
+</ng-template>
+
+<ng-template pTemplate="paginatorright" let-state class="ui-g">
+  <div class="ui-g-5">
+    Showing {{ state.page * state.rows + 1 }} to
+    {{ state.rows * (state.page + 1) }} of {{ state.totalRecords }} entries
+  </div>
+</ng-template>
+
+
+  </p-table>
+
+</section>

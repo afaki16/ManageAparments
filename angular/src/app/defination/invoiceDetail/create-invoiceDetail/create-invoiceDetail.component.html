@@ -1,0 +1,174 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #formModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Yeni Kiracı Ekle' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+
+  <div class="modal-body">
+
+     <!-- Kiracı  -->
+     <div class="field grid" >
+      <label for="hirer" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Kiracı" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="hirers"
+          optionLabel="firstName"
+          optionValue="id"
+          [filter]="true"
+          filterBy="hirer.firstName"
+          [(ngModel)]="createInput.hirerId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Kiracı Seçiniz' | localize"
+          #factoryHirerModel="ngModel"
+          #factoryHirerError
+          >
+          <ng-template let-item pTemplate="item">
+            {{item.firstName}}  {{item.lastName}}
+        </ng-template>
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryHirerModel"
+        [controlEl]="factoryHirerError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+    <!-- Borç Türü -->
+    <div class="row" style="margin-bottom: 10px">
+      <div class="col-4">
+        <span style="font-weight: bold">{{ "Borç Türü" | localize }}</span>
+      </div>
+      <div class="col">
+        <p-dropdown
+          [options]="invoiceTypes"
+          [style]="{ width: '100%' }"
+          [filter]="true"
+          filterBy="name"
+          optionLabel="name"
+          optionValue="id"
+          [placeholder]="'LocationType' | localize"
+          [(ngModel)]="createInput.invoiceType"
+          [ngModelOptions]="{ standalone: true }"
+          #factoryInvoiceTypeModel="ngModel"
+          #factoryInvoiceTypeError
+        ></p-dropdown>
+        <abp-validation-summary
+          [control]="factoryInvoiceTypeModel"
+          [controlEl]="factoryInvoiceTypeError"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+    <!-- Tutar -->
+   <div class="field grid">
+    <label
+    for="price"
+    class="col-4 mb-4 md:col-4 md:mb-0"
+    >{{ "Tutar" | localize }}</label
+  >
+<div class="col-8 md:col-8">
+    <input
+      type="number"
+      id="price"
+      name="price"
+      required
+      maxlength="60"
+      [placeholder]="'Tutar' | localize"
+      [(ngModel)]="createInput.price"
+      class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+      #factoryPriceModel="ngModel"
+      #factoryPriceError
+    />
+    <abp-validation-summary
+    [control]="factoryPriceModel"
+    [controlEl]="factoryPriceError"
+  ></abp-validation-summary>
+  </div>
+</div>
+
+ <!-- Tarih -->
+ <div class="field grid">
+  <label for="invoiceDate" class="col-4 mb-4 md:col-4 md:mb-0">{{
+    "Tarih" | localize
+  }}</label>
+  <div class="col-8 md:col-8">
+    <p-calendar
+      type="datetime"
+      [style]="{'width':'100%'}"
+      id="invoiceDate"
+      name="invoiceDate"
+      required
+      dateFormat="dd-mm-yy"
+      [placeholder]="'Tarih' | localize"
+      [(ngModel)]="createInput.invoiceDate"
+      [dateFormat]
+      [showIcon]="true"
+      #invoiceDateModel="ngModel"
+      #invoiceDateError>
+    </p-calendar>
+    <abp-validation-summary
+      [control]="invoiceDateModel"
+      [controlEl]="invoiceDateError"
+    ></abp-validation-summary>
+  </div>
+</div>
+
+
+<!-- Açıklama -->
+<div class="field grid">
+  <label
+  for="description"
+  class="col-4 mb-4 md:col-4 md:mb-0"
+  >{{ "Açıklama" | localize }}</label
+>
+<div class="col-8 md:col-8">
+  <textarea [(ngModel)]="createInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
+   ></textarea>
+</div>
+</div>
+
+   <!-- Ödendi mi  -->
+  <div class="field grid">
+    <label class="col-4 mb-4 md:col-4 md:mb-0" >
+      {{ "Ödendi" | localize }}
+    </label>
+    <div class="col-8 md:col-8">
+      <div class="custom-control custom-checkbox">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          name="isPaid"
+          id="isPaid"
+          [(ngModel)]="createInput.isPaid"
+        />
+        <label class="custom-control-label mt-2" for="isPaid"></label>
+      </div>
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLoading]="saving"
+    [saveDisabled]="!formModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

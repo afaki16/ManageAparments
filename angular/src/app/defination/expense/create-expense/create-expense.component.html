@@ -1,0 +1,148 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #formModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Masraf Ekle' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+
+  <div class="modal-body">
+     <!-- Açıklama -->
+    <div class="field grid">
+      <label
+      for="description"
+      class="col-4 mb-4 md:col-4 md:mb-0"
+      >{{ "Açıklama" | localize }}</label
+    >
+    <div class="col-8 md:col-8">
+      <textarea [(ngModel)]="createInput.description"
+      [placeholder]="'Açıklama' | localize"
+       [ngModelOptions]="{ standalone: true }"
+        id="description"
+        rows="4" cols="52"
+        pInputTextarea
+       ></textarea>
+    </div>
+    </div>
+     <!-- İsim -->
+     <div class="field grid">
+      <label
+        for="price"
+        class="col-4 mb-4 md:col-4 md:mb-0"
+        >{{ "Tutar" | localize }}</label
+      >
+      <div class="col-8 md:col-8">
+        <input
+          type="number"
+          id="price"
+          name="price"
+          required
+          [placeholder]="'Tutar' | localize"
+          [(ngModel)]="createInput.price"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          #factoryPriceModel="ngModel"
+          #factoryPriceError
+        />
+        <abp-validation-summary
+        [control]="factoryPriceModel"
+        [controlEl]="factoryPriceError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+      <!-- Masraf Tarihi -->
+    <div class="field grid">
+      <label for="priceDate" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Masraf Tarihi" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-calendar
+          type="datetime"
+          [style]="{'width':'100%'}"
+          id="priceDate"
+          name="priceDate"
+          required
+          dateFormat="dd-mm-yy"
+          [placeholder]="'Masraf Tarihi' | localize"
+          [(ngModel)]="createInput.priceDate"
+          [dateFormat]
+          [showIcon]="true"
+          #priceDateModel="ngModel"
+          #priceDateError>
+        </p-calendar>
+        <abp-validation-summary
+          [control]="priceDateModel"
+          [controlEl]="priceDateError"
+        ></abp-validation-summary>
+      </div>
+    </div>
+
+     <!-- Masraf Türü Ekle -->
+     <div class="field grid">
+      <label for="expenseType" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Masraf Türü" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="expenseTypes"
+          required
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [(ngModel)]="createInput.expenseTypeId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Masraf Türü Seçiniz' | localize"
+          #factoryExpenseTypeModel="ngModel"
+          #factoryExpenseTypeError
+        >
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryExpenseTypeModel"
+        [controlEl]="factoryExpenseTypeError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+     <!-- Bina Ekle -->
+     <div class="field grid">
+      <label for="building" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Apartman" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="buildings"
+          required
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [(ngModel)]="createInput.buildingId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Apartman Seçiniz' | localize"
+          #factoryBuildingModel="ngModel"
+          #factoryBuildingError
+        >
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryBuildingModel"
+        [controlEl]="factoryBuildingError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+
+
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLoading]="saving"
+    [saveDisabled]="!formModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>

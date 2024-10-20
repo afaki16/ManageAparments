@@ -1,0 +1,39 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #formModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'CreateNewLoginImage' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+
+    <div class="field grid">
+      <label for="pathUrl" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Image" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-toast></p-toast>
+        <p-fileUpload
+          mode="advanced"
+          [auto]="true"
+          chooseLabel="{{ 'l_SelectImage' | localize }}"
+          accept="image/*"
+          maxFileSize="10000000"
+          [customUpload]="true"
+          (uploadHandler)="onFileSelected($event)"
+
+        ></p-fileUpload>
+      </div>
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLoading]="saving"
+    [saveDisabled]="!formModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
+

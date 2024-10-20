@@ -1,0 +1,49 @@
+<section class="content-header" style="padding: 5px 0.5rem">
+</section>
+<section class="content px-2" style="height: calc(100vh - 159px)">
+
+<div class="card">
+  <h5 class="p-toolbar p-component">Daire Detay</h5>
+
+  <div class="card">
+    <p-table
+    #dt1
+    [value]="apartmentDetail"
+    [tableStyle]="{'min-width': '60rem'}"
+    [paginator]="true"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['apartmentName', 'rent.price', 'fee.price', 'electric.numeratorNo','electric.kw']"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    >
+    <ng-template pTemplate="caption">
+        <div class="flex">
+            <span class="p-input-icon-left ml-auto">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+            </span>
+        </div>
+    </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="apartmentName" style="width:20%">Daire <p-sortIcon field="apartmentName"></p-sortIcon></th>
+                <th pSortableColumn="rent.price" style="width:20%">Kira <p-sortIcon field="rent.price"></p-sortIcon></th>
+                <th pSortableColumn="fee.price" style="width:20%">Aidat <p-sortIcon field="fee.price"></p-sortIcon></th>
+                <th pSortableColumn="electric.numeratorNo" style="width:20%">Sayaç No <p-sortIcon field="electric.numeratorNo"></p-sortIcon></th>
+                <th pSortableColumn="electric.kw" style="width:20%">KW <p-sortIcon field="electric.kw"></p-sortIcon></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-apartmentDetail>
+            <tr>
+                <td>{{apartmentDetail.apartmentName}}</td>
+                <td>{{apartmentDetail.rent.price | currency:'TRY':'symbol':'1.2-2'}}</td>
+                <td>{{apartmentDetail.fee.price | currency:'TRY':'symbol':'1.2-2'}}</td>
+                <td>{{apartmentDetail.electric.numeratorNo}}</td>
+                <td>{{apartmentDetail.electric.kw}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+</div>
+</section>

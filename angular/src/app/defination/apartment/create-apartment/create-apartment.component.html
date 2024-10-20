@@ -1,0 +1,301 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #formModal="ngForm"
+  (ngSubmit)="save()"
+>
+  <abp-modal-header
+    [title]="'Yeni Daire Ekle' | localize"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+
+  <div class="modal-body">
+
+    <!-- Bina Ekle -->
+    <div class="field grid">
+      <label for="building" class="col-4 mb-4 md:col-4 md:mb-0">{{
+        "Apartman" | localize
+      }}</label>
+      <div class="col-8 md:col-8">
+        <p-dropdown
+          [options]="buildings"
+          required
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [(ngModel)]="createInput.buildingId"
+          [ngModelOptions]="{ standalone: true }"
+          [style]="{ width: '100%' }"
+          [placeholder]="'Apartman Seçiniz' | localize"
+          #factoryBuildingModel="ngModel"
+          #factoryBuildingError
+        >
+        </p-dropdown>
+        <abp-validation-summary
+        [control]="factoryBuildingModel"
+        [controlEl]="factoryBuildingError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+ <!-- Daire Adı -->
+    <div class="field grid">
+      <label
+        for="name"
+        class="col-4 mb-4 md:col-4 md:mb-0"
+        >{{ "Name" | localize }}</label
+      >
+      <div class="col-8 md:col-8">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          minlength="1"
+          maxlength="100"
+          required
+          [placeholder]="'Name' | localize"
+          [(ngModel)]="createInput.name"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          #factoryNameModel="ngModel"
+          #factoryNameError
+        />
+        <abp-validation-summary
+        [control]="factoryNameModel"
+        [controlEl]="factoryNameError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+ <!-- Kat Numarası -->
+    <div class="field grid">
+        <label
+        for="roofNo"
+        class="col-4 mb-4 md:col-4 md:mb-0"
+        >{{ "Kat Numarası" | localize }}</label
+      >
+    <div class="col-8 md:col-8">
+        <input
+          type="number"
+          id="roofNo"
+          name="roofNo"
+          maxlength="20"
+          [placeholder]="'Kat Numarası' | localize"
+          [(ngModel)]="createInput.roofNo"
+          class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          #factoryRoofNoModel="ngModel"
+          #factoryRoofNoError
+        />
+        <abp-validation-summary
+        [control]="factoryRoofNoModel"
+        [controlEl]="factoryRoofNoError"
+      ></abp-validation-summary>
+      </div>
+    </div>
+
+
+  <!-- Açıklama -->
+    <div class="field grid">
+      <label
+      for="address"
+      class="col-4 mb-4 md:col-4 md:mb-0"
+      >{{ "Açıklama" | localize }}</label
+    >
+    <div class="col-8 md:col-8">
+      <textarea [(ngModel)]="createInput.description" [placeholder]="'Açıklama' | localize" [ngModelOptions]="{ standalone: true }" id="description" rows="4" cols="52" pInputTextarea
+       ></textarea>
+    </div>
+    </div>
+
+ <!-- Tab Kısmı -->
+
+    <p-tabView styleClass="tabview-custom">
+      <!-- Elektrik -->
+      <p-tabPanel>
+          <ng-template pTemplate="header">
+              <i class="pi pi-sun"></i>
+              <span>Elektrik</span>
+          </ng-template>
+     <!-- Sayaç No -->
+          <div class="field grid">
+            <label
+            for="numeratorNo"
+            class="col-4 mb-4 md:col-4 md:mb-0"
+            >{{ "Sayaç Numarası" | localize }}</label
+          >
+        <div class="col-8 md:col-8">
+            <input
+              type="text"
+              id="numeratorNo"
+              name="numeratorNo"
+              maxlength="20"
+              [placeholder]="'Sayaç Numarası' | localize"
+              [(ngModel)]="createInputElectric.numeratorNo"
+              class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              #factoryNumeratorNoModel="ngModel"
+              #factoryNumeratorNoError
+            />
+            <abp-validation-summary
+            [control]="factoryNumeratorNoModel"
+            [controlEl]="factoryNumeratorNoError"
+          ></abp-validation-summary>
+          </div>
+        </div>
+
+     <!-- Kw -->
+        <div class="field grid">
+          <label
+          for="numeratorNo"
+          class="col-4 mb-4 md:col-4 md:mb-0"
+          >{{ "KW" | localize }}</label
+        >
+      <div class="col-8 md:col-8">
+          <input
+            type="number"
+            id="kw"
+            name="kw"
+            maxlength="20"
+            [placeholder]="'KW' | localize"
+            [(ngModel)]="createInputElectric.kw"
+            class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+            #factoryKWModel="ngModel"
+            #factoryKWError
+          />
+          <abp-validation-summary
+          [control]="factoryKWModel"
+          [controlEl]="factoryKWError"
+        ></abp-validation-summary>
+        </div>
+      </div>
+      </p-tabPanel>
+      <!-- Aidat -->
+      <p-tabPanel header="Header II">
+          <ng-template pTemplate="header">
+              <i class="pi pi-wallet"></i>
+              <span>Aidat</span>
+          </ng-template>
+      <!-- Aidat Tarihi -->
+          <div class="field grid">
+            <label for="feeStartDate" class="col-4 mb-4 md:col-4 md:mb-0">{{
+              "Aidat Tarihi" | localize
+            }}</label>
+            <div class="col-8 md:col-8">
+              <p-calendar
+                type="datetime"
+                [style]="{'width':'100%'}"
+                id="feeStartDate"
+                name="feeStartDate"
+                required
+                dateFormat="dd-mm-yy"
+                [placeholder]="'Aidat Tarihi' | localize"
+                [(ngModel)]="createInputFee.startDate"
+                [dateFormat]
+                [showIcon]="true"
+                #feeStartDateModel="ngModel"
+                #feeStartDateError>
+              </p-calendar>
+              <abp-validation-summary
+                [control]="feeStartDateModel"
+                [controlEl]="feeStartDateError"
+              ></abp-validation-summary>
+            </div>
+          </div>
+   <!-- Aidat Tutar -->
+          <div class="field grid">
+            <label
+            for="feePrice"
+            class="col-4 mb-4 md:col-4 md:mb-0"
+            >{{ "Tutar" | localize }}</label
+          >
+        <div class="col-8 md:col-8">
+            <input
+              type="number"
+              id="feePrice"
+              name="feePrice"
+              maxlength="20"
+              [placeholder]="'Tutar' | localize"
+              [(ngModel)]="createInputFee.price"
+              class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              #factoryFeePriceModel="ngModel"
+              #factoryFeePriceError
+            />
+            <abp-validation-summary
+            [control]="factoryFeePriceModel"
+            [controlEl]="factoryFeePriceError"
+          ></abp-validation-summary>
+          </div>
+        </div>
+      </p-tabPanel>
+      <!-- Kira -->
+      <p-tabPanel header="Header III">
+          <ng-template pTemplate="header">
+              <i class="pi pi-dollar"></i>
+              <span>Kira</span>
+          </ng-template>
+
+           <!-- Kira Tarihi -->
+           <div class="field grid">
+            <label for="rentStartDate" class="col-4 mb-4 md:col-4 md:mb-0">{{
+              "Kira Tarihi" | localize
+            }}</label>
+            <div class="col-8 md:col-8">
+              <p-calendar
+                type="datetime"
+                [style]="{'width':'100%'}"
+                id="rentStartDate"
+                name="rentStartDate"
+                required
+                dateFormat="dd-mm-yy"
+                [placeholder]="'Kira Tarihi' | localize"
+                [(ngModel)]="createInputRent.startDate"
+                [dateFormat]
+                [showIcon]="true"
+                #rentStartDateModel="ngModel"
+                #rentStartDateError>
+              </p-calendar>
+              <abp-validation-summary
+                [control]="rentStartDateModel"
+                [controlEl]="rentStartDateError"
+              ></abp-validation-summary>
+            </div>
+          </div>
+
+
+        <!-- Kira Tutar -->
+          <div class="field grid">
+            <label
+            for="rentPrice"
+            class="col-4 mb-4 md:col-4 md:mb-0"
+            >{{ "Tutar" | localize }}</label
+          >
+        <div class="col-8 md:col-8">
+            <input
+              type="number"
+              id="rentPrice"
+              name="rentPrice"
+              maxlength="20"
+              [placeholder]="'Tutar' | localize"
+              [(ngModel)]="createInputRent.price"
+              class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+              #factoryRentPriceModel="ngModel"
+              #factoryRentPriceError
+            />
+            <abp-validation-summary
+            [control]="factoryRentPriceModel"
+            [controlEl]="factoryRentPriceError"
+          ></abp-validation-summary>
+          </div>
+        </div>
+      </p-tabPanel>
+  </p-tabView>
+
+
+
+
+
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveLoading]="saving"
+    [saveDisabled]="!formModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
